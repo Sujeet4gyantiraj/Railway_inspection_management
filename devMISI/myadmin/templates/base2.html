@@ -1,0 +1,405 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>BLW</title>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+     -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+     -->
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+    
+    <script src="{% static '/js/jquery-3.4.1.min.js' %}" ></script>
+    <script src="{% static '/js/popper.min.js' %}" ></script>
+    <script src="{% static '/js/Chart.min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}" ></script>
+    <script src="{% static '/js/bootstrap.min.js' %}" ></script>
+    
+    <script src="{% static '/js/jquery-ui.js' %}"></script>
+    <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+    
+
+    <!-- <script src="{% static '/js/jquery.dataTables.min.js' %}"></script> -->
+    <!-- <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script> -->
+        <!-- <script src="{% static '/js/jquery.min2.js' %}"></script> -->
+
+    <script src="{% static '/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+    <script src="{% static '/js/moment.min.js' %}"></script>
+
+    <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static '/js/sweetalert.min.js' %}"></script>
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+    <script src="{% static '/js/jquery.min1.js' %}"></script>
+    <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static '/js/jspdf.min.js' %}"></script>
+
+    <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+    <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}"  />
+
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}"  />
+    <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}"  />
+    
+    <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}"  />
+    
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+    body {
+        font-family: 'Quicksand', sans-serif;
+        height: 100%;
+        margin: 0;
+    }
+    
+    html {
+        height: 100%;
+        margin: 0;
+    }
+    
+    .page-content {
+        min-height: 100%;
+        margin-bottom: -40px;
+    }
+    
+    .page-content::after {
+        content: "";
+        display: block;
+    }
+    
+    footer,
+    .page-content::after {
+        height: 40px;
+        position:relative;
+        clear:both;
+    }
+    
+  
+        
+        .navbar-brand {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .navbar-brand>span {
+            margin-left: 3px;
+            border: 3px dotted white;
+        }
+
+        .nav-item {
+            font-size: 15px;
+        }
+
+        /* .nav-item:hover{
+            font-weight: bold;           
+        }
+
+        .nav-link::before {
+            display: block;
+            content: attr(title);
+            font-weight: bold;
+            height: 0;
+        
+            overflow: hidden;
+            visibility: hidden;
+
+        } */
+        header {
+            height: 100px;
+            margin: 0px auto;
+            background-color: rgb(37, 37, 37);
+            padding-right: 70px;
+
+        }
+
+        .nav-link {
+            color: white;
+        }
+
+        .nav-link:hover {
+            background-color: #aed439;
+            border: 0px solid black;
+            border-radius: 10px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .dropdown-menu {
+            width: min-content;
+            right: 0;
+            left: auto;
+        }
+
+        .my-icon-left {
+            margin-right: 3px;
+        }
+
+        .my-icon-right {
+            margin-left: 3px;
+        }
+
+        nav {
+            background-color: rgb(37, 37, 37);
+
+        }
+
+        .row h3 {
+            color: whitesmoke;
+            font-size: 40px;
+        }
+
+        .nav-item dropdown {
+            margin-left: 100px;
+        }
+
+        .Container img {
+            width: 60px;
+            height: 60px;
+        }
+
+
+        .mr-auto {
+            margin-right: 0px;
+
+        }
+
+        @media only screen and (max-width: 400px) and (min-width: 300px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 17px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 450px) and (min-width: 401px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 20px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 700px) and (min-width: 451px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 25px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 299px) and (min-width: 200px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 10px;
+                padding-left: 0;
+                margin-left: 0;
+
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+    
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+    <div class="page-header navbar-dark bg-dark">
+    
+
+        <div class='row'>
+        <div class='col-md-2'></div>
+        
+        <div class='col-md-7'><center><font color="white"><h3 style="margin:0 auto;">Management Information System</h3></font></center></div>
+       
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul style="margin-left:4%;" class="navbar-nav mr-auto ">
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    title="Applicaton" style="color: white;overflow: hidden;"><i
+                        class="fas fa-user-graduate my-icon-left"></i>
+                    Application<i class="fas fa-angle-down my-icon-right"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a href="{% url 'signup' %}" class="dropdown-item"
+                        style="text-decoration: none;">
+                        General Information
+                    </a>
+                    <a href="{% url 'signup' %}" class="dropdown-item" style="text-decoration: none;">
+                        Who Can Apply?
+                    </a>
+                    <a href="{% url 'signup' %}" class="dropdown-item" style="text-decoration: none;">
+                        FAQ
+                    </a>
+                    <a href="{% url 'signup' %}" class="dropdown-item" style="text-decoration: none;">Upload
+                        Documents</a>
+
+
+
+                </div>
+            </li>
+            <li class="nav-item">
+    
+                <a class="nav-link" href="{% url 'empregistNew' %}" title="Headquarter"
+                    style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+    
+            </li>
+        
+            <li class="nav-item">
+    
+                <a class="nav-link" href="{% url 'shop_section' %}" title="Headquarter"
+                    style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+    
+            </li>
+     
+            <li class="nav-item">
+    
+                <a class="nav-link" href="{% url 'add_designation' %}" title="Headquarter"
+                    style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+    
+            </li>
+       
+            <li class="nav-item">
+    
+                <a class="nav-link" href="{% url 'empregistNew' %}" title="Headquarter"
+                    style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+    
+            </li>
+     
+            <li class="nav-item">
+    
+                <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                    style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+    
+            </li>
+        
+            <li class="nav-item">
+    
+                <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                    style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+    
+            </li>
+       
+            <li class="nav-item">
+    
+                <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                    style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+    
+            </li>
+        </ul>
+    </div>
+    </nav>
+        
+     <!-- <div class='col-md-2'>
+            <font color="white" style="text-align: end;"><h6 style="text-align: right;margin:0 auto;">Hi {{request.session.usermaster.empname}}</h6></font>
+        </div> -->
+        
+    </div>
+    </div>
+    <footer class="navbar-dark bg-dark mt-auto" style="position: fixed;left: 0;bottom: 0;width: 100%;text-align: center;">
+        <div>
+            <center><span style="color:white;">Copyright &copy; Cris 2019 - Your Current IP is {{ip}}</span></center>
+        </div>
+    </footer>
+
+
+    <script type='text/javascript'>
+        function foo() {
+            var user_choice = window.confirm('Would you like to Logout?');
+            if (user_choice == true) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/logout/',
+                    dataType: 'json',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(json) {
+                        window.location = '/';
+                    },
+                    error: function(data, err) {}
+                });
+            } else {}
+        }
+
+        $(document).ready(function() {
+
+            setTimeout(myFunc, 9000000 * 1000);
+
+           
+            var myinter = setInterval(mfunc, 8850000 * 1000);
+
+
+            function myFunc() {
+                alert('Session Over: Login Again!');
+                window.location = '/';
+            }
+
+            function mfunc() {
+                alert('Session about to get over, Refresh to stay logged in');
+                clearInterval(myinter);
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'inspects_staticProvider.html' %}
+    <title>Signup</title>
+
+<style>
+    @media screen and (min-width:500px) {
+        .myFormCard {
+                border: 1px solid rgb(236, 236, 236);
+                padding: 3%;
+                margin-top: 7%;
+                /* margin: 3%; */
+                margin-left: 30%;
+                margin-right: 30%;
+                border-radius: 10px;
+            }
+            .myFormCard {
+                /* Add shadows to create the "card" effect */
+                box-shadow: 0 8px 12px 0 rgba(141, 141, 141, 0.5);
+                transition: 0.3s;
+            }
+
+            /* On mouse-over, add a deeper shadow */
+            .myFormCard:hover {
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+            }
+
+        }
+        @media screen and (max-width:500px) {
+            .myFormCard {
+                padding: 10px;
+                margin: 10px;
+                box-sizing: border-box;
+            }
+        }
+        .my-heading {
+            font-family:Georgia;
+            margin-top:1rem;
+            font-weight : 500;
+            font-size : 2.5rem;
+            text-align : center;
+            Color : black;
+            font-weight: bold; 
+        }
+
+        .flex-container {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+
+        .left-part {
+            width: 30%;
+            align-self: center;
+        }
+
+        .right-part {
+            width: 60%;
+            align-self: center;
+        }
+</style>
+
+</head>
+
+<body>
+    <div class="myFormCard">
+        <div class="flex-container">
+            <div class="left-part">
+                <img src="{% static 'inspects/images/logo_inspection.png' %}" alt="Logo Inspection" width="80%" height="80%">
+            </div>
+            <div class="my-heading right-part">
+
+                <!-- <span style="color: #4285f4;"></span> -->
+                <span style="color: #ea4335;">INSPECTION</span>                   
+                <span style="color: #34a853"></span>
+                <span style="color: #fbbc05"></span>
+           
+            <h3>Sign up</h3>
+          </div>
+        </div>
+        <br>
+        {% if messages %}       
+        {% for message in messages %}
+                        
+        <div class="alert alert-success" role="alert">
+        <strong>{{message}}</strong> 
+         </div> 
+        {% endfor %}
+        {% endif %}
+        <form method="POST" >
+            {% csrf_token %}
+            <div class="row">
+              <div class="col">
+
+                <div class="form-outline">
+                  <label class="form-label" for="firstName"> Email ID</label><span style="color:red;font-weight:bold">*</span>
+                  <input type="email" id="email_id" maxlength="30" placeholder="Enter Email ID" class="form-control" name="email_id" onchange="fetch_emp()" value="" required/>
+                </div>
+
+              </div>
+
+              
+            </div>
+<div class="row">
+  <div class="col">
+
+    <div class="form-outline">
+      <label class="form-label" for="middleName">Designation</label>
+      <input type="text" id="desig" placeholder="Employee designation"class="form-control" name="desig" value="" onchange="enableotp()" required readonly/>
+    </div>
+
+  </div>
+</div>
+<div class ="row">
+  <div class="col">
+  <div id="email_div" style="display: block;margin-top:1%;" >
+    <!-- <label>Send OTP on Email</label> -->
+    <input class="btn btn-info" type="button" value="GET OTP" id="otpp" onclick="ajax_send_otp();"/>
+  </div>
+  
+  <div id="verify_text_div"></div>
+  
+  <div id="otp_div" style="display: block;margin-top:1%;" >
+  
+    <!-- <label for="email">OTP</label> -->
+    <div class="row">
+    <div class="col-md-6">
+    <input type="number" maxlength="4" onkeypress="if(this.value.length==4) return false;" class="form-control" placeholder="- - - -" name="otp" id="otp">
+  </div>
+  <div class="col-md-3">
+   <input type="button" class="btn btn-info" value="Verify"  class="btn btn-default" onclick="verify_otp();"/></div></div>
+    <div>Time remaining <span id="timer"></span></div>
+  </div>
+</div></div>
+            <div class="row">
+<div class="col">
+                <div class="form-outline">
+                <label class="form-label" for="status">Posting Status</label>
+                <select  class="form-control" name="status" id="status" required>
+                  <option disabled selected  value=""> Select Posting Status </option>
+                  
+                  <option value="P">Primary</option>
+                  <option value="D">Dual Charge</option>
+                 
+                 
+           </select>
+              </div>
+            </div>
+              <div class="col">
+
+                <div class="form-outline">
+                  <label class="form-label" for="lastName">Employee Number</label>
+                  <input type="text" id="empno" onkeypress="alphanumeric(event)" maxlength="11" placeholder="Enter employee number" class="form-control" name="empno" onchange="check_details()" required />
+                </div>
+
+              </div>
+              
+              <!-- <div class="col">
+
+                <div class="form-outline">
+                  <label class="form-label" for="rly">Division</label>
+                  <input type="text" id="div_id" placeholder="Division" class="form-control" name="div_id" required readonly/>
+                </div>
+
+              </div> -->
+            </div>
+            <div class="row">
+              <div class="col">
+
+                <div class="form-outline">
+                  <label class="form-label" for="rly">Employee Name</label>
+                  <input type="text" id="empname" placeholder="Employee name" class="form-control" name="empname" required readonly/>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- <div class="row">
+              <div class="col">
+
+                <div class="email_id">
+                   <label for="official_emailID" class="form-label">Enter Email</label>
+                   <input type="text" class="form-control" placeholder="Enter Email ID" id="email_id" name="email_id" 
+                   onchange="trimTextField(this);" readonly />
+                </div>
+
+              </div>
+            </div> -->
+            
+              <div class="row">
+                <div class="col">
+                    <div class="form-outline">
+                        <label for="password" class="form-label"> Password</label><span style="color:red;font-weight:bold">*</span>
+                        <input type="password" class="form-control" placeholder="Enter password" id="password" name="password" required />
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-outline">
+                        <label for="confirm_password" class="form-label"> Confirm Password</label><span style="color:red;font-weight:bold">*</span>
+                        <input type="password" class="form-control" placeholder="Enter password again" id="confirm_password" onclick="confirmpassword()" onfocusout="myFunction()" required />
+                        <input type="checkbox" onclick="showpassword()" onchange="trimTextField(this);">Show Password
+                      </div>
+                </div>
+            </div>
+
+          <div class="buttons mt-3">
+            <button type="submit" class="btn btn-success btn-md" id="submit_form" value="submit_form" name="submit_form"> Submit </button>
+            <button type="reset" class="btn btn-warning"> Reset </button>
+            <span>Already have an account? <a href="{% url 'loginUser' %}">Login here</a></span>
+
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<div class="row" id="password-msg" style="display: none;color:red">
+<div class="col-sm">
+  <ol>
+      <li>A password between 8 to 15 characters.</li>
+      <li>Atleast one lowercase letter and one uppercase letter</li>
+      <li>One numeric digit, and one special character</li>
+  </ol>
+
+
+</div>
+</div>
+</body>
+<script>
+  
+$(document).ready(function(){
+  document.getElementById('empno').disabled=true;
+})
+
+$(document).ready(function(){
+  document.getElementById('otpp').disabled=true;
+})
+        
+    var otp_from_back="";
+function ajax_send_otp(){
+  //document.getElementById("email_div").style.display='none';
+  
+  email = document.getElementById("email_id").value;
+  alert(email);
+  //alert(email);
+$.ajax({
+       
+   type : 'GET',
+   url : "{% url 'send_otp' %}",
+   dataType : 'json',
+   data : {"email":email,
+       //"csrfmiddlewaretoken":"{{csrf_token}}"
+   },
+
+   success : function(response){
+           $('#otp_div').show();
+           timer(300);
+           otp_from_back = response.otp;
+           alert(otp_from_back);
+           
+           document.getElementById("otp_div").style.display='block';
+           
+
+   }
+   
+} );
+
+function enableotp() {
+	if(document.getElementById("desig").value===""){ 
+      document.getElementById('empno').disabled = true; 
+  } 
+  else{ 
+      document.getElementById('empno').disabled = false;
+  }
+  }
+
+}
+function alphanumeric(e)
+{
+  var code=('charcode' in e) ? e.charCode:e.keyCode;
+  if(
+    !(code>47 && code<58) && !(code>64 && code<91) && !(code>96 && code<123)
+  ){
+    e.preventDefault();
+  }
+}
+
+function verify_otp(){
+  var user_otp=document.getElementById("otp").value;
+  if (user_otp==otp_from_back){
+      document.getElementById("verify_text_div").style.color="green";            
+      document.getElementById("verify_text_div").innerHTML="OTP Verified";
+      document.getElementById("otp_div").style.display="none";
+      document.getElementById("password").readOnly=false;
+      document.getElementById("confirm_password").readOnly=false;
+      // document.getElementById("emp_id").readOnly=true;
+      document.getElementById("email_id").readOnly=true;
+      // document.getElementById("submit_form").disabled=false;
+      $("#submit_form").attr('disabled',false)
+      $('#email_div').hide();
+      $('#submit_form').show();
+      
+  }
+  else{
+      document.getElementById("verify_text_div").style.color="red";
+      document.getElementById("verify_text_div").innerHTML="Try Again!!";
+  }
+} 
+
+let timerOn = true;
+function timer(remaining) {
+
+var m = Math.floor(remaining / 60);
+var s = remaining % 60;
+
+m = m < 10 ? '0' + m : m;
+s = s < 10 ? '0' + s : s;
+document.getElementById('timer').innerHTML = m + ':' + s;
+remaining -= 1;
+
+if(remaining >= 0 && timerOn) {
+ setTimeout(function() {
+     timer(remaining);
+ }, 1000);
+ return;
+}
+
+if(!timerOn) {
+ // Do validate stuff here
+ 
+ return;
+}
+alert('Timeout for OTP');
+
+ window.location.reload();
+// Do timeout stuff here
+
+}
+
+function check_details()
+     {
+        var empno=document.getElementById('empno').value;
+        data={
+            'empno':empno,
+        }
+        $.ajax({
+             url: "{% url 'check_details' %}",
+             method: "GET",
+             dataType: "JSON",
+             async: false,
+             data: data,
+             success: function (response) {
+              if(response.length==0)
+              {
+                alert("Enter valid employee number")
+                window.location.reload();
+              }
+                 document.getElementById('empname').value=response.name; 
+              }
+             }
+  ) 
+     }
+
+function fetch_emp()
+     {
+        var email_id=document.getElementById('email_id').value;
+        data={
+            'email_id':email_id,
+        }
+        $.ajax({
+             url: "{% url 'fetch_emp' %}",
+             method: "GET",
+             dataType: "JSON",
+             async: false,
+             data: data,
+             success: function (response) {
+              if(response.length==0)
+              {
+                alert("Enter valid employee email.")
+                window.location.reload();
+              }
+              else{
+                //  document.getElementById('designation').value=response.designation;
+                //  document.getElementById('designation').value=response.desigg;
+                 document.getElementById('desig').value=response.designation;
+                //  document.getElementById('rly_id').value=response.rly_code;
+                //  document.getElementById('div_id').value=response.div_code;
+                //  document.getElementById('email_id').value=response.email_idd;
+                 document.getElementById('otpp').disabled=false;
+                 document.getElementById('empno').disabled=false;
+                //  document.getElementById('designation').value=response.designation;
+                //  document.getElementById('rly_id').value=response.rly;
+                //  document.getElementById('div_id').value=response.division;
+                 
+              }
+             }
+  }) 
+     }
+
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }
+   function getCurrDate() {
+       var dateArr = String('{{currDate}}').split('-');
+       return new Date(parseInt(dateArr[0]), parseInt(dateArr[1] - 1), parseInt(dateArr[2]));
+   }
+
+
+   const password = document.querySelector('#password');
+   const confirmpassword = document.querySelector('#confirmPassword');
+
+   function seePassword(el) {
+       // toggle the type attribute
+       const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+       password.setAttribute('type', type);
+       confirmpassword.setAttribute('type', type);
+       // toggle the eye slash icon
+       const clas = el.classList.contains("fa-eye");
+       if (clas) {
+           el.classList.add("fa-eye-slash")
+           el.classList.remove("fa-eye");
+       } else {
+           el.classList.add("fa-eye");
+           el.classList.remove("fa-eye-slash")
+
+       }
+
+   }
+
+
+   function validatePassword(pass) {
+       var reg = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/);
+
+       return reg.test(pass);
+   }
+
+   function limitNumericInput(el, digit, exactly = false) {
+       let len = String(el.value).trim().length;
+
+       if (exactly) {
+           if (len != digit) {
+               alert(`You Can enter only ${digit} digits`)
+               el.value = String(el.value).substr(0, digit);
+           }
+       } else {
+           if (len > digit) {
+               alert(`You Can enter maximum of ${digit} digits`)
+               el.value = '';
+           }
+       }
+
+       return;
+   }
+
+   function validateForm() {
+      //  var _mobile = document.getElementById('mobile_no');
+      //  var _mobile_no_error = document.getElementById('mobile_no_error');
+      //  if (String(_mobile.value).length != 10) {
+      //      _mobile.focus();
+      //      _mobile_no_error.innerText = "Please enter valid 10 digit mobile no.";
+      //      return false;
+      //  } else {
+      //      _mobile_no_error.innerText = "";
+      //  }
+      //  var _dob = document.getElementById('dob');
+      //  var _dob_error = document.getElementById('dob_error');
+      //  if (_dob.value == "") {
+      //      _dob.focus();
+      //      _dob_error.innerText = "Select your date of birth.";
+      //      return false;
+
+      //  } else {
+      //      _dob_error.innerText = "";
+
+      //  }
+      //  var _aadhaar = document.getElementById('aadhaar_no');
+      //  var _aadhaar_no_error = document.getElementById('aadhaar_no_error');
+      //  if (String(_aadhaar.value).length != 12 && String(_aadhaar.value).length != 0) {
+      //      _aadhaar.focus();
+      //      _aadhaar_no_error.innerText = "Please enter valid 12 digit Aadhaar No.";
+      //      return false;
+
+      //  } else {
+      //      _aadhaar_no_error.innerText = "";
+
+      //  }
+       var _confirmPassword = document.getElementById("confirmPassword");
+       var _password = document.getElementById('password');
+       var _confirmPassword_error = document.getElementById('confirmPassword_error');
+       document.getElementById("password-msg").style.display = 'none';
+       if (_confirmPassword.value != _password.value) {
+           _confirmPassword.focus();
+           _confirmPassword_error.innerText = "Confirm Password not matches.";
+           return false;
+
+       } else {
+
+           _confirmPassword_error.innerText = "";
+
+       }
+
+       if (!validatePassword(_password.value)) {
+           document.getElementById("password-msg").style.display = '';
+           return false;
+       }
+       return true;
+   }
+
+   function trimTextField(el) {
+     var str=el.id;
+     if(str=='email_id')
+     {
+       if($('#emp_id').val()=="")
+       {
+         alert('please enter employee number');
+         $('#email_id').val('');
+       }
+       else if($('#empname').val()=="")
+       {
+         alert('please enter valid employee number');
+         $('#email_id').val('');
+       }
+       else{
+         var empno=$('#emp_id').val();
+         var email_id=$('#email_id').val();
+         data={
+             'empno':empno,
+             'email_id':email_id,
+         }
+         $.ajax({
+             url: "{% url 'fetch_email_id' %}",
+             method: "GET",
+             dataType: "JSON",
+             async: false,
+             data: data,
+             success: function (response) {
+             
+                if(response.flag==0)
+                {
+                  alert('Either you have entered wrong employee id or email id');
+                  window.location.reload();
+                }
+             }
+           })
+       }
+     }
+       el.value = String(el.value).trim();
+       
+       
+   }
+   $(document).ready(function () {
+    
+     $('#otp_div').hide();
+       document.getElementById('submit_form').disabled= true;
+       var currDate = getCurrDate();
+       var year = currDate.getFullYear();
+       //changes Himanshi 13-08-2021
+
+       var mindate = new Date(year - 35, 0, 1);
+       //changes Himanshi 13-08-2021 end
+
+       // age range is 18 years to 35 years
+       //changes Himanshi 13-08-2021
+       $('#dob').datepicker({
+           dateFormat: "dd-mm-yy",
+           yearRange: `${year-35}:${year-18}`,
+           changeMonth: true,
+           changeYear: true,
+
+       });
+       //changes Himanshi 13-08-2021 end
+       // $('#dob').datepicker('setDate', mindate);
+       
+   });
+</script>
+
+ <script>
+
+   function myFunction() {
+       var x = document.getElementById("password").value;
+       var y = document.getElementById("confirm_password").value;
+       if(x!=y)
+       {
+         alert('password and confirm password should be same');
+         document.getElementById("confirm_password").value='';
+       }
+   }
+
+
+//        function showpassword() {
+//    var x = document.getElementById("password");
+//    if (x.type === "password") {
+//      x.type = "text";
+//    } else {
+//      x.type = "password";
+//    }
+//  }
+function showpassword() {
+      var x = document.getElementById("password");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+      var y = document.getElementById("confirm_password");
+      if (y.type === "password") {
+        y.type = "text";
+      } else {
+        y.type = "password";
+      }
+    }
+
+ function confirmpassword() {
+   var x = document.getElementById("password").value;
+   if(x=='')
+   {
+     alert('fill the password first');
+   }
+ }
+
+
+ </script>
+</html>
+    

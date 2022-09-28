@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+
+<head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% include 'rkvy_staticProvider.html' %}
+
+    <script type="text/javascript">
+        if (self === top) {
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        }
+        else {
+            top.location = self.location;
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script src="content/js/jquery.min.js"></script>
+    <script src="content/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
+
+
+
+    <style>
+        
+        .navbar-brand {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .navbar-brand>span {
+            margin-left: 3px;
+            border: 3px dotted white;
+        }
+
+        .nav-item {
+            font-size: 15px;
+        }
+
+        /* .nav-item:hover{
+            font-weight: bold;           
+        }
+
+        .nav-link::before {
+            display: block;
+            content: attr(title);
+            font-weight: bold;
+            height: 0;
+        
+            overflow: hidden;
+            visibility: hidden;
+
+        } */
+        header {
+            height: 100px;
+            margin: 0px auto;
+            background-color: rgb(37, 37, 37);
+            padding-right: 70px;
+
+        }
+
+        .nav-link {
+            color: white;
+        }
+
+        .nav-link:hover {
+            background-color: #aed439;
+            border: 0px solid black;
+            border-radius: 10px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .dropdown-menu {
+            width: min-content;
+            right: 0;
+            left: auto;
+        }
+
+        .my-icon-left {
+            margin-right: 3px;
+        }
+
+        .my-icon-right {
+            margin-left: 3px;
+        }
+
+        nav {
+            background-color: rgb(37, 37, 37);
+
+        }
+
+        .row h3 {
+            color: whitesmoke;
+            font-size: 40px;
+        }
+
+        .nav-item dropdown {
+            margin-left: 100px;
+        }
+
+        .Container img {
+            width: 60px;
+            height: 60px;
+        }
+
+
+        .mr-auto {
+            margin-right: 0px;
+
+        }
+
+        @media only screen and (max-width: 400px) and (min-width: 300px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 17px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 450px) and (min-width: 401px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 20px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 700px) and (min-width: 451px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 25px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 299px) and (min-width: 200px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 10px;
+                padding-left: 0;
+                margin-left: 0;
+
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+        
+    </style>
+    
+</head>
+
+<body id="wholebody">
+    <div class="page-header navbar-dark bg-dark">
+        <br>
+        <br>
+    
+
+        <div class='row'>
+        <div class='col-md-2'></div>
+        <br>
+        <br>
+        
+        <div class='col-md-7'><center><font color="white"><h3 style="margin:0 auto;">Management Information System</h3></font></center></div>
+        
+      
+        <br>
+        <br>
+
+        <br>
+    </div>
+</div>
+    
+    <div class="page-content">
+        <nav class="navbar navbar-expand-lg navbar-dark ">
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul style="margin-left:4%;" class="navbar-nav mr-auto ">
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'Divisonrequests' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>Requests</a>
+            
+                    </li>
+            </div>
+
+            {% if request.user.is_authenticated %}
+
+            <div>
+
+
+
+                <ul class=" navbar-nav mr-auto">
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i style="color:smokewhite;">{{request.user.first_name}} {{request.user.last_name}}
+                                &nbsp;&nbsp;&nbsp;<span class="fa fa-user"></span></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                            <a href="{% url 'inspect_changePassword' %}" class="dropdown-item"><i
+                                    class="fas fa-key my-icon-left"></i>Change Password</a>
+                            <a href="{% url 'inspect_logout' %}" class="dropdown-item" style="text-decoration: none;"
+                                onclick="return logoutConfirm();"><i class="fas fa-sign-out-alt my-icon-left"></i>
+                                Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            {% else %}
+
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'loginUser' %}" style="color: white;"><i
+                        class="fas fa-sign-in-alt myiconleft" aria-hidden="false" title="Sign in/Sign Up"></i>
+                    Sign in/Sign Up</a>
+            </div>
+            {% endif %}
+            
+        </div>
+            </nav>
+                
+    </div>
+    <footer class="navbar-dark bg-dark mt-auto" style="position: fixed;left: 0;bottom: 0;width: 100%;text-align: center;">
+        <div>
+            <center><span style="color:white;">Copyright &copy; Cris 2019 - Your Current IP is {{ip}}</span></center>
+        </div>
+    </footer>
+    <br>
+    <!-- <input type="text" id="userrole" name="userrole" value="{{userrole}}" hidden> -->
+    {% block content%}
+    {% endblock content%}
+
+    <script>
+        function logoutConfirm() {
+            if (window.confirm("Are you Sure?"))
+                return true;
+            return false;
+        }
+
+        $(document).ready(function () {
+            StartTimers();
+        });
+
+        var sdig = 0;
+        var timoutWarning = 90000;
+        var timoutNow = 12000000;
+        var warningTimer;
+        var timeoutTimer;
+        // Start timers.
+        function StartTimers() {
+            warningTimer = setTimeout("IdleWarning()", timoutWarning);
+            timeoutTimer = setTimeout("IdleTimeout()", timoutNow);
+        }
+        // Reset timers.
+        function ResetTimers() {
+            clearTimeout(warningTimer);
+            clearTimeout(timeoutTimer);
+            StartTimers();
+
+        }
+        // Show idle timeout warning dialog.
+        function IdleWarning() {
+            alert('Session about to get over, Refresh to stay logged in');
+        }
+        // Logout the user.
+        function IdleTimeout() {
+            window.location = "/";
+        }
+
+
+        $(document).click(function () {
+            ResetTimers();
+        });
+
+        $(document).mousemove(function () {
+            ResetTimers();
+        });
+
+        $(document).keydown(function (event) {
+
+            ResetTimers();
+        });
+
+        $(window).scroll(function (event) {
+            ResetTimers();
+        });
+    </script>
+</body>
+
+</html>

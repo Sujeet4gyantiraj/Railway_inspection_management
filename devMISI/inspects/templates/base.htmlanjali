@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/all.min.css' %} "/>
+
+<head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% include 'inspects_staticProvider.html' %}
+
+    <script type="text/javascript">
+        if (self === top) {
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        }
+        else {
+            top.location = self.location;
+        }
+    </script>
+    <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>     
+<script type="text/javascript" src="{% static '/js/jquery-3.3.1.slim.min.js'%}"></script>
+    <script type="text/javascript" src="{% static '/js/popper.min.js'%}"></script>
+    <link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}"/> 
+    <link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+    <link rel="stylesheet" type="text/css" hef="{% static '/css/lato.css' %}">
+    
+
+
+
+    <style>
+        body {
+        font-family: 'Quicksand', sans-serif;;
+        height: 100%;
+        margin: 0;
+        }
+
+        @media only screen and (max-width: 400px) and (min-width: 300px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 17px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 450px) and (min-width: 401px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 20px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 700px) and (min-width: 451px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 25px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 299px) and (min-width: 200px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 10px;
+                padding-left: 0;
+                margin-left: 0;
+
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+        .t2{
+     font-size: 100%;
+     color: white!important;
+        }
+        .t2:hover{
+            background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white);
+            text-transform: uppercase; 
+            font-weight: bold;
+            color:black!important;
+        }
+        .t2:hover #menu_icon{
+            color:black!important;
+        }
+        .dropdown:hover{
+            background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white);
+            text-transform: uppercase;
+        }
+        .dropdown:hover .dropdown-toggle{
+            font-weight: bold;
+            color:black!important;
+        }
+        .dropdown:hover .dropdown-menu{
+            display: block;
+            text-transform: none;
+        }
+        .dropdown-menu .dropdown-item:hover{
+            background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white);
+            text-transform: uppercase;
+        }
+        .dropdown-menu{
+            margin-top: 0;
+        }
+        
+        
+          
+    </style>
+     <script>
+        $(document).ready(function(){
+            $(".dropdown").hover(function(){
+                var dropdownMenu = $(this).children(".dropdown-menu");
+                if(dropdownMenu.is(":visible")){
+                    dropdownMenu.parent().toggleClass("open");
+                }
+            });
+        });     
+</script>
+</head>
+
+<body id="wholebody">
+    <div class=" navbar-dark bg-dark">
+        <!-- <br>
+        <br>
+    
+
+        <div class='row'>
+        <div class='col-md-2'></div>
+        <br>
+        <br> -->
+        
+         <!-- <div class='col-md-7'> -->
+            <center><font color="white"><h3 style="margin:0 auto;">Management Information System</h3></font></center>
+        <!-- </div>  -->
+        
+      
+        <!-- <br>
+        <br>
+
+        <br> -->
+    <!-- </div> -->
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="btn nav-link t2"  href="#" title="Home">
+     <i class="fa fa-home" aria-hidden="true" id="menu_icon" title="home" style="color: white;"></i> Home</a>
+        </li>
+        <li class="nav-item"><a class="nav-link btn t2" href="{% url 'dash_home' %}">Dashboard</a>
+          </li>
+        <li class="nav-item dropdown" >
+          <a class="nav-link dropdown-toggle btn t2"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Inspection
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" > 
+            <a class="dropdown-item" href="{% url 'create_inspection_form' %}">Create</a>
+            <a class="dropdown-item" href="{% url 'draft_inspection_form' %}">Draft Report</a>
+            <a class="dropdown-item" href="{% url 'created_checklist' %}">Completed Report</a>
+            <a class="dropdown-item" href="{% url 'search_checklist_template' %}">Use Template</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown" >
+            <a class="nav-link dropdown-toggle btn t2" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Compliance
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+              <a class="dropdown-item" href="{% url 'created_checklist' %}">Pending Compliance</a>
+              <a class="dropdown-item" href="{% url 'close_compliance_checklist' %}">Closed Compliance</a>
+              <a class="dropdown-item" href="{% url 'received_compliance_checklist' %}">Received Compliance</a>
+              <a class="dropdown-item" href="{% url 'corrigendum_compliance_checklist' %}">Corrigendum Compliance</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown" >
+            <a class="nav-link dropdown-toggle btn t2" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Reply
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+              <a class="dropdown-item"  href="{% url 'compliance_form' %}">Pending</a>
+              <a class="dropdown-item"  href="{% url 'compliance_form_send' %}">Sent</a>
+              <a class="dropdown-item" href="{% url 'compliance_form_accept' %}">Accepted</a>
+              <a class="dropdown-item"  href="{% url 'compliance_form_reject' %}">Rejected</a>
+            </div>
+          </li>
+          <!-- <li class="nav-item dropdown" >
+            <a class="nav-link dropdown-toggle btn t2" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Query
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+              <a class="dropdown-item"  href="{% url 'compliance_query' %}">Pending</a>
+            </div>
+          </li> -->
+          <li class="nav-item dropdown " >
+            <a class="nav-link dropdown-toggle btn t2" href="#" id="navbarDropdown6" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Schedule Inspection
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown6">
+              <a class="dropdown-item" href="{% url 'schedular_form' %}">Create New</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn t2"  href="{% url 'search_location' %}">Search Report</a>
+          </li>
+          <li class="nav-item dropdown"  >
+            <a class="nav-link dropdown-toggle btn t2"  href="#" id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Help
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown4">
+            </div>
+          </li>           
+    </ul>
+    
+            {% if request.user.is_authenticated %}
+            <div class="text-inline">
+                
+                <ul class=" navbar-nav mr-auto">
+    <li class="nav-item"><a class="btn t2"  href="#" onclick="history.back()" title="Back">
+        <i class="fas fa-arrow-circle-left" aria-hidden="true" title="Back" style="color: black;"></i> Back</a>
+       
+    </li>
+                    <li class="nav-item dropdown" style="padding-left:0.5em;">
+    
+                        <a class="nav-link dropdown-toggle active t2" href="#" id="navbarDropdown5" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i style="color:smokewhite;">{{request.user.first_name}} {{request.user.last_name}}
+                                &nbsp;<span class="fa fa-user"></span></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown5">
+    
+                            <a href="{% url 'inspect_changePassword' %}" class="dropdown-item"><i
+                                    class="fas fa-key my-icon-left"></i>Change Password</a>
+                            <a href="{% url 'inspect_logout' %}" class="dropdown-item" style="text-decoration: none;"
+                                onclick="logoutConfirm();"><i class="fas fa-sign-out-alt my-icon-left"></i>
+                                Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        {%else%}
+        <div class="text-inline">
+            <ul class=" navbar-nav mr-auto">
+            <li class="nav-item"><a class="btn btn-primary t2" type="button" class="btn btn-primary" value="Back" href="#" onclick="history.back()"><i class="fas fa-arrow-circle-left" aria-hidden="true" title="Back" style="color: black;"></i> BACK</a>
+            </li>
+            <li class="nav-item" style="padding-left:0.5em;">
+            <a class="nav-link t2" href="{% url 'loginUser' %}" style="color: black;"><i
+                    class="fas fa-sign-in-alt myiconleft" aria-hidden="false" title="Sign in/Sign Up"></i>
+                Sign in/Sign Up</a></li></ul>
+        </div>
+            {%endif%}
+        
+    </div>
+  </nav>
+        <!-- <div class="page-content">
+        <nav class="navbar navbar-expand-lg navbar-dark ">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul style="margin-left:4%;" class="navbar-nav mr-auto ">
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'create_inspection_form' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>Create inspection</a>
+            
+                    </li>
+                
+                    
+                
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'created_checklist' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>Inspection checklist</a>
+            
+                    </li>
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'compliance_form' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>Compliance form</a>
+            
+                    </li>
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'view_inspection_draft' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>View Inspection Draft</a>
+            
+                    </li>
+               
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+            
+                    </li>
+             
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+            
+                    </li>
+                
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+            
+                    </li>
+              
+                    <li class="nav-item">
+            
+                        <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                            style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+            
+                    </li>
+            </div> -->
+        <!--    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Home</a>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="btn btn-secondary" style="background-color:rgb(223, 214, 137) " href="{% url 'dash_home' %}">Dashboard</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Draft Inspection</button> 
+                    </li>
+                    <li class="nav-item active">
+                        <a class="btn btn-secondary" style="background-color:rgb(223, 214, 137) " href="{% url 'create_inspection_form' %}">Create Inspection</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Draft Inspection</button> 
+                    </li>
+                    <li class="nav-item active">
+                        <a class="btn btn-secondary" style="background-color:rgb(223, 214, 137) "href="{% url 'draft_inspection_form' %}">Draft Inspection</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Draft Inspection</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-secondary" style="background-color:rgb(223, 214, 137) " href="{% url 'created_checklist' %}">Inspections Done</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Inspections Done</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-secondary" style="background-color:rgb(82, 180, 226) "  href="{% url 'created_checklist' %}">Pending Compliance</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Pending Compliance</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-secondary" style="background-color:rgb(82, 180, 226) "  href="{% url 'created_checklist' %}">Closed Complaince</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Closed Complaince</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-secondary" style="background-color:rgb(82, 180, 226) "   href="{% url 'compliance_form' %}">Pending View</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Pending View</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-secondary" style="background-color:rgb(230, 138, 153) " href="{% url 'compliance_form' %}">Pending Reply</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Pending Reply</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-secondary" style="background-color:rgb(230, 138, 153) " href="{% url 'compliance_form' %}">Reply Sent</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Reply Sent</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-secondary" style="background-color:rgb(230, 138, 153) " href="{% url 'search_location' %}">Search Report</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Reply Sent</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-secondary" style="background-color:rgb(230, 138, 153) " href="{% url 'search_checklist_template' %}">Use Templates</a>
+                        <!-- <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Reply Sent</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-secondary" style="background-color:rgb(230, 138, 153) " href="{% url 'search_list_created_checklist' %}">Checklist</a>
+                        <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Reply Sent</button> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-secondary" style="background-color:rgb(230, 138, 153) " href="{% url 'schedular_form' %}">Schedular Form</a>
+                        <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Reply Sent</button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" style="color:black;margin-top:1%" class="btn btn-light" value="Back" onclick="history.back()">BACK</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="compliance_form()">Reply Sent</button>
+                    </li> 
+                  </ul>
+                  
+                </div>
+               
+            {% if request.user.is_authenticated %}
+
+            <div>
+
+
+
+                <ul class=" navbar-nav mr-auto">
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i style="color:smokewhite;">{{request.user.first_name}} {{request.user.last_name}}
+                                &nbsp;&nbsp;&nbsp;<span class="fa fa-user"></span></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                            <a href="{% url 'inspect_changePassword' %}" class="dropdown-item"><i
+                                    class="fas fa-key my-icon-left"></i>Change Password</a>
+                            <a href="{% url 'inspect_logout' %}" class="dropdown-item" style="text-decoration: none;"
+                                onclick="logoutConfirm();"><i class="fas fa-sign-out-alt my-icon-left"></i>
+                                Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            {% else %}
+
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'loginUser' %}" style="color: white;"><i
+                        class="fas fa-sign-in-alt myiconleft" aria-hidden="false" title="Sign in/Sign Up"></i>
+                    Sign in/Sign Up</a>
+            </div>
+            {% endif %}-->
+            
+        
+    
+   
+    
+    <br>
+    <!-- <input type="text" id="userrole" name="userrole" value="{{userrole}}" hidden> -->
+    {% block content%}
+    {% endblock content%}
+    <br>
+    <br>
+
+    <footer class="navbar-dark bg-dark mt-auto" style="position: fixed;left: 0;bottom: 0;width: 100%;text-align: center;">
+        <div>
+            <center><span style="color:white;">Copyright &copy; Cris 2019 - Your Current IP is {{ip}}</span></center>
+        </div>
+    </footer>
+    <script>
+        function logoutConfirm() {
+            if (window.confirm("Are you Sure?"))
+                return true;
+            return false;
+        }
+
+        $(document).ready(function () {
+            StartTimers();
+        });
+
+        var sdig = 0;
+        var timoutWarning = 12000000;
+        var timoutNow = 18000000;
+        var warningTimer;
+        var timeoutTimer;
+        // Start timers.
+        function StartTimers() {
+            warningTimer = setTimeout("IdleWarning()", timoutWarning);
+            timeoutTimer = setTimeout("IdleTimeout()", timoutNow);
+        }
+        // Reset timers.
+        function ResetTimers() {
+            clearTimeout(warningTimer);
+            clearTimeout(timeoutTimer);
+            StartTimers();
+
+        }
+        // Show idle timeout warning dialog.
+        function IdleWarning() {
+            alert('Session about to get over, Refresh to stay logged in');
+        }
+        // Logout the user.
+        function IdleTimeout() {
+            window.location = "/";
+        }
+
+
+        $(document).click(function () {
+            ResetTimers();
+        });
+
+        $(document).mousemove(function () {
+            ResetTimers();
+        });
+
+        $(document).keydown(function (event) {
+
+            ResetTimers();
+        });
+
+        $(window).scroll(function (event) {
+            ResetTimers();
+        });
+        
+    </script>
+</body>
+
+</html>

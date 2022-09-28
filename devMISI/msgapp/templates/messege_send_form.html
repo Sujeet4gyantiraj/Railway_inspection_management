@@ -1,0 +1,1109 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+
+<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text" href="{% static '/bootstrap-4.0.0/dist/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+  
+  <link href="{% static '/css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+  <script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+  
+      <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+      <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+  
+  
+  <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+  
+  <script src="{% static 'js/timepicker.js' %}"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+  
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+     <!-- Select2 CSS --> 
+  
+  <!-- jQuery --> <script src="{% static '/js/jquery.min4.js' %}"></script> 
+  
+  <!-- Select2 JS --> 
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <!-- Load icon library -->
+  <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+  <!-- multiple selesct marked officer -->
+  
+  <!-- <link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css"> -->
+  <script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+    <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+    <!-- Sheets for datepicker for target date -->
+    
+    <link rel="stylesheet" href="{% static '/jquery-ui/jquery-ui.css' %}">
+
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <script src="{% static '/jquery-ui/jquery-ui.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+     <link rel="stylesheet" type="text/css" hef="{% static '/css/lato.css' %}">
+          <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+     <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+    <link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+
+    <script type="text/javascript" src="{% static '/js/bootstrap-select.min.js'%}"></script>
+    <link rel="stylesheet" href="{% static '/css/bootstrap-select.min.css'%}"></script>
+
+
+
+<style>
+  
+.bootstrap-select.btn-group .dropdown-menu.inner,
+.dropdown-menu.open {
+  min-height: 70vh !important;
+}
+      * {
+      box-sizing: border-box;
+    }
+    /* The Close Button */
+    .close {
+      color: white;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    
+    /* Style the search field */
+    form.example input[type=text] {
+      padding: 8px;
+      font-size: 17px;
+      border: 1px solid grey;
+      float: left;
+      width: 60%;
+      background: #f1f1f1;
+    }
+    
+    /* Style the submit button */
+    form.example button {
+      float: left;
+      width: 15%;
+      padding: 8px;
+      background: #2196F3;
+      color: white;
+      font-size: 17px;
+      border: 1px solid grey;
+      border-left: none; /* Prevent double borders */
+      cursor: pointer;
+    }
+    
+    form.example button:hover {
+      background: #0b7dda;
+    }
+    
+    /* Clear floats */
+    form.example::after {
+      content: "";
+      clear: both;
+      display: table;
+    }        
+    </style>
+    
+    <style>
+     
+     
+    
+    .autocomplete {
+      /*the container must be positioned relative:*/
+      position: relative;
+      display: inline-block;
+    }
+    
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #d4d4d4;
+      border-bottom: none;
+      border-top: none;
+      z-index: 99;
+      /*position the autocomplete items to be the same width as the container:*/
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+    .autocomplete-items div {
+      padding: 10px;
+      cursor: pointer;
+      background-color: #fff;
+      border-bottom: 1px solid #d4d4d4;
+    }
+    .autocomplete-items div:hover {
+      /*when hovering an item:*/
+      background-color: #e9e9e9;
+    }
+    .autocomplete-active {
+      /*when navigating through the items using the arrow keys:*/
+      background-color: DodgerBlue !important;
+      color: #ffffff;
+    }
+    .select2-selection__choice__remove{
+      border: none;
+    }
+
+    
+
+.multi_select_box{
+  width: 150px;
+  margin: 1px auto;
+}
+.multi_select_box select{
+  width: 100%;
+}
+.multi_select_box button{
+  background-color: darkslategray !important;
+  color: #fff !important;
+}
+
+.home-section .home-content .text{
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .multi_select_box{
+    display: inline-flex;
+    
+    
+  }
+  .bootstrap-select.form-control-sm .dropdown-toggle {
+    height: 2.8em;
+  }
+
+    
+    </style>
+    
+    <body>
+    
+      <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                  <div class="alert alert-success">
+                    <strong>Success </strong>{{ message }}
+                  </div>
+                {% elif message.tags == 'error' %}
+                  <div class="alert alert-danger">
+                    <strong>Error </strong>{{ message }}
+                  </div>
+                {% elif message.tags == 'info' %}
+                  <div class="alert alert-info">
+                    <strong>Info </strong>{{ message }}
+                  </div>
+                {% else %}
+                
+                {% endif %}
+               
+            
+            {% endfor %}
+        {% endif %}
+      </div>
+    
+      <h3 style="font-family: 'Lato', sans-serif;">
+        <center><b>Message Form</b></center>
+      </h3>
+    
+    <div class="container">
+      <div class="row" >
+
+        
+        <div class="col-md-3">
+            <label>Railway/Org.</label>
+            <select multiple class="form-control" id="rly_1" name="rly_1" class="custom-select" style="width: 100%;"  multiple >
+                {% for i in Zone %}
+                <option >{{i}}</option>
+                {% endfor %}
+    
+            </select>
+        </div>
+     
+      <div class="col-md-3">
+        <label>Division/Unit</label>
+        <select class="form-control" id="div_1" name="div_1" class="custom-select" style="width: 100%;"  multiple onchange="getdivwisedata()">
+            {% for i in division %}
+            <option>{{i}}</option>
+            {% endfor %}
+        </select>
+    </div> 
+    
+  </div>
+
+    </div>
+    
+    
+      <form method="POST"> 
+        {% csrf_token %}
+
+        <div class="container">
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Message write here</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" name="message" rows="3"></textarea>
+        </div>
+        
+      </form>
+          
+ 
+          
+          <div style="text-align: center; margin-top: 2%; margin-bottom: 2%; ">
+           
+                  <button type="submit" id="submit" name="submit" value="Submit"  class="btn btn-success btn-md">Send</button> 
+           </div>
+                   
+            
+        </div>
+    
+    </form>
+    
+   
+      
+    </body>
+   
+    <script>
+    
+    $("#location").select2({
+        minimumInputLength: 1,
+        language: {
+            inputTooShort: function() {
+              return 'Please Add One or More Location';
+            }
+          },
+        tags: [],
+        ajax: {
+            url: '{% url "autoFetchLocation" %}',
+            dataType: 'json',
+            type: "GET",
+            quietMillis: 50,
+            data: function (term) {
+                return {
+                    last_val: term.term
+                };
+                console.log(term.term)
+            },
+            processResults: function (data) {
+              return {
+                    results: $.map(data, function (item) {
+                      console.log(item)
+                        return{
+                          text: item.city,
+                          
+                          id: item.city,
+                        }
+                    })
+                };
+              },
+            
+            
+        }
+    });
+    </script>
+    
+    
+    <script>
+    
+    var globallistgm='';
+    var globallistbm='';
+    var globallistdrm='';
+    var globallistphod='';
+    
+    function auto(inp, arr) {
+      var currentFocus;
+      inp.addEventListener("input", function(e) {
+          var a, b, i, val = this.value;
+          closeAllLists();
+          if (!val) { return false;}
+          currentFocus = -1;
+          a = document.createElement("DIV");
+          a.setAttribute("id", this.id + "autocomplete-list");
+          a.setAttribute("class", "autocomplete-items");
+        
+          this.parentNode.appendChild(a);
+       
+          for (i = 0; i < arr.length; i++) {
+    
+            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+              
+              b = document.createElement("DIV");
+           
+              b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+              b.innerHTML += arr[i].substr(val.length);
+            
+              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+           
+                  b.addEventListener("click", function(e) {
+            
+                  inp.value = this.getElementsByTagName("input")[0].value;
+                  
+                  closeAllLists();
+                  
+              });
+              a.appendChild(b);
+            }
+          }
+      });
+    
+      inp.addEventListener("keydown", function(e) {
+          var x = document.getElementById(this.id + "autocomplete-list");
+          if (x) x = x.getElementsByTagName("div");
+          if (e.keyCode == 40) {
+            
+            currentFocus++;
+            
+            addActive(x);
+          } else if (e.keyCode == 38) { 
+          
+            currentFocus--;
+           
+            addActive(x);
+          } else if (e.keyCode == 13) {
+         
+            e.preventDefault();
+            if (currentFocus > -1) {
+            
+              if (x) x[currentFocus].click();
+            }
+          }
+      });
+      function addActive(x) {
+        if (!x) return false;
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+      
+        x[currentFocus].classList.add("autocomplete-active");
+      }
+      function removeActive(x) {
+       
+        for (var i = 0; i < x.length; i++) {
+          x[i].classList.remove("autocomplete-active");
+        }
+      }
+      function closeAllLists(elmnt) {
+       
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+          if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+    }
+    
+    
+    </script>
+          
+    <script>
+      var hli = 0
+      var sli = []
+      
+      var ssli = []
+      
+    
+      var full_array = []
+   
+    //================================================================================================           
+    //================================================================================================           
+    //================================================================================================         
+    </script>
+    
+  
+
+  
+    <script>
+    
+    
+    
+    
+        function select1(id){  
+          var table = $('#text1').DataTable();
+          table.destroy();
+          if(id.checked)
+          {
+            var ele=document.getElementsByName('chktext1');  
+            for(var i=0; i<ele.length; i++){  
+                if(ele[i].type=='checkbox')  
+                    ele[i].checked=true;  
+            }  
+            var table = $('#text1').DataTable();
+          }
+          else
+          {
+            var ele=document.getElementsByName('chktext1');  
+            for(var i=0; i<ele.length; i++){  
+                if(ele[i].type=='checkbox')  
+                    ele[i].checked=false;  
+            }  
+            var table = $('#text1').DataTable();
+          }
+        }  
+        function select21(id){  
+          var table = $('#text').DataTable();
+          table.destroy();
+          if(id.checked)
+          {
+            var ele=document.getElementsByName('chktext');  
+            for(var i=0; i<ele.length; i++){  
+                if(ele[i].type=='checkbox')  
+                    ele[i].checked=true;  
+            }  
+            var table = $('#text').DataTable();
+          }
+          else
+          {
+            var ele=document.getElementsByName('chktext');  
+            for(var i=0; i<ele.length; i++){  
+                if(ele[i].type=='checkbox')  
+                    ele[i].checked=false;  
+            }  
+            var table = $('#text').DataTable();
+          }
+        }  
+        // function deSelect(){ 
+        //   var table = $('#text').DataTable();
+        //   table.destroy(); 
+        //     var ele=document.getElementsByName('chk');  
+        //     for(var i=0; i<ele.length; i++){  
+        //         if(ele[i].type=='checkbox')  
+        //             ele[i].checked=false;  
+        //     }  
+        //     var table = $('#text').DataTable();
+    
+        //     document.getElementById('chkselect').checked=false;
+        // }       
+       
+       
+      
+    </script>
+        
+    <script>
+    var globaldiv='';
+    function setvalueIN(){
+    
+      $("#alltext").css({"height": "50px",});
+      main=[];
+      globalarrid=[];
+    
+      let zone = $('#zone').val();
+      $('#rly_1').val(zone);
+    
+    var arrayArea = $('#department').val();
+    $('#dept_1').select2({}).select2('val', arrayArea);
+    $('#desig').val('');
+    $('#desig').select2().trigger('change');
+      if($('#division').val()!='')
+        globaldiv=$('#division').val();
+      $('#rly_1').select2().trigger('change');
+    
+    
+      let mark_off = $('#mark_officersss').val();
+      
+    if(mark_off=='Copy To'){
+        
+        var myInput = document.getElementById('copyto');
+        var officer_val11=myInput.getAttribute('custom-key');
+        document.getElementById('alltext').value=document.getElementById('copyto').value;
+    }
+    else{
+      
+          markofficer='markeofficer'+ mark_off
+          var myInput = document.getElementById(markofficer);
+          var officer_val11=myInput.getAttribute('custom-key');
+          document.getElementById('alltext').value=document.getElementById(markofficer).value;   
+    }
+    if((document.getElementById('alltext').value).length>0)
+    {
+      globalarrid=String(document.getElementById('alltext').value).split(',');
+      main=JSON.parse(officer_val11);
+    }
+    
+    
+      
+    }
+    
+    function setCopyValue()
+    {
+      $("#alltext").css({"height": "50px",});
+
+      $('#mark_officersss').val('Copy To')
+    
+    }
+    
+    
+    function hidetable(e){
+    
+      $('#text').show(); $('#text1').hide(); $('#table2').hide(); $('#table3').hide(); $('#table4').hide(); $('#table5').hide();
+      $('#mark_officersss').val((e.id).substr(7));
+    
+    }
+    
+    $("#zone").select2();
+              
+    // Read selected option
+    $('#rly').click(function(){
+      var username = $('#rly option:selected').text();
+      var userid = $('#rly').val();
+                    
+                       
+                        
+    });
+    
+    $("#rly_1").select2();
+              
+              // Read selected option
+    $('#rly_1').click(function(){
+      var username = $('#rly_1 option:selected').text();
+      var userid = $('#rly_1').val();
+                             
+    });
+    
+    $("#div_1").select2();
+              
+    // Read selected option
+    
+    $('#div_1').click(function(){
+      var username = $('#div_1 option:selected').text();
+      var userid = $('#div_1').val();
+    });
+    
+    $("#division").select2();
+              
+    $('#division').click(function(){
+      var username = $('#div option:selected').text();
+      var userid = $('#div').val();
+    });
+    
+    $("#department").select2();
+              
+    $('#department').click(function(){
+        var username = $('#department option:selected').text();
+        var userid = $('#department').val();
+    });
+    
+    //////////////////////////////////////////////
+    $('#desig').select2()
+    
+    var globaldesigid=[];
+    
+    
+    function selordesel(id)
+    {
+          var table = $('#textdesig').DataTable();
+          table.destroy();
+          var table1 = $('#textdesigselect').DataTable();
+          table1.destroy();
+         
+          if(id.checked)
+          {
+            globaldesigid=[];
+            $('#textdesigselect tbody').empty();
+            var row='';
+            var ele=document.getElementsByName('chkdesig');  
+            for(var i=0; i<ele.length; i++){  
+                if(ele[i].type=='checkbox') 
+                   {
+                    ele[i].checked=true; 
+                    let id=ele[i].id;
+                    val=ele[i].value;
+                    val=val.split(',')
+                    globaldesigid.push(id.substring(2,id.length));
+                    row += "<tr id='trid"+id+"'>";  
+                    row+=  '<td hidden><input checked type="checkbox" id="'+val[0]+'" class="messageCheckbox" value="'+(val[0]+','+val[1])+'" name="chk" ></td>';
+                    row += '<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="'+val[0]+'" hidden>'+val[0]+'</td>';
+                    row += '</tr>';
+                
+                   } 
+            }  
+            $('#textdesigselect tbody').append(row);
+            var table1 = $('#textdesigselect').DataTable();
+            var table = $('#textdesig').DataTable();
+          }
+          else 
+          {
+            var ele=document.getElementsByName('chkdesig');  
+            for(var i=0; i<ele.length; i++){  
+                if(ele[i].type=='checkbox')  
+                    ele[i].checked=false;  
+            }  
+            globaldesigid=[];
+            $('#textdesigselect tbody').empty();
+            var table1 = $('#textdesigselect').DataTable();
+            var table = $('#textdesig').DataTable();
+          }       
+    }
+    
+    function selectdesig(val)
+    {
+      let id=val.id;
+      val=val.value;
+      
+      var table = $('#textdesigselect').DataTable();
+      table.destroy();
+      val=val.split(',');
+      var row='';
+      if(document.getElementById(id).checked==true)
+          {
+            globaldesigid.push(id.substring(2,id.length));
+              row += "<tr id='trid"+id+"'>";  
+                  row+=  '<td hidden><input checked type="checkbox" id="'+val[0]+'" class="messageCheckbox" value="'+(val[0]+','+val[1])+'" name="chk" ></td>';
+                row += '<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="'+(val[2]+','+val[1])+'" hidden>'+(val[2]+','+val[1])+'</td>';
+                row += '</tr>';
+                $('#textdesigselect tbody').append(row);
+                var table = $('#textdesigselect').DataTable();
+          }
+          else 
+          {
+            let id1=id.substring(2,id.length);
+            id='trid'+id;
+    
+                index = globaldesigid.indexOf(id1);
+                if (index > -1) { 
+                  globaldesigid.splice(index, 1);
+                }
+    
+            var row = document.getElementById(id);
+            row.parentNode.removeChild(row);
+            var table = $('#textdesigselect').DataTable();
+          }       
+    }
+    
+    function getdesigdata()
+    {
+      let desig=$('#desig').val();
+      $('#showdiv1').hide();
+      $('#showdiv2').show();
+      $('#textdesigselect').DataTable();
+      var table = $('#textdesig').DataTable();
+        table.destroy();
+    
+      data={
+              'desig':desig,
+          }
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'designation_wise' %}",
+                    data: data, //--> send id of checked checkbox on other page
+                    success: function(mydata) {
+                       let row = "";
+                        let head = `<thead><tr><th>Mark All  <input type="checkbox"  onclick="selordesel(this)"></th>
+                        <th>Division Officers</th></tr></thead>`;
+                        
+                        for (let i = 0; i < mydata.length; i++) {
+                         
+       
+    
+                          if(globaldesigid.includes(mydata[i]['designation']))
+                           { 
+                              row += "<tr>";  
+                              row+=  `<td><input type="checkbox" checked id="ab${mydata[i]['designation_code']}"  value="${mydata[i]['designation_code']},${mydata[i]['desig_longdesc']}" name="chkdesig" onclick="selectdesig(this)"></td>`;
+                              row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['desig_longdesc']}" hidden >
+                                ${mydata[i]['desig_longdesc']}</td>`;
+                            
+                              row += `</tr>`;
+                          }
+                           else
+                           {
+                              row += "<tr>";  
+                              row+=  `<td><input type="checkbox"  id="ab${mydata[i]['designation_code']}"  value="${mydata[i]['designation_code']},${mydata[i]['desig_longdesc']}" name="chkdesig" onclick="selectdesig(this)"></td>`;
+                              row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['desig_longdesc']}" hidden >
+                                ${mydata[i]['desig_longdesc']}</td>`;
+                            
+                              row += `</tr>`;
+                           }
+    
+                        }
+                        
+                        $('#textdesig thead').remove();
+                        $('#textdesig tr').remove();
+                        $('#textdesig').append(head);
+                        $('#textdesig tbody').append(row);
+                        
+                        $('#textdesig').DataTable();
+                          
+           
+                    },
+               
+                });
+    
+    }
+    
+    //////////////////////////////////////
+    $('#desig').click(function(){
+        var username = $('#desig option:selected').text();
+        var userid = $('#desig').val();
+    });
+
+  
+    
+    $("#dept_1").select2();
+              
+    $('#dept_1').click(function(){
+        var username = $('#desig option:selected').text();
+        var userid = $('#desig').val();
+    });
+    </script>
+       
+    <script>
+    
+    function getdivdeptdata()
+    {
+      $('#showdiv1').show();
+      $('#showdiv2').hide();
+      getdivwisedata();
+      fungetzonedata();
+    }
+    
+    function getdivwisedata()
+    {
+      $('#showdiv1').show();
+      $('#showdiv2').hide();
+      var table = $('#text1').DataTable();
+        table.destroy();
+        $('#text1').hide();
+        var rly_1=$('#rly_1').val();
+          var div_1=$('#div_1').val();
+          var dept_1=$('#dept_1').val();
+          data={
+              'rly_1':rly_1,
+              'dept_1':dept_1,
+              'div_1':div_1,
+              
+            }
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'division_wise' %}",
+                    data: data, //--> send id of checked checkbox on other page
+                    success: function(response) {
+                     
+                      mydata=response.divwise;
+                       let row = "";
+                        let head = `<thead><tr><th>Mark All  <input type="checkbox"  onclick="select1(this)"></th>
+                        <th>Division Officers</th></tr></thead>`;
+                        for (let i = 0; i < mydata.length; i++) {
+                            row += "<tr>";  
+                              row+=  `<td><input type="checkbox" id="${mydata[i]['designation_code']}" class="messageCheckbox" value="${mydata[i]['designation_code']},${mydata[i]['desig_longdesc']}" name="chktext1" ></td>`;
+                              row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['desig_longdesc']}" hidden>
+                                ${mydata[i]['desig_longdesc']}</td>`;
+                            
+                            row += `</tr>`;
+                        }
+                        $('#text1 thead').remove();
+                        $('#text1 tr').remove();
+                        $('#text1').append(head);
+                        $('#text1 tbody').append(row);
+                        $('#text1').show();
+                        $('#text1').DataTable();
+                          
+           
+                    },
+                });
+      document.getElementById('allphod').checked=false;
+      document.getElementById('allgm').checked=false;
+      document.getElementById('allboard').checked=false;
+      document.getElementById('alldrm').checked=false;
+               
+    }
+    
+        $('#allgm').click(function() {
+          document.getElementById('allboard').checked=false;
+          document.getElementById('allphod').checked=false;
+          var table = $('#text').DataTable();
+            table.destroy();
+          var rly_1=$('#rly_1').val();
+          data={
+              'rly_1':rly_1,
+              
+          } 
+          $('#showdiv1').show();
+          $('#showdiv2').hide();
+          globallistgm='';
+           if(this.checked){
+            globallistgm= "All GM's/ZR";
+              $.ajax({
+                    type: "GET",
+                    url: "{% url 'gm_list_officers' %}",
+                    data: data, //--> send id of checked checkbox on other page
+                    success: function(response) {
+                     
+                        mydata=response.allgm;
+                        let row = "";
+                        let head = `<thead><tr><th>Mark All  <input type="checkbox"  onclick="select21(this)"></th>
+                        <th>Zonal Officers</th></tr></thead>`;
+                        for (let i = 0; i < mydata.length; i++) {
+                          row += "<tr>";  
+                              row+=  `<td><input type="checkbox" checked id="${mydata[i]['designation_code']}" class="messageCheckbox" value="${mydata[i]['designation_code']},${mydata[i]['desig_longdesc']}" name="chktext"  ></td>`;
+                              row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['desig_longdesc']}" hidden>
+                                ${mydata[i]['desig_longdesc']}</td>`;
+                              row += `</tr>`;
+                        }
+                        $('#text thead').remove();
+                        $('#text tr').remove();
+                        $('#text').append(head);
+                        $('#text tbody').append(row);
+                        $('#text').show();
+                        $('#text').DataTable();
+                   
+                    }, 
+                });
+    
+            }
+            else{
+              globallistgm='';
+              var ele=document.getElementsByName('chktext');  
+              for(var i=0; i<ele.length; i++){  
+                  if(ele[i].type=='checkbox')  
+                      ele[i].checked=false;  
+              }  
+                  var table = $('#text').DataTable();
+                }
+          });   
+    
+          
+        $('#alldrm').click(function() {
+          $('#showdiv1').show();
+          $('#showdiv2').hide();
+          var table = $('#text1').DataTable();
+          table.destroy();
+            var div_1=$('#rly_1').val();
+              data={
+                  'div_1':div_1,
+                  
+              }
+              globallistdrm='';   
+           if(this.checked){
+            globallistdrm="All DRM's"
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'drm_officers' %}",
+                    data: data, //--> send id of checked checkbox on other page
+                    success: function(response) {
+                     
+                      mydata=response.alldrm;
+                      let row = "";
+                        let head = `<thead><tr><th>Mark All  <input type="checkbox"  onclick="select1(this)"></th>
+                        <th>Division Officers</th></tr></thead>`;
+                        for (let i = 0; i < mydata.length; i++) {
+                          row += "<tr>";  
+                              row+=  `<td><input type="checkbox" checked id="${mydata[i]['designation_code']}" class="messageCheckbox" value="${mydata[i]['designation_code']},${mydata[i]['desig_longdesc']}" name="chktext1"  ></td>`;
+                              row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['desig_longdesc']}" hidden>
+                                ${mydata[i]['desig_longdesc']}</td>`;
+                              row += `</tr>`;
+                        }
+                        $('#text1 thead').remove();
+                        $('#text1 tr').remove();
+                        $('#text1').append(head);
+                        $('#text1 tbody').append(row);
+                        $('#text1').show();
+                        $('#text1').DataTable();       
+                    },
+      
+                });
+    
+                }
+    
+                else{
+                  globallistdrm=''; 
+                  var ele=document.getElementsByName('chktext1');  
+              for(var i=0; i<ele.length; i++){  
+                  if(ele[i].type=='checkbox')  
+                      ele[i].checked=false;  
+              }  
+                  var table = $('#text1').DataTable();
+                }
+          });   
+    
+     
+
+    
+     function fungetzonedata()
+     {
+      $('#showdiv1').show();
+      $('#showdiv2').hide();
+          var table = $('#text').DataTable();
+          table.destroy();
+          $('#text').hide();
+          var rly_1=$('#rly_1').val();
+          var div_1=$('#div_1').val();
+          var dept_1=$('#dept_1').val();
+          data={
+              'rly_1':rly_1,
+              'dept_1':dept_1,
+              'div_1':div_1,
+              
+            }
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'headqwise' %}",
+                    data: data,
+                    success: function(response) {
+                      mydata=response.hqwise;
+                      let row = "";
+                      let head = `<tr><th>Mark All  <input type="checkbox"  onclick="select21(this)"></th>
+                        <th>Zonal Officers</th></tr>`;
+                        
+                       
+                          for (let i = 0; i < mydata.length; i++) {
+                              row += "<tr>";  
+                              row+=  `<td><input type="checkbox" id="${mydata[i]['designation_code']}" class="messageCheckbox" value="${mydata[i]['designation_code']},${mydata[i]['desig_longdesc']}" name="chktext"  ></td>`;
+                              row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['desig_longdesc']}" hidden>
+                                ${mydata[i]['desig_longdesc']}</td>`;
+                              row += `</tr>`;
+                          }
+                        
+                        $('#text thead').empty();
+                        $('#text tbody').empty();
+                        //$('#text tr').remove();
+                        $('#text thead').append(head);
+                        $('#text tbody').append(row);
+                        $('#text').show();
+                        $('#text').DataTable();      
+                       
+                    },
+                    
+                   
+                });
+                document.getElementById('allphod').checked=false;
+      document.getElementById('allgm').checked=false;
+      document.getElementById('allboard').checked=false;
+      document.getElementById('alldrm').checked=false;
+     }
+            
+    
+      $('#rly_1').change(function() {
+        var rly_1=$('#rly_1').val();
+        if(rly_1 == []) 
+          return false;
+        let divdata=$('#div_1').val();
+       
+        // elif(dept_1 == [] && rly_1 == [])
+        //   return false;
+        // elif(dept_1 != [])
+        //   return false;
+        data={
+            'rly_1':rly_1,
+        }
+      
+        $.ajax({
+          type : 'GET',
+          url : "{% url 'division_by_rly1' %}",
+          dataType : 'json',
+          data : data,
+    
+          success : function(response){
+            division=response.division;
+            $('#div_1').empty();
+            
+              for (let i = 0; i < division.length; i++) {
+                if(globaldiv.length!=0)
+                {
+                  if(globaldiv == division[i])
+                    { 
+                      $('#div_1').append(`<option selected value="${division[i]}">${division[i]}</option>`);
+                    }
+                  else
+                    $('#div_1').append(`<option  value="${division[i]}">${division[i]}</option>`);
+                }
+                else
+                {
+                  if(divdata.includes(division[i]))
+                    { 
+                      $('#div_1').append(`<option selected value="${division[i]}">${division[i]}</option>`);
+                    }
+                  else
+                    $('#div_1').append(`<option  value="${division[i]}">${division[i]}</option>`);
+                }
+    
+              }
+              globaldiv=[];
+              fungetzonedata();
+              $('#div_1').select2().trigger('change');          
+          }
+    
+          
+        })
+              
+      })  
+    
+    
+    
+    </script>
+            <script>
+          //     var officer = $('#officer_code1').val();
+          //     officers = JSON.stringify(officer);
+          //      document.getElementById('officer_code_hidden').value = officers;
+               
+    
+    
+            
+          //  $(document).ready(function () {
+          //      setSelect2();
+          //  });
+    
+          //  function setSelect2() {
+          //      var selectedValues = new Array();
+    
+          //      if ("{{officer_code1.empno}}" != "") {
+          //          var trades = "{{biodetails.instructor_trades}}";
+          //          trades = trades.split(',');
+          //          selectedValues.length = 0;
+          //          selectedValues = trades;
+          //      }
+    
+     
+       
+          //      $('#officer_code1').select2();
+          //      $('#officer_code1').val(selectedValues)
+          //      $('#officer_code1').trigger('change');}
+    
+    
+              
+           </script>
+    
+    
+    <script>
+     
+    
+    //     $(function(){
+    //      var dtToday = new Date();
+    
+    //      var month = dtToday.getMonth() + 1;
+    //      var day = dtToday.getDate();
+    //      var year = dtToday.getFullYear();
+    
+    //      if(month < 10)
+    //          month = '0' + month.toString();
+    //      if(day < 10)
+    //          day = '0' + day.toString();
+    
+    //      var maxDate = year + '-' + month + '-' + day;    
+    //      $('#txtDate2').attr('max', maxDate);
+    //  });
+    
+    
+    
+    
+    
+    
+    
+   
+
+ 
+
+  </script>
+   {% endblock %}  

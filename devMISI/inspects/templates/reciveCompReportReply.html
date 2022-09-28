@@ -1,0 +1,660 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+
+<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <!-- <link rel="stylesheet" href="jquery.dropdown.css"> -->
+  <script src="jquery.dropdown.js"></script>
+  <!-- Include the plugin's CSS and JS: -->
+  
+  <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+  <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  
+  <link rel="stylesheet" type="text" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+  
+  <link href="{% static '/css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+  <script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+  
+      <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+      <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+  
+  
+  <link rel="stylesheet" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css' %}">
+  
+  <script src="{% static 'js/timepicker.js' %}"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+  
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+     <!-- Select2 CSS --> 
+  
+  <!-- jQuery --> <script src="{% static '/js/jquery.min4.js' %}"></script> 
+  
+  <!-- Select2 JS --> 
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <!-- Load icon library -->
+  <link rel="stylesheet" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css' %}">
+  <!-- multiple selesct marked officer -->
+  
+  <link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+  <script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+    <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+    <!-- Sheets for datepicker for target date -->
+    
+    <link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="{% static '/js/jquery-ui.js' %}"></script>
+<br>
+<style>
+
+
+
+  
+</style>
+
+<style>
+ 
+
+</style>
+
+<body>
+  <h2 style="font-family: 'Times New Roman', Times, serif;">
+      <center><b>Inspections Details Done by {{desig}}</b></center>
+    </h2>
+<br>
+
+
+<form method="POST"> 
+{% csrf_token %}
+
+  <!-- <div class="row" style="margin-left: 15em;">
+   
+      <div class="col-md-2"  style="margin-left:2em ;">
+          <label for="Zone" >Rly/Org</label>
+         
+          <select class="form-control" id="zone" name="zone" class="custom-select" multiple readonly>
+            {% for g in multi_loc %}
+            {% if g.type == 'HQ' %}
+                  <option value="{{g.item}}" selected>{{g.item}}</option> 
+            {% endif %}
+              {% for zn in Zone %}
+                  <option value="{{zn}}">{{zn}}</option>
+              {% endfor %}
+            {% endfor %}
+          </select>
+              
+ 
+      </div>
+
+      <div class="col-md-2">
+          <label for="division">Division</label>
+          
+          
+          <select class="form-control" id="division" name="division" class="custom-select" style="max-width:100%;" multiple readonly>
+            {% for g in multi_loc %}
+            {% if g.type == 'DIV' %}
+                <option value="{{g.item}}" selected>{{g.item}}</option> 
+            {% endif %}
+                {% for div in division %}
+                <option value="{{div}}">{{div}}</option>
+                {% endfor %}
+            {% endfor %}
+          </select>
+                  
+           
+          
+      </div>
+      <div class="col-md-2">
+      <label for="division">Department</label>
+      
+      <select class="form-control" id="department" name="department" class="custom-select" style="max-width:100%;" multiple readonly>
+        {% for g in multi_loc %}
+        {% if g.type == 'DPT' %}
+            <option value="{{g.item}}" selected>{{g.item}}</option> 
+        {% endif %}
+            {% for dp in department %}
+            <option value="{{dp.department_name}}">{{dp.department_name}}</option>
+            {% endfor %}
+        {% endfor %}
+      </select>
+              
+             
+      </div>
+  
+      <div  class="col-md-2" >
+        <label for="location" >Location</label>
+        <select name="location" id="location" class="form-control" multiple readonly>
+          {% for g in multi_loc %}
+          {% if g.type == 'LOC' %}
+              <option value="{{g.item}}" selected>{{g.item}}</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      
+      <div class="col-md-2 form-group" >
+        <label for="start" >Inspection Date</label><br>
+        {% for date in ins_title %}
+          <textarea type="text" autocomplete="off" name="daterange1"   class="form-control" style="margin-top:0em ;height: 100px; max-width: 100%;" id="txtDate2"  readonly>{{date.start_date|date:'d/m/Y'}} to {{date.inspected_on|date:'d/m/Y'}}</textarea>
+          {% endfor %}
+      </div>
+
+  </div>  -->
+</div>   
+<br>
+
+
+
+
+{% for i in ins_title %}
+<div class="container">
+  <label for="start" >Title</label>
+  <textarea class="form-control" maxlength="150"   id="titleinsp"  name="titleinsp" readonly>{{i.inspection_title}}</textarea>
+ 
+</div> 
+{% endfor %}
+<br>
+
+
+        <div class="col-md-12"> 
+        <table id="table1" class="table table-striped table-bordered center" style="width:90%; margin-left: 5em;">
+
+          <thead >
+           
+              <tr style="margin-left: 5em;">
+               
+               <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5px;">Item.No.</th>
+              
+               <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 500px;"> Inspection Para</th>
+              
+              
+               <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Action By</th>
+              
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Reply Received</th>
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Status</th>
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Replied on</th>
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Action</th>
+              
+              
+             </tr>
+        
+          </thead>
+          
+          
+          <tbody  id="addworkmech">
+
+          {% for j in item_details1 %}
+          
+          {% if j.type == 'H' %}
+          <tr>
+          <td><div style="text-align: center; width:5px; font-family: verdana;">{{forloop.counter}}</div></td>
+          <td><div><b><p id='heading{{j.des_id}}' >{{j.item_title}}</p></b></div></td>
+          
+          
+          
+          {% if j.chk_cts == 'YES' %}
+            <td>
+              <table width="100%" class="table">
+                {% for z in j.mrkoffi %}
+                <tr>
+                  <td style="line-height: 2.42857143;">{{z.marked_to__designation}}</td>
+                </tr>
+                
+                {% endfor %}
+              </table>
+            
+              </td>
+            
+              <td>
+                <table width="100%">
+                {% for z in j.mrkoffi %}
+                <tr>
+                  <td style="line-height: 2.42857143;">{{z.compliance}}</td>
+                </tr>
+                
+                {% endfor %}
+              </table>
+            </td>
+            
+            <td>
+              <table width="100%" class="table">
+                {% for z in j.mrkoffi %}
+                  {% if z.status_flag == 3 %}
+                    <tr>
+                      <td style="line-height: 2.42857143;">Accepted</td>
+                    </tr>
+                  {% else %}
+                    <tr>
+                      <td style="line-height: 2.42857143;">NA</td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </table>
+            </td>
+            <td>
+              <table width="100%" class="table">
+                {% for z in j.mrkoffi %}
+                  {% if not z.reply_on %}
+                    <tr>
+                      <td style="line-height: 2.42857143;">NA</td>
+                    </tr>
+                    
+                    {% else %}
+                    <tr>
+                      <td style="line-height: 2.42857143;">{{z.reply_on|date:'d/m/y'}}</td>
+                    </tr>
+
+                  {% endif %}
+                
+                {% endfor %}
+              </table>
+            </td>
+
+           
+              <td>
+                <table width="100%" class="table">
+                    {% for z in j.mrkoffi %}
+                    <tr >
+                      
+                      {% if z.status_flag == 3 %}
+                        <td style="line-height: 1.9857143;">
+                          <div style="text-align: center;"><button type="button" disabled value="reject" onclick="actionBtnFunction(this);"  class="btn btn-danger" id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button>
+                          </div>
+                        </td>
+                        <td style="line-height: 1.9857143;">
+                          <div style="text-align: center;"><button type="button" disabled value="accept" onclick="acceptBtnFunction(this);"  class="btn btn-success" id="{{z.marked_no}}" ><span style="font-weight: bold;"><i class="fas fa-check"></i></span></button>
+                          </div>
+                        </td>
+                        {% elif z.status_flag == 1 and z.status == 'R' %}
+                        <td style="line-height: 1.9857143;">
+                          <div style="text-align: center;"><button type="button" disabled value="reject" onclick="actionBtnFunction(this);"  class="btn btn-danger" id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button>
+                          </div>
+                        </td>
+                        <td style="line-height: 1.9857143;">
+                          <div style="text-align: center;"><button type="button"  disabled value="accept" onclick="acceptBtnFunction(this);"  class="btn btn-success" id="{{z.marked_no}}" ><span style="font-weight: bold;"><i class="fas fa-check"></i></span></button>
+                          </div>
+                        </td>
+                        {% else %}
+
+                          <td style="line-height: 1.9857143;">
+                            <div style="text-align: center;"><button type="button" value="reject" onclick="actionBtnFunction(this);"  class="btn btn-danger" id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button>
+                            </div>
+                          </td>
+                          <td style="line-height: 1.9857143;">
+                            <div style="text-align: center;"><button type="button"  value="accept" onclick="acceptBtnFunction(this);"  class="btn btn-success" id="{{z.marked_no}}" ><span style="font-weight: bold;"><i class="fas fa-check"></i></span></button>
+                            </div>
+                          </td>
+                        {% endif %}
+
+                      
+                    </tr>
+                    
+                    {% endfor %}
+                  </table>
+              </td>
+           
+            
+          {% else %}
+            
+              <td></td>
+              <td></td>
+              <td></td>
+          
+
+          {% endif %}
+        </tr>
+
+
+          {% elif j.type == 'SH' %}
+          <tr>
+              <td><p style="text-align: center; width:5px; font-family: verdana;" id='itemno{{j.des_id}}'>{{forloop.counter}}</p></td>
+              <td ><p id='observation{{j.des_id}}'>{{j.observation}}</p></td>
+              
+              
+              <td>
+                
+                <table width="100%" class="table">
+                  {% for z in j.mrkoffi %}
+                  <tr>
+                    <td style="line-height: 2.42857143;">{{z.marked_to__designation}}</td>
+                  </tr>
+                  
+                  {% endfor %}
+                </table>
+              
+                </td>
+              
+                <td>
+                  <table width="100%">
+                    {% for z in j.mrkoffi %}
+                    <tr>
+                      <td style="line-height: 2.42857143;">{{z.compliance}}</td>
+                    </tr>
+                    
+                    {% endfor %}
+                  </table>
+                </td>
+                <td>
+                    <table width="100%" class="table">
+                      {% for z in j.mrkoffi %}
+                        {% if z.status_flag == 3 %}
+                          <tr>
+                            <td style="line-height: 2.42857143;">Accepted</td>
+                          </tr>
+                        {% else %}
+                          <tr>
+                            <td style="line-height: 2.42857143;">NA</td>
+                          </tr>
+                        {% endif %}
+                      {% endfor %}
+                    </table>
+                </td>
+
+                <td>
+                  <table width="100%" class="table">
+                    {% for z in j.mrkoffi %}
+                      {% if not z.reply_on %}
+                        <tr>
+                          <td style="line-height: 2.42857143;">NA</td>
+                        </tr>
+                        
+                        {% else %}
+                        <tr>
+                          <td style="line-height: 2.42857143;">{{z.reply_on|date:'d/m/y'}}</td>
+                        </tr>
+
+                      {% endif %}
+                    
+                    {% endfor %}
+                  </table>
+                </td>
+
+                <td>
+                  <table width="100%" class="table">
+                      {% for z in j.mrkoffi %}
+                      <tr >
+                        
+                        {% if z.status_flag == 3 %}
+                        <td style="line-height: 1.9857143;">
+                          <div style="text-align: center;"><button type="button" disabled value="reject" onclick="actionBtnFunction(this);"  class="btn btn-danger" id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button>
+                          </div>
+                        </td>
+                        <td style="line-height: 1.9857143;">
+                          <div style="text-align: center;"><button type="button" disabled value="accept" onclick="acceptBtnFunction(this);"  class="btn btn-success" id="{{z.marked_no}}" ><span style="font-weight: bold;"><i class="fas fa-check"></i></span></button>
+                          </div>
+                        </td>
+                        {% elif z.status_flag == 1 and z.status == 'R' %}
+                        <td style="line-height: 1.9857143;">
+                          <div style="text-align: center;"><button type="button" disabled value="reject" onclick="actionBtnFunction(this);"  class="btn btn-danger" id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button>
+                          </div>
+                        </td>
+                        <td style="line-height: 1.9857143;">
+                          <div style="text-align: center;"><button type="button"  disabled value="accept" onclick="acceptBtnFunction(this);"  class="btn btn-success" id="{{z.marked_no}}" ><span style="font-weight: bold;"><i class="fas fa-check"></i></span></button>
+                          </div>
+                        </td>
+                        {% else %}
+
+                          <td style="line-height: 1.9857143;">
+                            <div style="text-align: center;"><button type="button" value="reject" onclick="actionBtnFunction(this);"  class="btn btn-danger" id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button>
+                            </div>
+                          </td>
+                          <td style="line-height: 1.9857143;">
+                            <div style="text-align: center;"><button type="button"  value="accept" onclick="acceptBtnFunction(this);"  class="btn btn-success" id="{{z.marked_no}}" ><span style="font-weight: bold;"><i class="fas fa-check"></i></span></button>
+                            </div>
+                          </td>
+                        {% endif %}
+                      </tr>
+                      
+                      {% endfor %}
+                    </table>
+                </td>
+              
+            </tr>
+              
+          {% else %}
+          <tr>
+            <td><div style="text-align: center; width:5px; font-family:verdana;"></div></td>
+            <td>{{j.des_id}}<p id='subheading{{j.des_id}}' autocomplete1 = "off"  style="margin-left: 80px;" >{{j.item_subtitle}}</p></td>
+              
+          </tr>
+          {% endif  %}  
+        {% endfor %}
+        
+      </tbody>
+          
+      </table>
+  </div>
+
+</form>
+<br>
+<br>
+
+
+   
+
+
+<!-- action Modal -->
+<div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Action</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="containar">
+
+          <div class="row">
+              <table id="m_table" class="table">
+                  <thead>
+                      <tr>
+                          <th>S.No</th>
+                          <th>Remark</th>
+                          <th>Reply On</th>
+                          
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      
+                  </tbody>
+              </table>
+          </div>
+          <div class="row">
+              <input type="text" id="marked_no" hidden>
+              <!-- <div class="col-md-6">
+                  <select name="" style="height: 37px;" id="action_option" class="form-control" onchange="hideAndShowFunction(this);">
+                      <option value="" disabled selected>Select</option>
+                      <option value="Accept">Accept</option>
+                      <option value="Reject">Reject</option>
+                  </select>
+              </div> -->
+              <div class="col">
+                  <!-- <div id="accept_div">
+                      <input type="text" class="form-control" value="Accepted" readonly>
+                  </div> -->
+
+                  <div>
+                      <textarea class="form-control" placeholder="Rejected Remark" style="height: 50px;" name="remark_id" id="remark_id" cols="30" rows="10" maxlength="200"></textarea>
+                  </div>
+              </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="m_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save_btn_id" onclick="saveActionForm();">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
+
+<input type="text" id="insp_number" value="{{insp_number}}" hidden>
+
+
+<br>
+<br>
+</body>
+
+<script>
+
+function actionBtnFunction(el){
+  
+  let insp_number = $('#insp_number').val()
+  let mark_officer_id = el.id
+      $('#marked_no').val(mark_officer_id)
+
+      $('#m_table tbody').empty()
+
+
+  $.ajax({
+      type : 'GET',
+      url : "{% url 'actionBtnFunction_ajax' %}",
+      dataType : 'json',
+      data : {insp_number, mark_officer_id},
+      success : function(response){
+          console.log(response)
+          let content = ''
+          for(i in response.rem_obj){
+              $('#m_table tbody').empty()
+              let sno = parseInt(i+1)
+              content += '<tr>'
+                      +'<td>'+sno+'</td>'
+                      +'<td>'+response.rem_obj[i].remark+'</td>'
+                      
+                      +'<td>'+ formatDate(response.rem_obj[i].rejected_on)+'</td>'
+                      +'<td>'+ response.rem_obj[i].status +'</td>'
+                      
+              
+                
+              
+              // if(response.rem_obj[i].status_flag == 3){
+                
+              //   document.getElementById('save_btn_id').disabled = true;
+              //   content += '<td>'+"Accepted"+'</td>'
+              // }
+              // else{
+                
+              //   document.getElementById('save_btn_id').disabled = false;
+              //   content += '<td>'+"Pending"+'</td>'
+              // }
+
+              content +=  '</tr>'
+          }
+          $('#m_table tbody').append(content)
+
+          for(x in response.obj){
+            if(response.obj[x].status_flag == 3){
+                
+                document.getElementById('save_btn_id').disabled = true;
+                // content += '<td>'+"Accepted"+'</td>'
+              }
+              else{
+                
+                document.getElementById('save_btn_id').disabled = false;
+                // content += '<td>'+"Pending"+'</td>'
+              }
+          }
+              
+
+          
+      }
+ })
+}
+
+
+function acceptBtnFunction(el){
+  let mark_num= el.id
+  let insp_number= $('#insp_number').val()
+
+  $.ajax({
+      type : 'GET',
+      url : "{% url 'accept_mark_reply_ajax' %}",
+      dataType : 'json',
+      data : {mark_num, insp_number},
+      success : function(response){
+          console.log(response)
+          
+
+          window.location.reload()
+          
+        
+      }
+ });
+}
+
+
+
+function saveActionForm(){
+  // let action_option = $('#action_option').val()
+  
+  let mark_num= $('#marked_no').val()
+  let remark_id= $('#remark_id').val()
+  let insp_number= $('#insp_number').val()
+  // if(action_option == ''){
+  //     alert('Please select option')
+  //     return false;
+  // }
+      
+  $.ajax({
+      type : 'GET',
+      url : "{% url 'save_mark_reply_ajax' %}",
+      dataType : 'json',
+      data : {mark_num, remark_id, insp_number},
+      success : function(response){
+          console.log(response)
+          $('#m_close').click()
+
+          window.location.reload()
+          
+        
+      }
+ })
+}
+
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    let newyear = String(year).slice(2, 5)
+    return [day,month,newyear].join('/');
+}
+
+// function hideAndShowFunction(el){
+//   $('#reply_div_id').show();
+
+//   if(el.value == 'Accept'){
+//       $('#accept_div').show();
+//       $('#reject_div').hide();
+//   }
+//   else{
+//       $('#reject_div').show();
+//       $('#accept_div').hide();
+//   }
+
+// }
+</script>
+{% endblock %}  

@@ -1,0 +1,1117 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.min.js'%}"></script>
+    <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+    <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+    <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="{% static '/js/select2.min.js' %}"></script>
+    <script src="{% static 'js/timepicker.js' %}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{% static '/js/select2.min.js' %}"></script>
+</head> 
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    .input,
+    input[type=text]
+    {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 2px 0;
+        display: block;
+        /* border: 1.5px solid rgb(14, 12, 12); */
+        resize: vertical;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type=submit] 
+    {
+        width: 40%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: rgb(15, 12, 12);
+        padding: 14px 20px;
+        margin: 2px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=submit]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    input[type=button] 
+    {
+        width: 30%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: white;
+        padding: 6px 6px;
+        margin: 2px 2px 2px 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    input[type=button]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+      /* #viewbtn{
+        margin-left:1050px;
+      } */
+    .inputtag
+    {
+        height:20px;
+    }
+    .modal-dialog-full-width 
+    {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 3% !important;
+        max-width:none !important;
+        text-align: center !important;
+    }
+    .modal-content-full-width  
+    {
+        height: auto !important;
+        min-height: 100% !important;
+        border-radius: 0 !important; 
+        text-align: center !important; 
+    }
+    .modal-header-full-width  
+    {
+        border-bottom: 0px solid #9ea2a2 !important;
+    }
+    .modal-footer-full-width  
+    {
+        border-top: 0px solid #9ea2a2 !important;
+    }
+    /* @media only screen and (max-width: 1500px)
+    {
+
+    } */
+    .container
+    {
+        max-width: 1500px
+    }
+    /* .textarea
+    {
+        display:block;
+        width:100%;
+        overflow:hidden;
+        resize: both;
+        min-height: 40px;
+        line-height: 20px;
+    } */
+
+</style>
+
+<body>
+    <h3><center>Pending Reply</center></h3> 
+    <br>
+    <div class="container" id="container1" style="margin-bottom:5%; text-align: center;" >
+        <div class="row" style="text-align: center; padding-left: 8em;" >
+            <div class="col-md-2">
+                <label for="Zone" >Rly./Org.</label>
+                <select class="form-control" name="rly_id" id="rly_id" class="custom-select" style="max-width:100%;height:2em;">
+                    <option value="" selected>All</option>
+                    {% for z in zone %}
+                    <option value="{{z}}">{{z}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="division">Div./Unit</label>
+                <select class="form-control" name="div_id" id="div_id" class="custom-select" style="max-width:100%;;height:2em">
+                    <option value="" selected>All</option>
+                    {% for d in division %}
+                    <option value="{{d}}">{{d}}</option>
+                    {% endfor %}
+                </select>  
+            </div>
+            <div class="col-md-2">
+                <label for="division">Department</label>
+                <select class="form-control" name="dept_id" id="dept_id" class="custom-select" style="max-width:100%;;height:2em">
+                    <option value="" selected>All</option>
+                    {% for d in dept %}
+                    <option value="{{d}}">{{d}}</option>
+                    {% endfor %}
+                </select> 
+            </div>
+            <div class="col-md-2">
+                <label style="width:10em">Date Range</label>
+                <label id="reportrange" style="width:15em;background: #fff; cursor: pointer;border: 1px solid #ccc;height:2em">
+                <i class="fa fa-calendar"></i>
+                <span></span> 
+                <i class="fa fa-caret-down"></i>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <button type="button" id="submit_filter" style="margin-top:2em;width:5em;border: 1px solid #ccc;" class="btn btn-success" onclick="compliance_filterdata(this);">Search</button>
+                <button type="button" style="margin-top:2em;width:5em;border: 1px solid #ccc;" class="btn btn-secondary" onclick="compliance_alterdata();">Clear</button>
+            </div>
+        </div>
+        <br>
+        <!-- gunjan: table for inspection details-->
+        <!-- <div class="container"> -->
+            <table id="tableshow" class="table table-striped table-bordered table-lg" cellspacing="0">
+            <thead style="background-color:black; color:white">
+                <tr style="text-align:left">
+                    <th>S.No.</th>
+                    <th>Insp. Note No</th>
+                    <th>Insp. Title</th>
+                    <th>Insp. Officer</th>
+                    <th>Insp. Date</th>
+                    <th>Viewed On</th>
+                    <th>View</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in listgrid %}
+                <tr style="text-align:left">
+                    <td>{{forloop.counter}}</td>
+                    <td style="width:15%">{{i.inspection_note_no}}</td>
+                    <td>{{i.inspection_title}}</td>
+                    <td>{{i.inspection_officer}}</td>
+                    <td>{{i.inspected_on}}</td>
+                    <!-- {% if i.start_date or i.end_date %}
+                        <td>{{i.start_date|date:"d-m-y" }} to {{i.end_date|date:"d-m-y" }}</td>
+                    {% else %}
+                        <td>NA</td>
+                    {% endif %} -->
+                    <td>{{i.viewed_on}}</td>
+                    <!-- <td style="text-align:left"><button type="button" class="btn btn-primary"><a href="/media${{i.file_path}}" style="color: white;" target="blank" onclick="viewdate(this)">Report</a></button></td> -->
+                    <td><button type="button" class="btn btn-primary"><a href="{% url 'inspectionReportPdf' i.inspection_no %}"  id=/{{i.inspection_no}} target="blank" style="color: white;" onclick="viewdate(this)">Report</button></a></td>
+                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ReplyModal" id={{i.inspection_no}} onclick="reply(this)">Reply</button></td>
+                </tr>
+            {% endfor %}  
+            </tbody>
+        </table>
+        <!-- </div>  -->
+        <!-- end gunjan -->
+    </div> 
+
+    <!-- Modal for reply-->
+    <div class="modal fade right" id="ReplyModal" tabindex="-1" role="dialog" aria-labelledby="ReplyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-full-width modal-dialog-scrollable" role="document">
+    <div class="modal-content modal-content-full-width">
+        <div class="modal-header modal-header-full-width">
+            <h3 class="modal-title w-100 text-center" id="ReplyModalLabel">List of Pending Replies</h3><br>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" style="text-align: left;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Inspection Note No</label>
+                        <input type="text" value="" id="ins_note_id" readonly class="form-control" readonly/>
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="col-md-3">
+                        <label>Officer Designation</label>
+                        <input type="text" value="" id="ins_desig" readonly class="form-control" readonly/>
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="col-md-3">
+                        <label>Inspection Officer</label>
+                        <input type="text" value="" id="ins_officer" class="form-control" readonly/>
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="col-md-2">
+                        <label>Inspection Date</label>
+                        <input type="text" value="" id="ins_date" class="form-control" readonly/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-11">
+                        <label>Inspection Title</label>
+                        <input type="text" value="" class="form-control" id="ins_title" readonly/>
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="col-md-2" >
+                        <input type="text" value=""  id="ins_id" readonly class="form-control" hidden/>
+                    </div>
+                </div>
+                <br>
+                <table id="mytable1" class="table table-striped table-bordered table-lg">
+                    <thead>
+                        <tr>
+                            <th>Item No</th>
+                            <th>Observation</th>
+                            <th>Compliance Status</th>
+                            <th>Compliance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div><!--  Modal Body -->
+        <div class="modal-footer modal-footer-full-width">
+            <button type="button" id="submit" class="btn btn-success" onclick="save_data()">Submit</button> 
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closereply">Close</button>
+        </div>
+    </div><!-- Modal-Content-->
+    </div><!-- Modal-Dialog -->
+    </div><!-- Modal -->
+
+    <!-- Modal for forwarded compliance-->
+    <div class="modal fade" id="ForwardModal" tabindex="-1" role="dialog" aria-labelledby="ForwardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-full-width modal-dialog-scrollable" role="document">
+    <div class="modal-content modal-content-full-width">
+        <div class="modal-header modal-header-full-width">
+            <h4 class="modal-title w-100 text-center" id="ForwardModalLabel">List of Replies/Forwards</h4>
+            <button type="button" id="closeforward" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container" id="container1" style="margin-bottom:5%;" >
+                <label style="width:15%">Forward To</label>
+                    <select class="form-control" id="desig" name="desig" class="custom-select" style="width:15%;height:2em">
+                        <option value="" selected>Select</option>
+                    </select>
+                &nbsp;&nbsp;
+                <!-- <label style="width:15%;">Inspection No</label> -->
+                <input style="width:8%;text-align:center;background-color:aliceblue;" id="inspection_no" value="{{inspection_no}}" hidden></input>
+                &nbsp;&nbsp;
+                <label style="width:10%">Item No</label>
+                <input style="width:8%;text-align: center;background-color:aliceblue;height: 2.2em;" id="item" value="" disabled></input>
+                &nbsp;&nbsp;
+                <input style="width:8%;text-align: center;background-color:aliceblue" id="item_no" value="{{item_no}}" hidden></input>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" id="submit_filter" style="width:10%;border: 1px solid #ccc;" class="btn btn-success" onclick="compliance_forward(this);" >Submit</button>  
+                <br><br>
+                <table id="mytable2" class="table table-striped table-bordered table-sm ">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Forwarded On</th>
+                            <th>Officer Designation</th>
+                            <th>Marked Officer</th>
+                            <th>Reply Received</th>
+                            <th>Recieved On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>                        
+                    <tbody>
+                    </tbody>
+                </table>
+                <br><br>
+                <textarea class="form-control" row="5"  id="textAreaExample1" style="background-color: aliceblue;"></textarea>
+                <button style="margin:2%" type="button" class="btn btn-primary"  id="{{item_no}}" style="height:7%" onclick="save_reply()">Save</button>
+            </div>
+        </div><!-- modal-body -->
+    </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+    </div><!-- modal -->
+
+    <!-- Modal for reverted compliance -->
+    <div class="modal right fade" id="RevertModal" tabindex="-1" role="dialog" aria-labelledby="RevertModalLabel">
+        <div class="modal-dialog modal-dialog-full-width modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100 text-center" id="RevertModalLabel">Reason of Revert</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <input type="text" id="hidden_item_no" hidden value=''/> -->
+                <table id="mytable3" class="table table-striped table-bordered table-lg ">
+                    <thead>
+                        <tr>
+                            <th>Item No</th>
+                            <th>Observation</th>
+                            <th>Remarks</th>
+                            <th>Revert</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div><!-- modal-body -->
+            <div class="modal-footer modal-footer-full-width">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closerevert">Close</button>
+            </div>
+        </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
+
+    <br><br>
+</body>
+
+<script>
+    $( document ).ready
+    (
+        function() 
+        {
+            // gunjan
+            $('#tableshow').DataTable();
+            $('#container1').hide();
+            compliance_form();
+        }
+    );
+    
+    $('#mytable').hide();
+    $("#rly_id").select2();
+    $("#div_id").select2();
+    $("#dept_id").select2();
+    $("#desig").select2();
+
+    function viewdate(e)
+    {
+        var inspection_id=e.id.substr(1);
+        data={'inspection_id':inspection_id}
+        $.ajax
+        ({
+            url: "{% url 'viewdate_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                console.log('Viewed successfully');
+                window.location.reloadI();
+            }
+        })
+    }    
+    
+    //  for final submit
+    function save_data()
+    {
+        ins_id=$('#ins_id').val();
+
+        data={
+            'ins_id':ins_id,
+            'str':'submit',    
+        }
+        $.ajax
+        ({
+            url: "{% url 'save_data' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                if(response.length==0)
+                {
+                    alert('Kindly Reply First');
+                }
+                else
+                {
+                    console.log('saved');
+                    alert('Reply Saved Successfully');
+                    window.location.reload();
+                }
+                // document.getElementById(item_no_id).style.backgroundColor = "lightblue";
+            }
+        })
+    }
+
+    // for forwarded reply (merged)
+    function save_reply()
+    {
+        var item_no=$('#item_no').val();
+        var item_no_id='//'+item_no;
+        var compliance=$('#textAreaExample1').val();
+        var com_id=item_no+'/';
+        data=
+        {
+            'item_no':item_no,
+            'str':'save',
+            'compliance':compliance,
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                if(response.length==0)
+                {
+                    alert('Kindly Reply first!');
+                }
+                else
+                {
+                    console.log('saved');
+                    document.getElementById(com_id).readOnly = true;
+                    document.getElementById(com_id).value = compliance;
+                    document.getElementById(com_id).style.backgroundColor = "lightblue";
+                    document.getElementById(item_no_id).disabled = true;
+                    id=response.insp_no;
+                    id1='closeforward';
+                    document.getElementById(id).click();
+                    document.getElementById(id1).click();
+                }
+            }
+        })
+    }
+
+    // to open reply modal
+    function reply(e)
+    {
+        var inspection_id=e.id;
+        var table = $('#mytable1').DataTable();
+        table.destroy();
+        $('#mytable1').hide();
+        data=
+        {
+            'inspection_id':inspection_id,
+            'str':'reply',
+            'status':'P',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                // gunjan
+                desigdetails=response.desigdetails;
+                if(desigdetails.length != 0)
+                {$('#ins_desig').val(desigdetails[0]['designation']);}
+                else
+                {$('#ins_desig').val('Null');}
+                
+                idetails=response.idetails;
+                $('#ins_id').val(idetails[0]['inspection_no']);
+                // $('#inspection_no').val(idetails[0]['inspection_no']);
+                $('#ins_note_id').val(idetails[0]['inspection_note_no']);   
+                $('#ins_title').val(idetails[0]['inspection_title']);
+                $('#ins_date').val(idetails[0]['inspection_date']);
+                $('#ins_officer').val(idetails[0]['empname']);
+                replydata=response.itemdetails;
+                let row = "";
+                let head = 
+                    `<thead>
+                    <tr align="left">
+                        <th>Item No</th>
+                        <th>Observations</th>
+                        <th>Compliance Remarks</th>
+                        <th>Action</th>
+                        <th style="display:none">Forward</th>
+                        <th>View</th>
+                    </tr>
+                    </thead>`;
+                for (let i = 0; i < replydata.length; i++) 
+                {
+                    // alert(replydata[i]['item_no']);
+                    row += "<tr>";    
+                    row += `<td width=5%>${replydata[i]['item']}</td>
+                    <td align="left" width=35%>${replydata[i]['observation']}</td>`;
+                    // <span class="input" role="textbox" id="${replydata[i]['item_no']}/" name="comp_remarks" style="height:7%" contenteditable></span>
+                    // <textarea class="form-control" id="${replydata[i]['item_no']}/" name="comp_remarks" style="height:7%;" maxlength="200"></textarea>
+                    if(replydata[i]['compliance']==null)
+                    {
+                        row += 
+                        `<td align="left" width=35%>
+                            <input type='text' class="form-control" id="${replydata[i]['item_no']}/" name="comp_remarks" style="height:7%;" maxlength="200"></input>
+                        </td>
+                        <td width=20%>
+                            <button type="button" class="btn btn-primary" id="//${replydata[i]['item_no']}" onclick="save_compliance(this);">Save</button>
+                            <button type="button" class="btn btn-primary" id="///${replydata[i]['item_no']}" onclick="edit_compliance(this);" disabled>Edit</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#RevertModal" id="/${replydata[i]['item_no']}" style="color: white;" onclick="revert(this)">Revert</button>
+                        </td>`
+                    }
+                    else
+                    {
+                        row += 
+                        `<td align="left" width=35%>
+                            <input type='text' class="form-control" id="${replydata[i]['item_no']}/" name="comp_remarks" style="height:7%;background-color:lightblue" maxlength="200" value="${replydata[i]['compliance']}" readonly></input>
+                        </td>
+                        <td width=20%>
+                            <button type="button" class="btn btn-primary" id="//${replydata[i]['item_no']}" onclick="save_compliance(this);" disabled>Save</button>
+                            <button type="button" class="btn btn-primary" id="///${replydata[i]['item_no']}" onclick="edit_compliance(this);">Edit</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#RevertModal" id="/${replydata[i]['item_no']}" style="color: white;" onclick="revert(this)" disabled>Revert</button>
+                        </td>`;
+                    }
+                    row += 
+                    `<td style="padding-left:2%;display:none">
+                        <a href="/compliance_forward/${replydata[i]['item_no']}">
+                            <i class="fa fa-send" style="size:7%;color: blue">
+                    </i></a></td>
+                    <td width=5%>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#ForwardModal" id="${replydata[i]['item_no']}" name="get_data" onclick="fetch_forward_reply(this,'get_data')">Forward</button>
+                    </td>
+                    </tr>`;
+                }
+                $('#mytable1 thead').remove();
+                $('#mytable1 tr').remove();
+                $('#mytable1').append(head);
+                $('#mytable1 tbody').append(row);
+                $('#mytable1').show();
+                $('#mytable1').DataTable();
+            }
+        })
+    }
+
+    // to open revert modal
+    function revert(e)
+    {
+        var item_id=e.id.substr(1);
+        alert(item_id);
+        var table = $('#mytable3').DataTable();
+        table.destroy();
+        $('#mytable3').hide();
+        data=
+        {
+            'item_no':item_id,
+            'str':'reply',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                replydata=response.itemdetails;
+                let row = "";
+                let head = 
+                    `<thead>
+                    <tr align="left">
+                        <th style='display:none'>Item No</th>
+                        <th>Observation</th>
+                        <th>Revert Remarks</th>
+                        <th>Revert</th>
+                    </tr>
+                    </thead>`;
+                for (let i = 0; i < replydata.length; i++) 
+                {
+                    // alert(replydata[i]['item_no']);
+                    row += "<tr>";    
+                    row += `<td style='display:none' width=10%>${replydata[i]['item']}</td>
+                    <td align="left" width=40%>${replydata[i]['observation']}</td>`;
+                    row +=`<td><input type="text" id="revert_remarks" name="comp_remarks" style="height:7%" width=40% maxlength=200></td>
+                        <td width=10%><button type="button" class="btn btn-primary" id="/${replydata[i]['item_no']}" onclick="revert_compliance(this);">Revert</button></td>
+                    </tr>`;
+                }
+                
+                $('#mytable3 thead').remove();
+                $('#mytable3 tr').remove();
+                $('#mytable3').append(head);
+                $('#mytable3 tbody').append(row);
+                $('#mytable3').show();
+                $('#mytable3').DataTable();
+            }
+        })
+    }
+
+    function fetch_forward_reply(e)
+    {
+        var item_no=(e.id);
+        // alert(item_no)
+        var table = $('#mytable2').DataTable();
+        table.destroy();
+        $('#mytable2').hide();
+        data={'item_no':item_no,}
+        $.ajax
+        ({
+            url: "{% url 'fetch_forward_reply' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                // $('#item_no_hidden').val(response.item_no);
+                // alert(response.item_list[0]['count'])
+                $('#item_no').val(response.item_no);
+                $('#inspection_no').val(response.inspection_no);
+                $('#item').val(response.item);
+                forwardreplydata=response.list1;
+                let row = "";
+                let head = 
+                    `<thead>
+                        <tr align="left">
+                            <th>Sr.No.</th>
+                            <th>Forwarded On</th>
+                            <th>Designation</th>
+                            <th>Name</th>
+                            <th>Reply</th>
+                            <th>Recieved On</th>
+                            <th>Status</th>
+                            <th>Remark</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>`;
+                for (let i = 0; i < forwardreplydata.length; i++) 
+                {
+                    row += "<tr>";    
+                    row += `<td width=5%>${i+1}</td>
+                            <td width=8%>${forwardreplydata[i]['recieved_on']}</td>
+                            <td width=8% align="left">${forwardreplydata[i]['designation']}</td>
+                            <td width=12% align="left">${forwardreplydata[i]['marked_to_forward']}</td>
+                            <td align="left">${forwardreplydata[i]['reply']}</td>
+                            <td width=8%>${forwardreplydata[i]['compliance_recieved_on_forward']}</td>`
+                    if(forwardreplydata[i]['status_flag']==1)
+                    {
+                        row += `<td width=5% style="color:blue">Pending</td>
+                                <td width=15%>
+                                    <textarea class="form-control" name="remark_id" id="remark_id" rows="2" maxlength="200" disabled></textarea>
+                                </td>
+                                <td width=12%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" onclick="merge(this)" disabled>Merge</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" onclick="reject_forward_reply(this);" disabled>Reject</button>
+                                </td>`;
+                                
+                    }
+                    else if(forwardreplydata[i]['status_flag']==3)
+                    {
+                        row += `<td width=5%; style="color:red">Rejected</td>
+                                <td width=15%>
+                                    <textarea class="form-control" name="remark_id" id="remark_id" rows="2" maxlength="200" disabled>${forwardreplydata[i]['remark']}</textarea>
+                                </td>
+                                <td width=12%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" onclick="merge(this)">Merge</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" onclick="reject_forward_reply(this);" disabled>Reject</button>
+                                </td>`;
+                    }
+                    else if(forwardreplydata[i]['status_flag']==2)
+                    {
+                        row += `<td width=5% style="color:green">Received</td>
+                                <td width=15%>
+                                    <textarea class="form-control" name="remark_id" id="remark_id" rows="2" maxlength="200">${forwardreplydata[i]['remark']}</textarea>
+                                </td>
+                                <td width=12%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" onclick="merge(this)">Merge</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" onclick="reject_forward_reply(this);">Reject</button>
+                                </td>`;
+                    }
+                    row += "</tr>"; 
+                }
+                $('#mytable2 thead').remove();
+                $('#mytable2 tr').remove();
+                $('#mytable2').append(head);
+                $('#mytable2 tbody').append(row);
+                $('#mytable2').show();
+                $('#mytable2').DataTable();
+                desig=response.desig;
+                $('#desig').empty();
+                $('#desig').append(`<option value="">Select</option>`);
+                for (let i = 0; i < desig.length; i++) 
+                {
+                    $('#desig').append(`<option value="${desig[i]['designation']}">${desig[i]['designation']}</option>`);
+                }
+            }
+        })
+    }
+    
+    function merge(e)
+    {
+        var val=e.id;
+        if(document.getElementById(val)) 
+        {
+            var textval=$('#textAreaExample1').val()+' '+val;
+            $('#textAreaExample1').val(textval);
+        }
+    }
+    
+    function edit_compliance(e)
+    {
+        var id=e.id;
+        id=id.substr(3);
+        // alert(id);
+        var com_id=id+'/';
+        var c_id='//'+id;
+        var edit_id='///'+id;
+        document.getElementById(com_id).readOnly= false;
+        document.getElementById(com_id).style.backgroundColor = "transparent";
+        // $('#'+com_id).attr('disabled','disabled');
+        document.getElementById(c_id).disabled = false;
+        document.getElementById(edit_id).disabled= true;
+        // $('#'+c_id).attr('disabled','disabled');
+    }
+    
+    // for save as draft
+    function save_compliance(e)
+    {
+        var item_no_id=e.id;
+        item_no=item_no_id.substr(2);
+        var com_id=item_no+'/';
+        var edit_id='///'+item_no;
+        var revert_id='/'+item_no;
+        var compliance=document.getElementById(com_id).value;
+        data=
+        {
+            'item_no':item_no,
+            'str':'save',
+            'compliance':compliance,
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                if(response.length==0)
+                {
+                    alert('Kindly Reply First');
+                }
+                else
+                {
+                    console.log('saved');
+                    alert('Draft Reply Saved Successfully!')
+                    document.getElementById(com_id).readOnly = true;
+                    document.getElementById(com_id).style.backgroundColor = "lightblue";
+                    document.getElementById(item_no_id).disabled = true;
+                    document.getElementById(revert_id).disabled = true;
+                    document.getElementById(edit_id).disabled = false;
+                }
+                // document.getElementById(item_no_id).style.backgroundColor = "lightblue";
+            }
+        })
+    }
+
+    // for reverting the compliance
+    function revert_compliance(e)
+    {
+        var item_no=e.id.substr(1);
+        // item_no=item_no_id.substr(2);
+        // var revert_id=item_no+'/';
+        // var remarks=document.getElementById("revert_remarks");
+        remarks=$('#revert_remarks').val();
+        data=
+        {
+            'item_no':item_no,
+            'str':'revert',
+            'remarks':remarks,
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                if(response.length==0)
+                {
+                    alert('Specify the Reason');
+                }
+                else
+                {
+                    console.log('saved');
+                    alert('Reverted Successfully')
+                    id=response.insp_no;
+                    id1='closerevert';
+                    document.getElementById(id).click();
+                    document.getElementById(id1).click();
+                }
+            }
+        })
+    }
+
+    $('#rly_id').change(function() 
+    {
+        var rly_id=$('#rly_id').val();
+        data=
+        {
+            'rly_id':rly_id,
+            'str':'filter',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                div=response.div;
+                $('#div_id').empty();
+                $('#div_id').append(`<option value="">All</option>`);
+                for (let i = 0; i < div.length; i++) 
+                {
+                    $('#div_id').append
+                    (
+                        `<option value="${div[i]}">
+                        ${div[i]}
+                        </option>`);
+                }
+            }
+        })   
+    });
+
+    // clear button
+    function compliance_alterdata()
+    {
+        $.ajax
+        ({
+            url:"{% url 'compliance_alterdata' %}",
+            method:"GET",
+            dataType:"JSON",
+            async: false,
+            success: function(response)
+            {
+                change_div=response.change_div;
+                change_rly=response.change_rly;
+                change_dept=response.change_dept;
+                $('#div_id').empty();
+                $('#div_id').append(`<option value="">All</option>`);
+                $('#rly_id').empty();
+                $('#rly_id').append(`<option value="">All</option>`);
+                $('#dept_id').empty();
+                $('#dept_id').append(`<option value="">All</option>`);
+                for (let i = 0; i < change_div.length; i++) 
+                {$('#div_id').append
+                    (
+                        `<option value="${change_div[i]}">${change_div[i]}</option>`
+                    );
+                }
+                for (let i = 0; i < change_rly.length; i++) 
+                {$('#rly_id').append
+                    (
+                        `<option value="${change_rly[i]}">${change_rly[i]}</option>`
+                    );
+                }
+                for (let i = 0; i < change_dept.length; i++) 
+                {$('#dept_id').append
+                    (
+                        `<option value="${change_dept[i]}">${change_dept[i]}</option>`
+                    );
+                }
+            }
+        })
+    }
+
+    function compliance_filterdata(e)
+    {
+        var table = $('#tableshow').DataTable();
+        table.destroy();
+        $('#tableshow').hide();
+        var str=e.id;
+        // alert(str); 
+        // $('#tableshow').hide();
+        // $('#tableshow').DataTable().clear().destroy();
+        var data={}
+        if(str=='submit_filter')
+        {
+            var div_id=$('#div_id').val();
+            var rly_id=$('#rly_id').val();
+            var dept_id=$('#dept_id').val();
+            var d=$('#reportrange').data('daterangepicker').startDate;
+            var startDate = new Date(d);
+            startDate= startDate.getFullYear()+ '-' + (startDate.getMonth()+1) + '-' + startDate.getDate()
+            d=$('#reportrange').data('daterangepicker').endDate;
+            var endDate = new Date(d);
+            endDate=endDate.getFullYear() + '-' +(endDate.getMonth()+1) + '-' + endDate.getDate()
+            data=
+            {
+                'div_id':div_id,
+                'rly_id':rly_id,
+                'startDate':startDate,
+                'endDate': endDate,
+                'dept_id':dept_id,
+                'str':'pending'
+            }
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                let filterdata = response.inspect_details;
+                // let desigdata = response.desig_details;
+                // console.log(desigdata)
+                let row = "";
+                let head = 
+                    `<thead style="background-color:black; color:white">
+                        <tr align=left>
+                            <th>S.No.</th><th style="display:none;"></th>
+                            <th>Insp. Note No</th>
+                            <th>Insp. Title</th>
+                            <th>Insp. Officer</th>
+                            <th>Insp. Date</th>
+                            <th>Viewed On</th>
+                            <th>View</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>`;
+                for (let i = 0; i < filterdata.length; i++) 
+                {
+                    row += "<tr align=left>";
+                    row += `<td>${filterdata[i]['sr_no']}</td><td style="display:none;">${filterdata[i]['inspection_no']}</td>
+                    <td>${filterdata[i]['inspection_note_no']}</td>
+                    <td>${filterdata[i]['inspection_title']}</td>
+                    <td>${filterdata[i]['inspection_officer']}</td>
+                    <td>${filterdata[i]['inspected_on']}</td>
+                    <td>${filterdata[i]['viewed_on']}</td>
+                    <td><a type="button" class="btn btn-primary" href="/inspectionReportPdf/${filterdata[i]['inspection_no']}" style="color: white;" target="blank" onclick="viewdate(this)">Report</a></button></td>
+                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ReplyModal" id="${filterdata[i]['inspection_no']}" onclick="reply(this)">Reply</button></td>`;
+                    row += "</tr>";                    
+                }
+                $('#tableshow thead').remove();
+                $('#tableshow tr').remove();
+                $('#tableshow').append(head);
+                $('#tableshow tbody').append(row);
+                $('#tableshow').show();
+                $('#tableshow').DataTable();
+            }
+        })
+    }
+    
+    function compliance_form()
+    {
+        $('#container1').show();
+        $('#tableshow').show();
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+        console.log(start,end);
+        function cb(start, end) 
+        {
+            // $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#reportrange span').html(start.format('D/M/YY') + ' to ' + end.format('D/M/YY'));
+        }
+        $('#reportrange').daterangepicker
+        ({
+            startDate: start,
+            endDate: end,
+            maxDate: new Date(),
+            ranges: 
+            {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        },cb);
+        // cb(start, end);
+    }
+
+    // to forward query successfully
+    function compliance_forward()
+    {
+        item_no=$('#item_no').val()
+        inspection_no=$('#inspection_no').val()
+        forward_to=$('#desig').val();
+        data=
+        {
+            'item_no':item_no,
+            'inspection_no': inspection_no,
+            'forward_to':forward_to,
+            'str':'filter-desig',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_marked_forward' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                // if(response.length==0)
+                // {
+                //     alert('The Query has already been forwarded to the selected officer.');
+                // }
+                // else
+                // {
+                    console.log('saved');
+                    alert('Forward Successful');
+                    id=inspection_no;
+                    id1='closeforward';
+                    document.getElementById(id).click();
+                    document.getElementById(id1).click();
+                    // window.location.reload();
+                // }
+            }
+        })
+    }
+
+    // to reject the reply sent by forwarded marked officers
+    function reject_forward_reply(e)
+    {
+        var forward=e.id;
+        var remark=$('#remark_id').val()
+        alert(remark);
+        data={'forward':forward,'remark':remark}
+        $.ajax
+        ({
+            url: "{% url 'reject_forward_reply' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                console.log('saved');
+                alert('Reject Successful');
+                id='remark_id';
+                id1='closeforward';
+                document.getElementById(forward).disabled = true;
+                document.getElementById(id).style.backgroundColor = "lightred";
+                document.getElementById(id1).click();
+                // window.location.reload();
+            }
+        })
+    }
+
+</script>
+
+<script>
+    $("textarea").each(function () 
+    {
+    this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+    }).on("input", function () {
+      this.style.height = "auto";
+      this.style.height = (this.scrollHeight) + "px";
+    });
+</script>
+
+{% endblock %}  

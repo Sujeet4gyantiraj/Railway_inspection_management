@@ -1,0 +1,1549 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+
+
+
+<!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+
+<!-- Select2 CSS -->
+
+<script src="{%static '/js/jquery-3.6.0.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/js/chart.min2.js'%}"></script>
+<script type="text/javascript" src="{% static '/js/chartjs-plugin-datalabels.min.js'%}"></script>
+
+<script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+<script type="text/javascript" src="{% static '/DataTables/datatables.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/highcharts.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/highcharts-3d.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/exporting.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/export-data.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/accessibility.js'%}"></script>
+<link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static '/DataTables/datatables.min.css'%}" />
+<link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+<link rel="stylesheet" type="text/css" hef="{% static '/css/lato.css' %}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  #do_legend {
+    height: 150px;
+  }
+
+  #do_legend {
+    width: 100%;
+  }
+
+  #do_legend ul {
+    padding: 0;
+    text-align: center;
+  }
+
+
+  #do_legend {
+    width: 100%;
+  }
+
+  #do_legend li {
+    cursor: pointer;
+    margin: 4px 3px;
+    display: inline-table;
+  }
+
+  #do_legend li span {
+    position: relative;
+    padding: 3px 10px;
+    border-radius: 13px;
+    color: white;
+    font-size: 22px;
+  }
+
+  #do_legend {
+    height: 62px;
+
+  }
+
+  .trial:hover {
+    color: blue;
+    border-color: blue;
+    border-width: 5px;
+    box-shadow: 0px 0px 0px 1px blue;
+    animation: anim-shadow .3s forwards;
+  }
+
+  .acti {
+    color: blue;
+    border-color: blue;
+    border-width: 5px;
+    box-shadow: 0px 0px 0px 1px blue;
+    animation: anim-shadow .3s forwards;
+  }
+
+  .table td,
+  .table th {
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    text-align: left;
+    overflow: hidden;
+    width: 100%;
+    word-wrap: break-word;
+  }
+
+  .table-bordered th {
+    border-bottom-width: 2px;
+    background: gainsboro;
+  }
+
+  /* #body-row {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+  }
+
+  #body-row2 {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+  } */
+
+
+  #sidebar-container .list-group button {
+    padding: 8px;
+    margin: 0px;
+    height: 50px;
+    color: white;
+  }
+
+  #sidebar-container2 .list-group button {
+    padding: 2px;
+    margin: 2px;
+    height: 50px;
+    color: white;
+  }
+
+  div.own:hover span {
+    display: block;
+    z-index: 1
+  }
+
+  span.own1 {
+    background: #F8F8F8;
+    border: 5px solid #DFDFDF;
+    color: #717171;
+    font-size: 13px;
+    height: 50%;
+    width: 100%;
+    letter-spacing: 1px;
+    line-height: 20px;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: auto;
+    left: auto;
+    display: none;
+    padding: 0 0px;
+  }
+
+  #body-col {
+    background-color: #333;
+  }
+
+  .inspcard {
+    width: 49%;
+    height: 20%;
+    background-color: rgb(208, 228, 246);
+    display: inline-block;
+    float: left;
+    /* padding-right: 2px; */
+    padding: 5px;
+    border: solid 2px;
+    margin: 6px;
+  }
+
+  .inspcard-header {
+    font-size: larger;
+    font-weight: bolder;
+  }
+
+  .inspcard-body {
+    text-align: center;
+    padding: 5px;
+    padding-top: 0px;
+  }
+
+  .card1 {
+    width: 50%;
+    height: 150px;
+    background-color: rgb(254, 254, 105);
+    float: right;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .number-text {
+    height: 40px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    /* background-color: greenyellow; */
+    margin: 10px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    text-align: left;
+  }
+
+  table {
+    width: 120px;
+    height: 20px;
+    border-spacing: 0 1rem;
+    border-collapse: separate;
+
+
+  }
+
+  table.table1 td {
+    margin: 10px 10px 10px 10px;
+  }
+
+  tr {
+    width: 50% !important;
+  }
+
+
+
+  [class$="-legend"] {
+    list-style: none;
+    cursor: pointer;
+    padding-left: 0;
+  }
+
+  [class$="-legend"] li {
+    display: inline-block;
+    padding: 0 5px;
+  }
+
+  [class$="-legend"] li.hidden {
+    text-decoration: line-through;
+  }
+
+  [class$="-legend"] li span {
+    border-radius: 5px;
+    display: inline-block;
+    height: 10px;
+    margin-right: 10px;
+    width: 10px;
+  }
+
+  body {
+    padding-right: 0 !important
+  }
+</style>
+<form method="POST">{%csrf_token%}
+<div class="container-fluid">
+  <h2 class="font-weight-bold text-center" >Dashboard</h2>
+  <br>
+  <div class="row align-items-stretch justify-content-start card-deck  ">
+    <div class="col-md-2 col-xs-2 col-sm-2 col-lg-12">
+      <!-- <div class="card cardnew1 card-sm width: 18rem;" style="height:auto;" > -->
+        
+       
+        <div class="card-body">
+          <div class="row ">
+            <div class="col-lg-3" >
+              <div class="card text-white bg-danger mb-1 text-center h-100" >
+                <!-- <div class="card-body ">
+                  <h1 id="data1" name="data1" style="font-weight:bold; color: white;">{{i.data1}}</h1> -->
+                  
+                  <h6 class="" style=" color: white;">UNDER ISSUED <br></h6>
+                  <a href="http://127.0.0.1:8000/draft_inspection_form/" class="stretched-link"></a> 
+                  <h3>{{deti}}/{{detj}}</h3>
+                  
+                  <!-- <h3>3</h3> -->
+                </div>
+              </div>
+            
+            <div class=" col-lg-3 ">
+              <div class="card text-white bg-success mb-1 text-center h-100 " >
+                <!-- <div class="card-body ">
+                  <h1 id="data2" name="data2" class="mt-1"style="font-weight:bold; color: white;">{{data2}}</h1> -->
+                  <h6 class="" style=" color: white;">TOTAL ISSUED <br></h6>
+                  <h3>{{totali}}/{{totalj}}</h3>
+                  
+                </div>
+              </div>
+            
+            <div class="col-lg-3 ">
+              <div class="card text-white bg-warning mb-1 text-center h-100 " >
+                <!-- <div class="card-body own"> -->
+                
+                  <h6 class="" style=" color: white;">PENDING COMPLIANCE <br></h6>
+                  <h3>{{pendi}}/{{pendj}}</h3>
+                  <a href="http://127.0.0.1:8000/created_checklist/" class="stretched-link"></a> 
+                  
+                </div>
+              </div>
+            
+            <div class=" col-lg-3 ">
+              <div class="card text-white bg-info mb-1 text-center h-100" >
+                <!-- <div class="card-body own"> -->
+                  <!-- <h1 id="data4" name="data4"class="mt-1"  style="font-weight:bold; color: white;"></h1> -->
+                  <h6 class="" style=" color: white;">FULLY COMPLIANCE  <br>  </h6>
+                  <h3>{{fulli}}/{{fullj}}</h3>
+                  <a href="http://127.0.0.1:8000/close_compliance_checklist/" class="stretched-link"></a> 
+                </div>
+              </div>
+            </div>
+          
+        <!-- </div> -->
+        <div style=" margin-top:10px;" class="text-center">
+          <button class="btn btn-sm btn-info" type="submit" name="submit" value="sum1" ><b>All</b></button>
+          <button class="btn btn-sm btn-info" type="submit" name="submit" value="sum2" ><b>0 - 3 months</b></button>
+          <button class="btn btn-sm btn-info" type="submit" name="submit" value="sum3" ><b>3 - 6 months</b></button>
+          <button class="btn btn-sm btn-info" type="submit" name="submit" value="sum4" ><b> > 6 months</b></button>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    <!-- chart-1 -->
+    <div hidden class="col-lg-12">
+      <div class="card shadow " style="height:100%;">
+        <div class="card-header py-2 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#barchart" role="tab" aria-controls="pills-flamingo"
+                  aria-selected="true">Bar Chart</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#piechart" role="tab" aria-controls="pills-cuckoo"
+                  aria-selected="false" onclick="piedata();">Pie chart</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#multilines" role="tab" aria-controls="pills-ostrich"
+                  aria-selected="false">Multi Lines</a>
+              </li>
+            </ul>
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="barchart" role="tabpanel" aria-labelledby="flamingo-tab">
+              <span>
+                <i class="fas fa-angle-left" role="button" style="font-size:22px" onclick="chartdata('D')"></i>
+                <i class="fas fa-angle-right" role="button" style="font-size:22px" onclick="chartdata('U')"></i></span>
+              <span style="margin-left:35%;">Inspection Report Generated for 2022</span>
+              <canvas id="myChart" style="width:100%;"></canvas>
+            </div>
+            <div class="tab-pane fade" id="piechart" role="tabpanel" aria-labelledby="profile-tab">
+
+              <div class="row">
+                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
+
+                  <h6 align="center">Inspection Wise Report</h6>
+                  <canvas id="myChart1"></canvas>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
+
+                  <h6 align="center">Item Wise Report</h6>
+                  <canvas id="myChart4"></canvas>
+                </div>
+              </div>
+              <br><br>
+              <div id="legend" align="center"></div>
+            </div>
+            <div class="tab-pane fade" id="multilines" role="tabpanel" aria-labelledby="ostrich-tab">
+              <canvas id="myChart2" style="width:100%;"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br>
+
+
+  
+
+  <!-- shatakshi 05/08/2022 -->
+  <!-- <div class="parent">
+    <div class="inspcard">
+      <div class="inspcard-header"> ZONE WISE INSPECTION DETAILS
+        <span onclick="showdiv1()"><i class="material-icons" style="float:right;">link</i></span> -->
+        <!-- <i class="material-icons" style="float:right;">link</i> --> 
+        <!--  <input type="button" value="Click Me" style="float: right;" onclick="showdiv1()">
+        <hr>
+      -->
+      <!-- <div class="inspcard-body">
+        <div class="card1">
+          <h6> Total INSPECTION  / Total ITEM </h6> <br><b>{{rlyins}}</b></div> -->
+        <!-- <div class="number-text" style="float:right ;"><b>Type:</b><br>Zonal</div> -->
+        <!-- <div class="number-text"><b>Total Marked:</b> {{rlytotal}}</div>
+        <div class="number-text"><b>Closed:</b>{{rlycls}}</div> -->
+        <!-- <div class="number-text" style="float: right ;"><b>Partially Compliance:</b><br>{{z_partial}}</div> -->
+        <!-- <div class="number-text"><b>Pending:</b>{{rlypend}}</div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <div class="inspcard">
+    <div class="inspcard-header"> PU/CTIs WISE INSPECTION DETAILS
+      <span onclick="showdiv2()"><i class="material-icons" style="float:right;">link</i></span> -->
+      <!-- <i class="material-icons" style="float:right;">link</i> --> 
+      <!--  <input type="button" value="Click Me" style="float: right;" onclick="showdiv1()">
+      <hr>
+    </div> -->
+    <!-- <div class="inspcard-body">
+      <div class="card1">
+        <h6> Total INSPECTION  / Total ITEM </h6> <br><b>{{puins}}</b></div> -->
+      <!-- <div class="number-text" style="float:right ;"><b>Type:</b><br>Zonal</div> -->
+      <!-- <div class="number-text"><b>Total Marked:</b> {{putotal}}</div>
+      <div class="number-text"><b>Closed:</b>{{pucls}}</div> -->
+      <!-- <div class="number-text" style="float: right ;"><b>Partially Compliance:</b><br>{{z_partial}}</div> -->
+      <!-- <div class="number-text"><b>Pending:</b>{{pupend}}</div>
+    </div>
+  </div>
+</div> -->
+
+
+
+  <!-- prashansa -->
+<div class="row">
+  <div class="col-md-6 ">
+    <div class="card shadow ">
+      <div class="card-header">
+        <h6 class="font-weight-bold text-primary text-center"> ZONE WISE INSPECTION DETAILS <span onclick="showdiv1()"><i class="material-icons" style="float:right;">link</i></span><br></h6>
+        
+      </div>
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-content">
+            <div class="inspcard-body">
+              <div class="card1">
+                <h6> <b>Total INSPECTION  / Total ITEM </b></h6> <br>
+                <b> {{puins}}</b></div>
+              <!-- <div class="number-text" style="float:right ;"><b>Type:</b><br>Zonal</div> -->
+              <div class="number-text"><b>Total Marked:</b> <b>{{rlyins}}</b></div>
+              <div class="number-text"><b>Closed:</b> <b>{{rlytotal}}</b></div>
+              <!-- <div class="number-text" style="float: right ;"><b>Partially Compliance:</b><br>{{z_partial}}</div> -->
+              <div class="number-text"><b>Pending:</b> <b>{{rlypend}}</b></div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>            
+  
+  <br>
+  
+  
+  <!-- CHART-3 -->
+  
+    <div class="col-md-6 ">
+      <div class="card shadow " style="height:100%;">
+        <div class="card-header">
+          <h6 class="font-weight-bold text-primary text-center"> 
+             PU/CTIs WISE COMPLIANCE PERCENTAGES  <span onclick="showdiv2()"><i class="material-icons" style="float:right;">link</i></span><br>
+           </h6>
+          
+        </div>
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="inspcard-body">
+              <div class="card1">
+                <h6> Total INSPECTION  / Total ITEM </h6> <br><b>
+                  {{puins}}</b></div>
+              <!-- <div class="number-text" style="float:right ;"><b>Type:</b><br>Zonal</div> -->
+              <div class="number-text"><b>Total Marked:</b> <b>{{putotal}}</b></div>
+              <div class="number-text"><b>Closed:</b> <b>{{pucls}}</b></div>
+              <!-- <div class="number-text" style="float: right ;"><b>Partially Compliance:</b><br>{{z_partial}}</div> -->
+              <div class="number-text"><b>Pending:</b> <b>{{pupend}}</b></div>
+            </div>
+          </div>
+        </div>
+      </div>            
+    </div>
+  </div>
+
+<br>
+<!-- prashansa -->
+
+<!-- 
+  <div class="inspcard">
+    
+    <div class="inspcard-header">PU/CTIs WISE INSPECTION DETAILS
+      <span onclick="showdiv2()"><i class="material-icons" style="float:right;">link</i></span>
+      <!-- <input type="button" value="Click Me" style="float: right;" onclick="showdiv2()"> -->
+      <!-- <hr>
+    </div>
+    <div class="inspcard-body">
+      <div class="card2"></div>
+      <h6> Total INSPECTION  / Total ITEM </h6> <br><b>{{puins}}</b></div> -->
+      <!-- <div class="number-text" style="float:right ;"><b>Type:</b><br>CTR & Production</div> -->
+      <!-- <div class="number-text"><b>Total Marked:</b>{{putotal}}</div>
+      <div class="number-text"><b>Closed:</b>{{pucls}}</div> -->
+      <!-- <div class="number-text" style="float: right ;"><b>Partially Compliance:</b><br>{{cmore}}</div> -->
+      <!-- <div class="number-text"><b>Pending:</b>{{pupend}}</div>
+    </div> -->
+  <!-- </div>  -->
+
+
+
+  <div class="row align-items-stretch justify-content-start card-deck">
+    <div class="col-md-6 text-center" id="inspectiondiv1" style="display:none;">
+      <div class="card cardnew1">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-2">
+              <button data-toggle="sidebar-colapse" class="btn btn-info btn-md bg-info ">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                  <span class="fa fa-bars" id="collapse-icon" style="font-size:12px;margin-right:2%"></span>
+                  <span hidden class="menu-collapsed">Menu</span>
+                </div>
+              </button>
+            </div>
+            <div class="col">
+              <h6 class="font-weight-bold text-primary text-center">Inspection Done by me</h6>
+            </div>
+            <div class="col">
+              <div id="reportrange"
+                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span id="ghj"></span> <i class="fa fa-caret-down"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" id="body-row">
+            <div class="col-md-2 temp bg-light" style="padding-left:0;margin-left:0;margin-right:0;padding-right:0;"
+              id="sidebar-container">
+              <div style="width:100%;padding:0;" class="temp bg-dark">
+                <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu'-->
+                <ul class="list-group" id="chan">
+                  <button id="asd" class="bg-danger list-group-item list-group-item-action trial normal "
+                    style="width:100%;">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-train" style="font-size:10px;margin-right:1%;"></span>
+                      <span class="menu-collapsed"> Railway</span>
+                    </div>
+                  </button>
+                  <button id="sdf" class="bg-success list-group-item list-group-item-action trial normal" style="display:none ;">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-city" style="font-size:10px;margin-right:1%;"></span>
+                      <span class="menu-collapsed"> Division</span>
+                    </div>
+                  </button>
+                  <button id="dfg" class="bg-warning list-group-item list-group-item-action trial normal" style="display:none ;">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-people-carry" style="font-size:10px;margin-right:2%;"></span>
+                      <span class="menu-collapsed" style="font-size:14px"> Department</span>
+                    </div>
+                  </button>
+                  <button id="fgh" class="bg-primary list-group-item list-group-item-action trial normal " style="display:none ;">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-id-badge " style="font-size:10px;margin-right:1%;"></span>
+                      <span class="menu-collapsed" style="font-size:14px"> Designation</span>
+                    </div>
+                  </button>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-12" id="tbll1">
+              <table class="table table-bordered" style="width: 100%;" id="table1">
+                <thead class="">
+                  <th id="poi" style=" vertical-align: super;">Type</th>
+                  <th style=" vertical-align: super;">Total</th>
+                  <th>Pending compliance</th>
+                
+                  <th style=" vertical-align: super;">Closed</th>
+                </thead>
+                <tbody>
+                  {% for i in tablea %}
+                  <tr>
+                    <td>{{i.type}}</td>
+                    <td>{{i.total}}</td>
+                    <td>{{i.pend}}</td>
+                    <td>{{i.closed}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 text-center" id="inspectiondiv2" style="display:none;">
+      <div class="card cardnew1">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-2">
+              <button data-toggle="sidebar-colapse2" class="btn btn-info btn-md bg-info">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                  <span class="fa fa-bars" id="collapse-icon2" style="font-size:12px;margin-right:2%"></span>
+                  <span hidden class="menu-collapsed2">Menu</span>
+                </div>
+              </button>
+            </div>
+            <div class="col">
+              <h6 class="font-weight-bold text-primary text-center">Items Marked to me</h6>
+            </div>
+            <div class="col">
+              <div id="reportrange"
+                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span></span> <i class="fa fa-caret-down"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" id="body-row2">
+            <div class="col-md-2 temp bg-dark" style="padding-left:0;margin-left:0;margin-right:0;padding-right:0;"
+              id="sidebar-container2">
+              <div style="width:100%;padding:0;" class="temp bg-dark">
+                <ul class="list-group" id="chan2">
+                  <button id="asd2" onclick="myfunc2();"
+                    class="bg-danger list-group-item list-group-item-action trial2 normal2">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-train" style="font-size:10px;margin-right:1%;"></span>
+                      <span class="menu-collapsed2"> Railway</span>
+                    </div>
+                  </button>
+                  <button id="sdf2" class="bg-success list-group-item list-group-item-action trial2 normal2">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-city" style="font-size:10px;margin-right:1%;"></span>
+                      <span class="menu-collapsed2"> Division</span>
+                    </div>
+                  </button>
+                  <button id="dfg2" class="bg-warning list-group-item list-group-item-action trial2 normal2">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-people-carry" style="font-size:10px;margin-right:2%;"></span>
+                      <span class="menu-collapsed2" style="font-size:14px"> Department</span>
+                    </div>
+                  </button>
+                  <button id="fgh2" class="bg-primary list-group-item list-group-item-action trial2 normal2 ">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-id-badge " style="font-size:10px;margin-right:1%;"></span>
+                      <span class="menu-collapsed2" style="font-size:14px"> Designation</span>
+                    </div>
+                  </button>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-12" id="tbll2">
+              <table class="table table-bordered" style="width:100%" id="table2">
+                <thead class="">
+                  <th id="poi2" style=" vertical-align: super;">Type</th>
+                  <th style=" vertical-align: super;">Total</th>
+                  <th>Pending compliance</th>
+                  <th style=" vertical-align: super;">Closed</th>
+                </thead>
+                <tbody >
+                  {% for i in tableb %}
+                  <tr>
+                    <td>{{i.type}}</td>
+                    <td>{{i.total}}</td>
+                    <td>{{i.pend}}</td>
+                    <td>{{i.closed}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- chart-2 -->
+  <!-- CHART-2 -->
+  <div class="row">
+    <div class="col-md-6 ">
+      <div class="card shadow ">
+        <div class="card-header">
+          <h6 class="font-weight-bold text-primary text-center"> 
+            ZONE WISE COMPLIANCE PERCENTAGES
+            <span>
+              <i class="fas fa-angle-left" role="button" style="font-size:22px" ></i>
+            <i class="fas fa-angle-right" role="button" style="font-size:22px"></i></span>
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane fade show active"  role="tabpanel" aria-labelledby="flamingo-tab">
+           <canvas id="myChart7" style="width:100%;"></canvas>
+            </div> 
+          </div>
+        </div>
+      </div>            
+    </div>
+    <br>
+    
+    
+    <!-- CHART-3 -->
+    
+      <div class="col-md-6 ">
+        <div class="card shadow " style="height:100%;">
+          <div class="card-header">
+            <h6 class="font-weight-bold text-primary text-center"> 
+               PU/CTIs WISE COMPLIANCE PERCENTAGES
+               <span>
+                <i class="fas fa-angle-left" role="button" style="font-size:22px" ></i>
+              <i class="fas fa-angle-right" role="button" style="font-size:22px"></i></span>
+            </h6>
+            
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              
+              <div class="tab-pane fade show active"  role="tabpanel" aria-labelledby="flamingo-tab">
+             <canvas id="myChart8" style="width:100%;"></canvas>
+              </div> 
+            </div>
+          </div>
+        </div>            
+      </div>
+    </div>
+      <br>
+</div>
+
+</form>
+<script type="text/javascript">
+ 
+  function showdiv1() {
+    // document.getElementById('inspectiondiv').style.display="block";
+    var x = document.getElementById("inspectiondiv1");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+  function showdiv2() {
+    // document.getElementById('inspectiondiv').style.display="block";
+    var x = document.getElementById("inspectiondiv2");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+
+  $(document).ready(function () {
+    chartdata();
+    $('#sidebar-container').hide();
+    $('#sidebar-container2').hide();
+    $('#tbll1').addClass('col-md-12');
+    $('#tbll2').addClass('col-md-12');
+    tb1 = $('#table1').DataTable({
+      pageLength: 5,
+      lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+    })
+    tb2 = $('#table2').DataTable({
+      pageLength: 5,
+      lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+    })
+  });
+  $('[data-toggle=sidebar-colapse]').click(function () {
+    SidebarCollapse();
+
+  });
+
+  function SidebarCollapse() {
+    if ($('#sidebar-container').hasClass('temp')) {
+      $('#sidebar-container').show();
+
+      $('#tbll1').removeClass('col-md-12');
+      $('#tbll1').addClass('col-md-10');
+      $('#sidebar-container').removeClass('temp');
+    }
+    else {
+      $('#sidebar-container').hide();
+      $('#sidebar-container').addClass('temp');
+      $('#tbll1').removeClass('col-md-10');
+      $('#tbll1').addClass('col-md-12');
+
+    }
+  }
+
+  // Collapse/Expand icon
+  //  $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
+
+  $('[data-toggle=sidebar-colapse2]').click(function () {
+    SidebarCollapse2();
+  });
+
+  function SidebarCollapse2() {
+    if ($('#sidebar-container2').hasClass('temp')) {
+      $('#sidebar-container2').show();
+      $('#tbll2').removeClass('col-md-12');
+      $('#tbll2').addClass('col-md-10');
+      $('#sidebar-container2').removeClass('temp');
+    }
+    else {
+      $('#sidebar-container2').hide();
+      $('#sidebar-container2').addClass('temp');
+      $('#tbll2').removeClass('col-md-10');
+      $('#tbll2').addClass('col-md-12');
+
+    }
+
+
+    // Collapse/Expand icon
+    //  $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
+  }
+
+  let month = "";
+  var xValues = ["jan", "Feb", "Mar", "apr", "may", "june"];
+  var yValues = [50, 49, 44, 24, 15, 8];
+  var barColors = ["red", "green", "blue", "orange", "brown", "pink"];
+  var up = 0, down = 0;
+  function chartdata(str) {
+    if (str == 'D') down += 1;
+    if (str == 'U') up += 1;
+    console.log(month);
+    var mydata = { 'up': up, 'down': down, 'month': month };
+    down = 0; up = 0;
+    $.ajax({
+      method: "GET",
+      url: "{%url 'chartdata'%}",
+      data: mydata,
+      success: function (response) {
+        var label = new Array()
+        var target = new Array()
+        var target2 = new Array()
+        for (var i = 0; i < response.mon.length; i++) {
+          label.push(response.mon[i]);
+          target.push(response.count[i]);
+          target2.push(response.count1[i]);
+        }
+        month = response.mon[0];
+        var c1 = document.getElementById("myChart");
+        var ctx = c1.getContext('2d');
+        c1.height = 300;
+        var myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: label,
+            datasets: [{
+              label: "Drafted",
+              backgroundColor: "red",
+              data: target
+            }, {
+              label: "Final",
+              backgroundColor: "green",
+              data: target2
+            },
+            ]
+          },
+          options: {
+            legend: { display: false },
+            title: {
+              display: false,
+              text: "Inspection Report Generated in 2022"
+            },
+            plugins: {
+              datalabels: {
+                display: false,
+              },
+            }
+          }
+        });
+
+      }
+    })
+  }
+
+  function piedata() {
+    $.ajax({
+      method: "GET",
+      url: "{%url 'piedata'%}",
+      success: function (response) {
+        var label = new Array()
+        var target = new Array()
+        var target2 = new Array()
+        var sum2 = response.closed + response.partial + response.pending;
+        var sum3 = response.closed2 + response.partial2 + response.pending2;
+        target.push(response.closed)
+        target.push(response.partial)
+        target.push(response.pending)
+        target2.push(response.closed2)
+        target2.push(response.partial2)
+        target2.push(response.pending2)
+        label.push("Closed")
+        label.push("Partial Compliances")
+        label.push("Pending Compliances")
+        let i = 0;
+
+        var data = [{
+          data: target,
+          backgroundColor: [
+            "#4b77a9",
+            "#5f255f",
+            "#d21243"
+          ],
+          borderColor: "#fff"
+        }];
+
+        var options = {
+          tooltips: {
+            enabled: true,
+          },
+          legend: {
+            position: 'bottom',
+            fontColor: "#000",
+            display: false,
+            labels: {
+              boxWidth: 15,
+              boxHeight: 2,
+              fontColor: "black",
+              fontStyle: 'bold',
+            }
+          },
+          plugins: {
+            datalabels: {
+              formatter: (value, ctx) => {
+
+                let sum = sum2;
+                let percentage = (value * 100 / sum).toFixed(1) + "%";
+                if (percentage == "0.0%") { return ""; }
+                else { return percentage; }
+              },
+              color: '#fff',
+            },
+
+
+          }
+        };
+
+
+        var ctx = document.getElementById("myChart1").getContext('2d');
+        var chart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: label,
+            datasets: data
+          },
+          options: options
+        });
+        var myLegendContainer = document.getElementById("legend");
+        // generate HTML legend
+        myLegendContainer.innerHTML = chart.generateLegend();
+        // bind onClick event to all LI-tags of the legend
+        var legendItems = myLegendContainer.getElementsByTagName('li');
+
+
+
+
+        var data2 = [{
+          data: target2,
+          backgroundColor: [
+            "#4b77a9",
+            "#5f255f",
+            "#d21243"
+          ],
+          borderColor: "#fff"
+        }];
+
+        var options2 = {
+          tooltips: {
+            enabled: true
+          },
+          legend: {
+            position: 'bottom',
+            fontColor: "#000",
+            display: false,
+            labels: {
+              boxWidth: 15,
+              boxHeight: 2,
+              fontColor: "black",
+              fontStyle: 'bold',
+            }
+          },
+          plugins: {
+            datalabels: {
+              formatter: (value, ctx) => {
+
+                let sum = sum3;
+                let percentage = (value * 100 / sum).toFixed(1) + "%";
+                if (percentage == "0.0%") { return ""; }
+                else { return percentage; }
+              },
+              color: '#fff',
+            }
+          }
+        };
+
+
+        var ctx2 = document.getElementById("myChart4").getContext('2d');
+        var myChart2 = new Chart(ctx2, {
+          type: 'pie',
+          data: {
+            labels: label,
+            datasets: data2
+          },
+          options: options2
+        });
+
+
+      }
+    })
+  }
+
+
+
+  var xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+  new Chart("myChart2", {
+    type: "line",
+    data: {
+      labels: xValues,
+      datasets: [{
+        data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+        borderColor: "red",
+        fill: false
+      }, {
+        data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+        borderColor: "green",
+        fill: false
+      }, {
+        data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+        borderColor: "blue",
+        fill: false
+      }]
+    },
+    options: {
+      legend: { display: false }
+    }
+  });
+  var tb1;
+  let sd = "", ed = "";
+  $(function () {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+    sd = start.format('YYYY-MM-DD');
+    ed = end.format('YYYY-MM-DD');
+    function cb(start, end) {
+      $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      sd = start.format('YYYY-MM-DD');
+      ed = end.format('YYYY-MM-DD');
+      myfunc();
+    }
+
+    $('#reportrange').daterangepicker({
+      startDate: start,
+      endDate: end,
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    }, cb);
+
+
+    cb(start, end);
+
+  });
+  let sd2 = "", ed2 = "";
+  $(function () {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+    sd2 = start.format('YYYY-MM-DD');
+    ed2 = end.format('YYYY-MM-DD');
+    function cb2(start, end) {
+      $('#reportrange2 span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      sd2 = start.format('YYYY-MM-DD');
+      ed2 = end.format('YYYY-MM-DD');
+      myfunc2();
+    }
+
+    $('#reportrange2').daterangepicker({
+      startDate: start,
+      endDate: end,
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    }, cb2);
+
+
+    cb2(start, end);
+
+  });
+
+
+  function myfunc() {
+    tb1 = $('#table1').DataTable()
+    tb1.destroy();
+    mydata = { sd: sd, ed: ed };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi').html("Railway");
+        for (var i = 0; i < response.list1.length; i++) {
+          if (response.list1[i].count == 0) {
+            html += '<tr><td >' + response.list1[i].loc + '</td><td >' + response.list1[i].count + '</td><td >' + response.list1[i].c3 + '</td><td >' + response.list1[i].c2 + '</td><td >' + response.list1[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list1[i].c1 > 0 && response.list1[i].c2 > 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 > 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a> </td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 == 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td >' + response.list1[i].c2 + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 > 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 > 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 == 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 == 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</td></tr>'; }
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 == 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</a></td></tr>'; }
+
+          }
+        }
+
+        $('#tbody1').html(html);
+        tb1 = $('#table1').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  }
+
+
+  $('#sdf').click(function () {
+    tb1 = $('#table1').DataTable()
+    tb1.destroy();
+    mydata = { sd: sd, ed: ed };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi').html("Division");
+        for (var i = 0; i < response.list2.length; i++) {
+          if (response.list2[i].count == 0) {
+            html += '<tr><td >' + response.list2[i].loc + '</td><td >' + response.list2[i].count + '</td><td >' + response.list2[i].c3 + '</td><td >' + response.list2[i].c2 + '</td><td >' + response.list2[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list2[i].c1 > 0 && response.list2[i].c2 > 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td ><a href="/new_page?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 > 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a> </td><td ><a href="/new_page?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 == 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td >' + response.list2[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 > 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 > 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 == 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td >' + response.list2[i].c2 + '</td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 == 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td >' + response.list2[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 == 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</a></td></tr>'; }
+
+          }
+        }
+        $('#tbody1').html(html);
+        tb1 = $('#table1').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+  $('#dfg').click(function () {
+    mydata = { sd: sd, ed: ed };
+    tb1 = $('#table1').DataTable()
+    tb1.destroy();
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi').html("Department");
+        for (var i = 0; i < response.list3.length; i++) {
+          if (response.list3[i].count == 0) {
+            html += '<tr><td >' + response.list3[i].loc + '</td><td >' + response.list3[i].count + '</td><td >' + response.list3[i].c3 + '</td><td >' + response.list3[i].c2 + '</td><td >' + response.list3[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list3[i].c1 > 0 && response.list3[i].c2 > 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td ><a href="/new_page?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 > 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a> </td><td ><a href="/new_page?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 == 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td >' + response.list3[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 > 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 > 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 == 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td >' + response.list3[i].c2 + '</td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 == 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td >' + response.list3[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</td></tr>'; }
+          }
+        }
+        $('#tbody1').html(html);
+        tb1 = $('#table1').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+  $('#fgh').click(function () {
+    tb1 = $('#table1').DataTable()
+    tb1.destroy();
+    mydata = { sd: sd, ed: ed };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi').html("Designation");
+        for (var i = 0; i < response.list4.length; i++) {
+          if (response.list4[i].count == 0) {
+            html += '<tr><td >' + response.list4[i].loc + '</td><td >' + response.list4[i].count + '</td><td >' + response.list4[i].c3 + '</td><td >' + response.list4[i].c2 + '</td><td >' + response.list4[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list4[i].c1 > 0 && response.list4[i].c2 > 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td ><a href="/new_page?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 > 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a> </td><td ><a href="/new_page?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 == 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td >' + response.list4[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 > 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 > 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 == 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td >' + response.list4[i].c2 + '</td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 == 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td >' + response.list4[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</td></tr>'; }
+
+          }
+        }
+        $('#tbody1').html(html);
+        tb1 = $('#table1').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+  var tb2;
+  function myfunc2() {
+    tb2 = $('#table2').DataTable()
+    tb2.destroy();
+    mydata = { sd2: sd2, ed2: ed2 };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data2'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi2').html("Railway");
+        for (var i = 0; i < response.list1.length; i++) {
+          if (response.list1[i].count == 0) {
+            html += '<tr><td >' + response.list1[i].loc + '</td><td >' + response.list1[i].count + '</td><td >' + response.list1[i].c3 + '</td><td >' + response.list1[i].c2 + '</td><td >' + response.list1[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list1[i].c1 > 0 && response.list1[i].c2 > 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 > 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a> </td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 == 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td >' + response.list1[i].c2 + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 > 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 > 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 == 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 == 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</td></tr>'; }
+          }
+        }
+
+        $('#tbody2').html(html);
+        tb2 = $('#table2').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  }
+
+
+  $('#sdf2').click(function () {
+    tb2 = $('#table2').DataTable()
+    tb2.destroy();
+    mydata = { sd2: sd2, ed2: ed2 };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data2'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi2').html("Division");
+        for (var i = 0; i < response.list2.length; i++) {
+          if (response.list2[i].count == 0) {
+            html += '<tr><td >' + response.list2[i].loc + '</td><td >' + response.list2[i].count + '</td><td >' + response.list2[i].c3 + '</td><td >' + response.list2[i].c2 + '</td><td >' + response.list2[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list2[i].c1 > 0 && response.list2[i].c2 > 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td ><a href="/new_page2?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 > 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a> </td><td ><a href="/new_page2?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 == 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td >' + response.list2[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 > 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 > 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 == 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td >' + response.list2[i].c2 + '</td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 == 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td >' + response.list2[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</td></tr>'; }
+          }
+        }
+        $('#tbody2').html(html);
+        tb2 = $('#table2').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+
+  $('#dfg2').click(function () {
+    mydata = { sd2: sd2, ed2: ed2 };
+    tb2 = $('#table2').DataTable()
+    tb2.destroy();
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data2'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi2').html("Department");
+        for (var i = 0; i < response.list3.length; i++) {
+          if (response.list3[i].count == 0) {
+            html += '<tr><td >' + response.list3[i].loc + '</td><td >' + response.list3[i].count + '</td><td >' + response.list3[i].c3 + '</td><td >' + response.list3[i].c2 + '</td><td >' + response.list3[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list3[i].c1 > 0 && response.list3[i].c2 > 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 > 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a> </td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 == 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td >' + response.list3[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 > 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 > 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 == 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td >' + response.list3[i].c2 + '</td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 == 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td >' + response.list3[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</td></tr>'; }
+          }
+        }
+        $('#tbody2').html(html);
+        tb2 = $('#table2').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+
+
+
+  $('#fgh2').click(function () {
+    tb2 = $('#table2').DataTable()
+    tb2.destroy();
+    mydata = { sd2: sd2, ed2: ed2 };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data2'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi2').html("Designation");
+        for (var i = 0; i < response.list4.length; i++) {
+          if (response.list4[i].count == 0) {
+            html += '<tr><td >' + response.list4[i].loc + '</td><td >' + response.list4[i].count + '</td><td >' + response.list4[i].c3 + '</td><td >' + response.list4[i].c2 + '</td><td >' + response.list4[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list4[i].c1 > 0 && response.list4[i].c2 > 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 > 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a> </td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 == 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td >' + response.list4[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 > 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 > 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 == 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td >' + response.list4[i].c2 + '</td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 == 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td >' + response.list4[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</td></tr>'; }
+
+          }
+        }
+        $('#tbody2').html(html);
+        tb2 = $('#table2').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+  var header = document.getElementById("chan");
+  var btns = header.getElementsByClassName("trial");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function () {
+      var current = document.getElementsByClassName("acti");
+      if (current.length > 0) {
+        current[0].className = current[0].className.replace(" acti", "");
+      }
+      this.className += " acti";
+    });
+  }
+
+
+
+
+  const ctx7 = document.getElementById('myChart7').getContext('2d');
+  let zonalwiselst= {{zonalwiselst|safe}}
+  let zonalwisedata= {{zonalwisedata|safe}}
+const myChart7 = new Chart(ctx7, {
+    type: 'bar',
+    
+    data: {
+        labels: zonalwiselst,
+        
+        datasets: [{
+           
+            data: zonalwisedata,
+            backgroundColor: [
+            'rgba(255, 99, 71, 1)',
+                
+                
+            ],
+            borderColor: [
+            'rgba(255, 99, 71, 1)',
+               
+                    
+            ],
+            borderWidth: 0.8
+        }]
+    },
+  //   options: {
+  //     legend: {
+  //       display: false
+  //   },
+  //   tooltips: {
+  //       callbacks: {
+  //          label: function(tooltipItem) {
+  //                 return tooltipItem.yLabel;
+  //          }
+  //       }
+  //   },
+  //       scales: {
+  //           y: {
+  //               beginAtZero: true
+  //           },
+  //           xAxes: [{
+  //   maxBarThickness: 100,
+  // }],
+  //       }
+    
+  //     }
+  options: {
+      legend: {
+        display: false
+    },
+        scales: {
+          xAxes:[{
+            display:true,
+            scaleLabel:{
+              display:true,
+              labelString:'Compliance level of ZR'
+            }
+          }],
+          
+          yAxes: [{
+            scaleLabel: {
+                             display: true,
+                             labelString: '% Compliances'
+                         },
+                    display: true,
+                      ticks: {
+                                beginAtZero: true,
+                                steps: 5,
+                                stepSize:20,
+                                max: 100,
+                      
+                            }
+                        }] 
+               
+                      },
+                title: {
+                    display: true,
+                  
+                }
+            }
+});
+
+const ctx8 = document.getElementById('myChart8').getContext('2d');
+let pulst= {{pulst|safe}}
+let pudata= {{pudata|safe}}
+const myChart8 = new Chart(ctx8, {
+    type: 'bar',
+    
+    data: {
+        labels: pulst,
+        datasets: [{
+           
+            data: pudata,
+            backgroundColor: [
+                'rgba(255, 99, 71, 1)',      
+            ],
+            borderColor: [
+            'rgba(255, 99, 71, 1)',      
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+      legend: {
+        display: false
+    },
+        scales: {
+          xAxes:[{
+            display:true,
+            scaleLabel:{
+              display:true,
+              labelString:'Compliance level of PU/CTIs'
+            }
+          }],
+          
+          yAxes: [{       
+              scaleLabel: {
+                             display: true,
+                             labelString: '% Compliances'
+                         },
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 5,
+                                stepSize: 20,
+                                max: 100
+                            }
+                        }] 
+               
+                      },
+                title: {
+                    display: true,
+                  
+                }
+            }
+        
+    
+      });
+
+
+
+
+</script>
+{% endblock %}

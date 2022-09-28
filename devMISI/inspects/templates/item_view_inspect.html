@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Report</title>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+
+ 
+<div class="container">
+    <h1 class="text-center"><b>Inspection Dashboard Report</b></h1>
+    <h3 class="text-center mt-3"><b>Item Details View</b></h3>
+    <div class="row">
+      {% for x in ivi %}
+     <div class="col-md-2">
+      <label><b>Item No. :</b> <strong>&nbsp;&nbsp;<b>{{x.item_no}}</b></strong></label>
+      <label><b>Item Title :</b><strong>&nbsp;&nbsp;<b>{{x.item_title}}</b></strong></label>
+     </div>
+      {% endfor %}
+    </div>
+    <div class="row">
+      <div class="table table-responsive">
+        <table class="table table-bordered mt-5" style="border: 2px solid #000;">
+        <thead>
+          <th>
+            ZONE
+          </th>
+          <th>LOCATION</th>
+        </thead>
+        <tbody>
+          {% for x in ivi %}
+          <tr>
+          <td>{{x.inspection_no__zone}}</td>
+          <td>{{x.inspection_no__location}}</td>
+          {% endfor %}
+        </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table table-responsive">
+        <table class="table table-bordered mt-5" style="border: 2px solid #000;">
+          <thead>
+            <th>Observation</th>
+            <th>Staus</th>
+            <th>Inspection On</th>
+            <th>Compliance On</th>
+            <th>Created By</th>
+          </thead>
+          <tbody>
+            {% for x in ivi %}
+            <tr>
+              <td>{{x.observation}}</td>
+              <td>{{x.status}}</td>
+              <td>{{x.created_on|date:'d/m/y'}}</td>
+              <td>{{x.target_date|date:'d/m/y'}}</td>
+              <td>{{x.created_by}}</td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table table-responsive">
+        <table class="table table-bordered mt-3" style="border: 2px solid #000;">
+          <thead>
+            <th>Modified By</th>
+            <th>Department</th>
+            <th>Staus Flag</th>
+          </thead>
+          <tbody>
+            {% for x in ivi %}
+            <tr>
+              <td>{{x.modified_on}}</td>
+              <td>{{x.inspection_on__dept}}</td>
+              <td>{{x.status_flag}}</td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <a href="{% url 'item_detail_view' %}" class="btn btn-primary">Back</a>
+  </div>
+    </body>
+</html>

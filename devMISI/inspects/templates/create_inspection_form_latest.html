@@ -1,0 +1,1939 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+
+<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <!-- <link rel="stylesheet" href="jquery.dropdown.css"> -->
+  <script src="jquery.dropdown.js"></script>
+  <!-- Include the plugin's CSS and JS: -->
+  
+  <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+  <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  
+  <link rel="stylesheet" type="text" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+  
+  <link href="{% static '/css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+  <script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+  
+      <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+      <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+  
+  
+  <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+  
+  <script src="{% static 'js/timepicker.js' %}"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+  
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+     <!-- Select2 CSS --> 
+  
+  <!-- jQuery --> <script src="{% static '/js/jquery.min4.js' %}"></script> 
+  
+  <!-- Select2 JS --> 
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <!-- Load icon library -->
+  <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+  <!-- multiple selesct marked officer -->
+  
+  <link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+  <script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+    <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+    <!-- Sheets for datepicker for target date -->
+    
+    <link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="{% static '/js/jquery-ui.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+     <link rel="stylesheet" type="text/css" hef="{% static '/css/lato.css' %}">
+<br>
+<style>
+  * {
+  box-sizing: border-box;
+}
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Style the search field */
+form.example input[type=text] {
+  padding: 8px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 60%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+  float: left;
+  width: 15%;
+  padding: 8px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}        
+</style>
+
+<style>
+ 
+ 
+#s2id_desig .select2-default {
+  color: rgb(89, 255, 0) !important;
+}
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+</style>
+
+<body>
+
+  <div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+              <div class="alert alert-success">
+                <strong>Alert!</strong>{{ message }}
+              </div>
+            {% elif message.tags == 'error' %}
+              <div class="alert alert-danger">
+                <strong>Alert!</strong>{{ message }}
+              </div>
+            {% elif message.tags == 'info' %}
+              <div class="alert alert-info">
+                <strong>Alert!</strong>{{ message }}
+              </div>
+            {% else %}
+            
+            {% endif %}
+           
+        
+        {% endfor %}
+    {% endif %}
+  </div>
+
+
+<form action="{% url 'create_inspection_form' %}" method="POST"> 
+  {% csrf_token %}
+  <br><br>
+    <div class="row" style="margin-left: 15em;">
+      <!-- <div class="row" id="row1" > -->
+        <div class="col-md-2"  style="margin-left:2em ;">
+            <label for="Zone" >Rly/Org</label><span style="color:red;font-weight:bold">*</span>
+            <select class="form-control" id="zone" name="zone" class="custom-select" 
+           required>
+                <option value=""  selected disabled hidden>select</option>
+                {% for z in Zone %}
+                <option value="{{z}}">{{z}}</option>
+                {% endfor %}
+    
+            </select>
+        </div>
+  
+    <div class="col-md-2">
+        <label for="division">Division</label>
+        <select class="form-control" id="division" name="division" class="custom-select" style="max-width:100%;"
+        value="{{ins_detail.division}}" required>
+    
+                <option value="" selected>NA</option>
+                {% for d in division %}
+                <option value="{{d}}">{{d}}</option>
+                {% endfor %}
+    
+            </select>
+        
+    </div>
+    <div class="col-md-2">
+      <label for="division">Department</label>
+      <select class="form-control" id="department" name="department" class="custom-select" style="max-width:100%;"
+      value="{{ins_detail.department}}"      required>
+    
+              <option value=""  selected disabled hidden>NA</option>
+              {% for d in department %}
+              <option value="{{d.department_name}}">{{d.department_name}}</option>
+              {% endfor %}
+    
+          </select>
+      
+    </div>
+    
+      <div  class="col-md-2" >
+          <label for="location" >Location</label><br>
+          <div class="autocomplete">
+            <input  id="location" autocomplete="off" maxlength="20"  style="height: 2em;" required class="form-control" type="text" class="form-control" value="{{ins_detail.location}}"/>
+          
+          </div>
+          
+      </div>
+        
+        <div class="col-md-2 form-group" >
+          <label for="start" >Inspection Date<span style="color:red;font-weight:bold">*</span></label><br>
+          <input type="text" autocomplete="off"  onchange="setTitle()" required class="form-control" style="margin-top:0em ;height: 2em;" id="txtDate2"  value="{{ins_detail.inspected_on}}" readonly requied>
+          
+      </div>
+  
+    </div> 
+  </div>   
+  <br>
+  <div class="container">
+    <label for="start" >Title<span style="color:red;font-weight:bold">*</span></label>
+    <textarea class="form-control" maxlength="150"   id="titleinsp"  name="titleinsp" ></textarea>
+   
+  </div> 
+  <br>
+
+
+          <div class="col-md-12"> 
+          <table id="table1" class="table table-striped table-bordered center" style="width:90%; margin-left: 5em;">
+
+            <thead >
+              <!-- <h4><b style="margin-left: 2em;"><center>Add New Inspection Report</center></b></h4><br> -->
+                <tr style="margin-left: 5em;">
+                 
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5px;">Item.No.</th>
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 200px;">Title</th> -->
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 500px;"> Observation</th>
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 50px;">Upload Document/Image</th> -->
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Search Officer</th>
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Marked Officers</th>
+                  <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 20px;">Target Date</th>
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 300px;">Compliance</th> -->
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 300px;">Compliance Received On</th> --> 
+               </tr>
+          
+            </thead>
+            <tbody  id="addworkmech">
+            
+            </tbody>
+            
+      </table>
+      </div>
+      
+         
+      <div>
+      <button  class="btn btn-primary btn-md" onclick="changeColorBtn(this);" id="addheading" style="margin-left: 6em;">Add Heading</button> 
+      <button  type="button" name="addmech"onclick="changeColorBtn(this);" id="addmech" class="btn btn-primary btn-md">Add Sub Heading</button>
+      <button  type="button" name="addSubmech" onclick="changeColorBtn(this);" id="addSubmech" class="btn btn-primary btn-md">Add Description</button>
+      <button  class="btn btn-danger btn-md" id="deletemech" >Delete</button> 
+      
+      
+     
+    </div>
+
+    
+    
+     
+        <div class="container">
+          <hr>
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+                
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                          <button class="btn btn-info" type="button" id="copytobtn" value="Copy To" data-toggle="modal" data-target="#exampleModal" onclick="hidetable(this); setCopyValue()">Copy To</button>
+                    </span>
+                    <textarea type="text" class="form-control ml-2" id="copyto" placeholder="Add officer" autocomplete="off" readonly></textarea>
+                    
+                  </div>
+                
+            </div>
+          </div>
+        </div>
+     
+
+    <br>
+    <button type="button" id="draft" name="draft" value="Save as draft" onclick="Savedraft_data(this)" class="btn btn-success btn-md "
+    style=" margin-left: 710px;">Save as Draft</button>  
+    <button type="button" id="submit" name="submit" value="Submit"  class="btn btn-success btn-md" onclick="Action_cc(this);">Submit</button> 
+
+
+</form>
+    
+   
+    <div class="modal" tabindex="-1" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog-modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel"><b> Mark Officers</b></h4>
+            <button type="button" class="close" data-dismiss="modal" id="close1" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+         
+          <div class="modal-body">
+            <form   action="" method="POST" >
+              {% csrf_token %}
+             <input type="text" value="" id="mark_officersss" hidden/>
+            
+        <div class="row">
+            <div class="col-md-3">
+                <label>Railway/Org.</label>
+                <select multiple class="form-control" id="rly_1" name="rly_1" class="custom-select" style="width: 100%;" data-placeholder="Select one or more Zone..." multiple >
+                    {% for i in Zone %}
+                    <option >{{i}}</option>
+                    {% endfor %}
+        
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Division/Unit</label>
+                <select class="form-control" id="div_1" name="div_1" class="custom-select" style="width: 100%;" data-placeholder="Select one or more Div..." multiple onchange="getdivwisedata()">
+                    {% for i in division %}
+                    <option>{{i}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Department</label>
+                <select multiple class="form-control" id="dept_1" name="dept_1" class="custom-select" style="width: 100%;" data-placeholder="Select one or more Department..." onchange="getdivdeptdata()">
+                    {% for i in department %}
+                    <option value="{{i.department_name}}">{{i.department_name}}</option>
+                    {% endfor %}        
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Designation</label>
+                <select multiple class="form-control" id="desig" name="desig" class="custom-select" style="width: 100%;" data-placeholder="Select one or more Designation..." onchange="getdesigdata();">
+                    {% for i in alldesig %}
+                    <option value="{{i.designation}}">{{i.designation}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div><br>
+      <div class="row">
+          <div class="col-md-3">
+              <input type="checkbox"  id="allgm" >
+              <label>Select All GM</label>
+          </div>
+          <div class="col-md-3">
+              <input type="checkbox"  id="alldrm">
+              <label>Select All DRM</label>
+             
+          </div>
+          <div class="col-md-3">
+              <input type="checkbox"  id="allphod">
+              <label>Select All PHOD</label>
+             
+          </div>
+          <div class="col-md-3">
+              <input type="checkbox"  id="allboard">
+              <label>Select All Board Members</label>
+             
+          </div>
+      </div>
+      <br><br>
+        <div class="row" id="showdiv1">
+          <div class="col-md-6">
+                <table id="text" class="table table-striped table-bordered ">
+                  <thead>
+                    <tr><th></th>
+                      <th></th></tr>
+                  </thead>
+                  <tbody>
+                  </tbody>  
+              </table>
+          </div>
+          <div class="col-md-6">
+                <table id="text1" class="table table-striped table-bordered ">
+                  <thead>
+                      <tr><th></th><th></th></tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+              </table>
+          </div>
+        </div>
+        <div class="row" id="showdiv2">
+          <div class="col-md-6">
+                <table id="textdesig" class="table table-striped table-bordered ">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>  
+                </table>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <table id="textdesigselect" class="table table-striped table-bordered ">
+              <thead>
+                <tr>
+                  <th hidden></th>
+                  <th>Selected Employee/Designation</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>  
+            </table>
+          </div>
+        </div>
+        <br>
+
+        <input type="hidden" value="0" id="s1" name="s1">
+        </form>
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="save_marked_officers();">Save changes</button>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+    
+   
+            
+    
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b> Target Date</b></h4>
+          
+        </div>
+       
+          <div class="modal-body">
+            
+              
+        
+       
+          
+          <div><label for="start" >Target Date</label><br><input type="date"  class="col-md-2" required class="form-control" style="height: 2em;margin-top:0.7em;" id="target_date" value="new Date()"  onkeydown='event.preventDefault()' requied>
+           
+           
+           </div>
+
+        </div>
+       
+            
+          </body>
+          </div>
+         
+          </div>
+
+      </div>
+    </div>
+  </div>
+<script>
+
+function auto(inp, arr) {
+  var currentFocus;
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+    
+      this.parentNode.appendChild(a);
+   
+      for (i = 0; i < arr.length; i++) {
+
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          
+          b = document.createElement("DIV");
+       
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+        
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+       
+              b.addEventListener("click", function(e) {
+        
+              inp.value = this.getElementsByTagName("input")[0].value;
+              
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        
+        currentFocus++;
+        
+        addActive(x);
+      } else if (e.keyCode == 38) { 
+      
+        currentFocus--;
+       
+        addActive(x);
+      } else if (e.keyCode == 13) {
+     
+        e.preventDefault();
+        if (currentFocus > -1) {
+        
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    if (!x) return false;
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+  
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+   
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+   
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+      x[i].parentNode.removeChild(x[i]);
+    }
+  }
+}
+
+document.addEventListener("click", function (e) {
+    closeAllLists(e.target);
+});
+}
+
+$(document).ready(function(){
+  $('#showdiv2').hide();
+  var locarr = []
+  $.ajax({
+    url: '{% url "autoFetchLocation" %}',
+    dataType: 'json',
+    type: 'GET',
+    success: function(res){
+      for(i in res){
+        locarr.push(res[i])
+      }
+      //console.log(res)
+    }
+  })
+  auto(document.getElementById("location"), locarr);
+
+})
+
+</script>
+      
+<script>
+  var hli = 0
+  var sli = []
+  
+  var ssli = []
+  
+
+  var full_array = []
+$(document).ready(function(){
+              // let rly ="{{ ins_detail.zone }}";
+              // console.log(rly);
+              // $('select[name="zone"] option:selected').attr("selected", null);
+              // $("#zone option[value="+rly+"]").attr("selected", "selected");
+              
+                $("#addmech").click(function (e) {
+
+                  if (sli.length == 0){
+                    alert('Please Add heading First')
+                    return false;
+                  }
+                
+                  var table = document.getElementById("addworkmech");
+                  e.preventDefault();
+                //  var heading= table.insertRow();
+                //  h1=headingCount;
+                  var row = table.insertRow();
+
+                
+                  //var rowCount = $('#addworkmech tr').length;
+                  
+                  //j1=rowCount;
+                  //i1=rowCount;
+                  
+                  
+                  sli[hli-1] = sli[hli-1]+1
+                  //let rowlen = parseInt(rowCount)-1
+                  console.log(sli)
+                  
+                  //let item = hli+'.' + String(rowlen)
+                  let item = hli+'.' + String(sli[hli-1])
+                  ssli.push(0)
+                  
+
+                //  j1 = j1 + 1;
+                //  var work1 = 'work1' + String(j1);
+                // var heading_title=heading.insertCell(0);
+        
+                //  var cell1 = row.insertCell(0);
+                  var cell2 = row.insertCell(0);
+                  var cell3 = row.insertCell(1);
+                  var cell4 = row.insertCell(2);
+                  var cell5 = row.insertCell(3);
+                  var cell6 = row.insertCell(4);
+                //  var cell7 = row.insertCell(5);
+
+                // cell1.innerHTML =
+                // '<td style="width:5px;""><div style="text-align: center; width:5px font-family:verdana;">'+(j1)+'</div></td>';
+                
+                full_array.push(item)
+                
+                var itemno='itemno'+item
+                var observation='observation'+item
+                var officer='officer'+item
+                var markeofficer='markeofficer'+item
+                var targetdate='targetdate'+item
+                
+                
+              
+                cell2.innerHTML =
+                '<td><div class="autocomplete1"><div style="text-align: center; width:5px font-family:verdana;" id='+itemno+'>'+item+'</div></td>';
+            
+                
+                cell3.innerHTML =
+                '<td><div class="autocomplete1"><textarea maxlength="500" id='+observation+
+                ' autocomplete1 = "off"  style="height:50px;" class="form-control" /></textarea></div></td>'; 
+                cell4.innerHTML =
+                '<td><div class="autocomplete1"><button type="button" class="btn btn-primary btn-md" id='+officer+'  data-toggle="modal" data-target="#exampleModal" onclick="hidetable(this); setvalueIN()" style="margin-left:1vh;margin-top:1vh;">i</button>  </div></td>'; 
+                cell5.innerHTML ='<td><textarea type="text" class="form-control" value="" custom-offic="" id='+markeofficer+' class="autocomplete1" readonly></textarea></td>'
+                
+                cell6.innerHTML ='<td><div class="autocomplete1"><input type="text"  class="form-control datepker" style="height: 2em; width: 100px;" id='+targetdate+' requied> </div></td>'; 
+                // cell3.innerHTML =
+                // '<td><div class="autocomplete1"><label for="myfile">Upload a file:</label><input type="file" id="myfile" name="myfile"></div></td>'; 
+                // <div class="col-sm-6"><select name="officer_code1" id="officers_code1" class="custom-select" multiple="multiple" style="width:200%;height:20%;"> {% for t in hqwise %}<option value="{{t.empname}}">{{t.empname}}</option>{% endfor %}</select><input type="text" id="officer_code_hidden" name="officer_code_hidden" hidden></div> 
+                $("textarea").each(function () {
+                  this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+                    }).on("input", function () {
+                      this.style.height = "auto";
+                      this.style.height = (this.scrollHeight) + "px";
+                    });
+              var min = new Date();
+              
+              
+              $('.datepker').datepicker({
+                dateFormat: 'dd-mm-yy',
+                minDate: 0
+                
+              })
+              $('.datepker').datepicker('setDate',min);
+              
+              
+              });
+
+                
+            
+          
+          $("#addheading").click(function (e) {
+            
+            var table = document.getElementById("addworkmech");
+                  e.preventDefault();
+                
+                  var row1 = table.insertRow();
+                  var row1Count = 1;
+                  hli++;
+                  sli.push(0)
+                  
+                  var cell1 = row1.insertCell(0);
+                  var cell2 = row1.insertCell(1);
+                //  var cell3 = row.insertCell(2);
+                  full_array.push(String(hli))
+                  
+                  var heading1='heading'+hli
+
+
+                  cell1.innerHTML='<div style="text-align: center; width:5px font-family:verdana;">'+ hli+'</div>'
+                  cell2.innerHTML ='<td><div class="autocomplete1"><textarea maxlength="100" id='+heading1+'  autocomplete1=off  style="height:30px;" class="form-control" /></textarea></div></td>'; 
+
+                  $("textarea").each(function () {
+                  this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+                    }).on("input", function () {
+                      this.style.height = "auto";
+                      this.style.height = (this.scrollHeight) + "px";
+                    });
+          });
+
+          $("#addSubmech").click(function (e) {
+            
+            var table = document.getElementById("addworkmech");
+                  e.preventDefault();
+                  let item = hli+'.' + String(sli[hli-1])
+                  
+                  if(hli == 0){
+                    alert('Add Desc First')
+                    return false;
+                  }
+                  if(sli[hli-1] == 0)
+                  {
+                    alert('Add Sub Desc');
+                    return false;
+                  }
+                  var row1 = table.insertRow();
+                  var row1Count = 1;
+                  
+                  
+                  ssli[ssli.length-1] = ssli[ssli.length-1]+1
+                  
+                  let item2 = item+'.'+String(ssli[ssli.length-1])
+                  console.log(ssli)
+                  var cell1 = row1.insertCell(0);
+                  var cell2 = row1.insertCell(1);
+                //  var cell3 = row.insertCell(2);
+                  full_array.push(item2)
+
+                  var subheading1='subdes'+item2
+
+                  cell1.innerHTML='<div style="text-align: center;  height:50px; width:5px; font-family:verdana;"></div>'
+                  cell2.innerHTML ='<td>'+ item2 +'<div class="autocomplete1"><textarea maxlength="250" id='+subheading1+' autocomplete1 = "off"  style="height:30px;margin-left: 100px; width: 82%;" class="form-control" /></textarea></div></td>'; 
+
+                  $("textarea").each(function () {
+                  this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+                    }).on("input", function () {
+                      this.style.height = "auto";
+                      this.style.height = (this.scrollHeight) + "px";
+                    });
+          });
+
+
+
+
+      $('#deletemech').click(function (e) {
+            e.preventDefault();
+              var rowCount = $('#addworkmech tr').length;
+
+              j1=rowCount;                    
+              if (j1 > 0) {
+              //console.log(sli)
+              full_array.pop()
+              document.getElementById("addworkmech").deleteRow(-1);
+              if( hli > 0 && sli[hli-1] !=0 )
+              {
+               
+                  if(ssli[ssli.length-1]==0)
+                  {
+                    ssli.pop()
+                    if(sli[hli-1]==0){
+                      sli.pop()
+                      hli--;
+                    }else{
+                      sli[hli-1] = sli[hli-1]-1
+                    }
+                  }
+                  else
+                  {
+                    ssli[ssli.length-1]=ssli[ssli.length-1]-1
+                  }
+            }
+            else if( hli > 0 && sli[hli-1] == 0 )
+              {
+                    if(sli[hli-1]==0)
+                    {
+                      sli.pop()
+                      hli--;
+                    }
+                    else
+                    {
+                      sli[hli-1] = sli[hli-1]-1
+                    }
+            }
+              j1--;
+              
+
+            }
+            
+
+      });
+
+
+});
+
+//================================================================================================           
+//================================================================================================           
+//================================================================================================         
+</script>
+
+<script>
+    
+
+    function Savedraft_data()
+      { 
+        var zone=$("#zone").val();
+        var division=$("#division").val();
+        var location=$("#location").val();
+        var department=$('#department').val();
+        var inspection_date=$('#txtDate2').val();
+        //alert(full_array)
+    
+
+        let ar1 = {}
+        let myarr2 = {}
+        for(let i=1; i<=hli; i++){
+          let ar ={}
+          let myar1 = []
+          for(let j=0; j<full_array.length; j++){
+            if((String(i)+'.')==((String(full_array[j]).split('.'))[0])+'.'){
+            //if((String(i)+'.')==String(full_array[j]).substr(0,1)){
+              let temp = full_array[j].split('.')
+              myar1.push(String(full_array[j]))
+              
+              if(temp.length == 1){
+                let hid='heading'+ full_array[j];
+                var val = document.getElementById(hid).value;
+                ar[hid]=val
+
+                if(val == ''){
+                  alert('Please fill Heading')
+                  document.getElementById(hid).focus()
+                  
+                  return false;
+                }
+                
+                
+          
+              }
+              else if(temp.length == 2){
+                let sid='observation'+full_array[j];
+                let td = 'targetdate' + full_array[j];
+                let mf = 'markeofficer' + full_array[j];
+
+                var val1 = document.getElementById(sid).value;
+                var tddate = document.getElementById(td).value;
+                var officer_val = document.getElementById(mf).getAttribute('custom-offic');
+            
+                ar[sid]=val1
+                ar[td]=tddate
+                ar[mf]=officer_val
+
+
+                if(val1 == ''){
+                  alert('Please fill Observation')
+                  document.getElementById(sid).focus();
+                  return false;
+                }
+              } 
+              else{
+                let ssid='subdes'+full_array[j];
+                var val2 = document.getElementById(ssid).value;
+                ar[ssid]=val2
+
+                
+              }
+              
+            }
+          }
+          
+          ar1[String(i)]=ar
+          myarr2[String(i)]=myar1
+        }
+        console.log(ar1)
+        console.log(myarr2)
+
+    var final_p=JSON.stringify(ar1)
+    var id_final = JSON.stringify(myarr2)
+    
+    if(zone ==''){
+      alert("Please fill Rly/Org ")
+      return false;
+    }
+    
+    
+    if(inspection_date=='' || inspection_date==undefined){
+        alert("Please fill date of inspection ")
+        return false;
+    }
+    if($('#titleinsp').val()==''){
+      alert("Please fill title of inspection ")
+      return false;
+    }
+    
+
+    let data1 = {
+        zone:$('#zone').val(),
+        division:$('#division').val(),
+        department:$('#department').val(),
+        location:$('#location').val(),
+        txtDate2:$('#txtDate2').val(),
+        titleinsp: $('#titleinsp').val(),
+        final_partinspected:final_p,
+        id_partinspected:id_final,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      };
+    
+            $.ajax({
+                      type: 'POST',
+                        url: "{% url 'save_draft_data' %}",
+                        dataType: 'json',
+                        data: data1,
+                        success: function (response) {
+
+                          alert("Record Saved as Draft.");
+                          window.location.reload();
+       
+                    },
+                    error: function (exception) {
+                
+                      alert("oops error!");
+                    window.location.reload();
+            }
+          
+      });
+         
+}
+function save_marked_officers(){
+  var emp_no = ""
+  var emp_no1 = ""
+  var table = $('#text').DataTable();
+  table.destroy();
+  $('.messageCheckbox:checkbox:checked').each(function(i){
+    //val[i] = $(this).val();
+    let oneOffic= $(this).val();
+    let id = oneOffic.split(',')[0]
+    let desig = oneOffic.split(',')[1]
+    if(emp_no!="")emp_no+=',';
+    emp_no +=id
+    if(emp_no1!="")emp_no1+=',';
+    emp_no1 +=desig
+  });
+
+  
+  let mark_off = $('#mark_officersss').val();
+
+  if(mark_off=='Copy To'){
+                              
+    document.getElementById('copyto').value=emp_no1;
+    var myInput = document.getElementById('copyto');
+        myInput.setAttribute('custom-offic', emp_no);
+    let Y = document.getElementById('copyto').scrollHeight
+    document.getElementById('copyto').style.height =(10+Y)+"px";
+
+  }else{
+    markofficer='markeofficer'+ mark_off
+    document.getElementById(markofficer).value=emp_no1;
+    var myInput = document.getElementById(markofficer);
+        myInput.setAttribute('custom-offic', emp_no);
+
+        let x = document.getElementById(markofficer).scrollHeight
+        document.getElementById(markofficer).style.height =(10+x)+"px";
+        
+  }
+
+  $('#close1').click();
+
+   
+    
+}
+      
+</script>
+<script>
+    // var target_date=$('#target_date').val();
+    // var _table1 = document.getElementById('table1');
+    // var norows1 = _table1.tBodies[0].rows.length;
+   
+    // for(var i=1;i<norows1+1;i++)
+    // {
+    //   var val = document.getElementById(`work5${i}`)
+    //       $('#work5${i}').datepicker({ 
+    //     startDate: target_date
+    //   });
+    // }
+          
+   
+     
+      
+    
+</script>
+<script>
+    
+function Action_cc() { 
+
+        var zone=$("#zone").val();
+        var division=$("#division").val();
+        var location=$("#location").val();
+        var department=$('#department').val();
+        var inspection_date=$('#txtDate2').val();
+
+        let ar1 = {}
+        let myarr2 = {}
+        for(let i=1; i<=hli; i++){
+          let ar ={}
+          let myar1 = []
+          for(let j=0; j<full_array.length; j++){
+            //if(String(i)==String(full_array[j]).substr(0,1)){
+            if((String(i)+'.')==((String(full_array[j]).split('.'))[0])+'.'){
+              let temp = full_array[j].split('.')
+              myar1.push(String(full_array[j]))
+              
+              if(temp.length == 1){
+                let hid='heading'+ full_array[j];
+                var val = document.getElementById(hid).value;
+                ar[hid]=val
+
+                if(val == ''){
+                  alert('please fill heading')
+                  return false;
+                }
+          
+              }
+              else if(temp.length == 2){
+                let sid='observation'+full_array[j];
+                let td = 'targetdate' + full_array[j];
+                let mf = 'markeofficer' + full_array[j];
+
+                var val1 = document.getElementById(sid).value;
+                var tddate = document.getElementById(td).value;
+                var officer_val = document.getElementById(mf).getAttribute('custom-offic');
+                
+                ar[sid]=val1
+                ar[td]=tddate
+                ar[mf]=officer_val
+              } 
+              else{
+                let ssid='subdes'+full_array[j];
+                var val2 = document.getElementById(ssid).value;
+                ar[ssid]=val2
+              }
+              
+            }
+          }
+          
+          ar1[String(i)]=ar
+          myarr2[String(i)]=myar1
+        }
+        console.log(ar1)
+        console.log(myarr2)
+        
+
+    var final_p=JSON.stringify(ar1)
+    var id_final = JSON.stringify(myarr2)
+        
+    if(zone ==''){
+      alert("Please fill Rly/Org ")
+      return false;
+    }
+    
+    if(inspection_date=='' || inspection_date==undefined){
+        alert("Please fill date of inspection ")
+        return false;
+    }
+    if($('#titleinsp').val()==''){
+      alert("Please fill title of inspection ")
+      return false;
+    }
+    
+      
+    for(x in full_array){
+      let spid = full_array[x].split('.')
+      
+      if(spid.length == 2){
+        let offid = 'markeofficer'+full_array[x]
+        let offVal = document.getElementById(offid).value
+        
+        if(offVal == ''){
+          alert('Please Add mark officers')
+          return false;
+        }
+      }
+    }
+   
+    
+
+    let data1 = {
+        zone:$('#zone').val(),
+        division:$('#division').val(),
+        department:$('#department').val(),
+        location:$('#location').val(),
+        txtDate2:$('#txtDate2').val(),
+        titleinsp: $('#titleinsp').val(),
+        final_partinspected:final_p,
+        id_partinspected:id_final,
+        send_to: document.getElementById('copyto').getAttribute('custom-offic'),
+        send_desig: document.getElementById('copyto').value,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      };
+    
+      $.ajax({
+              type: 'POST',
+              url: "{% url 'create_inspection_details' %}",
+              dataType: 'json',
+              data: data1,
+              success: function (response) {
+
+                alert("Record Saved");
+                window.location.reload();
+       
+              },
+              error: function (exception) {
+          
+                alert("oops error!");
+              window.location.reload();
+          }
+          
+      });
+      
+
+}
+</script>
+<script>
+
+
+
+
+    // function selects(){  
+    //   var table = $('#text').DataTable();
+    //   table.destroy();
+    //     var ele=document.getElementsByName('chk');  
+    //     for(var i=0; i<ele.length; i++){  
+    //         if(ele[i].type=='checkbox')  
+    //             ele[i].checked=true;  
+    //     }  
+    //     var table = $('#text').DataTable();
+    //     document.getElementById('chkdeselect').checked=false;
+    // }  
+    // function deSelect(){ 
+    //   var table = $('#text').DataTable();
+    //   table.destroy(); 
+    //     var ele=document.getElementsByName('chk');  
+    //     for(var i=0; i<ele.length; i++){  
+    //         if(ele[i].type=='checkbox')  
+    //             ele[i].checked=false;  
+    //     }  
+    //     var table = $('#text').DataTable();
+
+    //     document.getElementById('chkselect').checked=false;
+    // }       
+   
+   
+  
+</script>
+    
+<script>
+var globaldiv='';
+function setvalueIN(){
+
+  let zone = $('#zone').val();
+  $('#rly_1').val(zone);
+  $('#dept_1').val($('#department').val());
+  if($('#division').val()!='')
+    globaldiv=$('#division').val();
+  $('#rly_1').select2().trigger('change');
+ //$('#dept_1').select2().trigger('change');
+}
+
+function setCopyValue()
+{
+  let copytobtn = $('#copytobtn').val()
+  $('#mark_officersss').val('Copy To')
+  $('#rly_1').val('All');
+  $('#rly_1').select2().trigger('change');
+}
+
+
+function hidetable(e){
+
+  $('#text').show(); $('#text1').hide(); $('#table2').hide(); $('#table3').hide(); $('#table4').hide(); $('#table5').hide();
+  $('#mark_officersss').val((e.id).substr(7));
+
+}
+
+$("#zone").select2();
+          
+                  // Read selected option
+$('#rly').click(function(){
+  var username = $('#rly option:selected').text();
+  var userid = $('#rly').val();
+                
+                   
+                    
+});
+
+$("#rly_1").select2();
+          
+          // Read selected option
+$('#rly_1').click(function(){
+  var username = $('#rly_1 option:selected').text();
+  var userid = $('#rly_1').val();
+                         
+});
+
+$("#div_1").select2();
+          
+// Read selected option
+
+$('#div_1').click(function(){
+  var username = $('#div_1 option:selected').text();
+  var userid = $('#div_1').val();
+});
+
+$("#division").select2();
+          
+$('#division').click(function(){
+  var username = $('#div option:selected').text();
+  var userid = $('#div').val();
+});
+
+$("#department").select2();
+          
+$('#department').click(function(){
+    var username = $('#department option:selected').text();
+    var userid = $('#department').val();
+});
+
+//////////////////////////////////////////////
+$('#desig').select2({});
+
+var globaldesigid=[];
+
+
+function selordesel(id)
+{
+      var table = $('#textdesig').DataTable();
+      table.destroy();
+      var table1 = $('#textdesigselect').DataTable();
+      table1.destroy();
+     
+      if(id.checked)
+      {
+        globaldesigid=[];
+        $('#textdesigselect tbody').empty();
+        var row='';
+        var ele=document.getElementsByName('chkdesig');  
+        for(var i=0; i<ele.length; i++){  
+            if(ele[i].type=='checkbox') 
+               {
+                ele[i].checked=true; 
+                let id=ele[i].id;
+                val=ele[i].value;
+                val=val.split(',')
+                globaldesigid.push(id.substring(2,id.length));
+                row += "<tr id='trid"+id+"'>";  
+                row+=  '<td hidden><input checked type="checkbox" id="'+val[0]+'" class="messageCheckbox" value="'+(val[0]+','+val[1])+'" name="chk" ></td>';
+                row += '<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="'+val[0]+'" hidden>'+val[0]+'</td>';
+                row += '</tr>';
+            
+               } 
+        }  
+        $('#textdesigselect tbody').append(row);
+        var table1 = $('#textdesigselect').DataTable();
+        var table = $('#textdesig').DataTable();
+      }
+      else 
+      {
+        var ele=document.getElementsByName('chkdesig');  
+        for(var i=0; i<ele.length; i++){  
+            if(ele[i].type=='checkbox')  
+                ele[i].checked=false;  
+        }  
+        globaldesigid=[];
+        $('#textdesigselect tbody').empty();
+        var table1 = $('#textdesigselect').DataTable();
+        var table = $('#textdesig').DataTable();
+      }       
+}
+
+function selectdesig(val)
+{
+  let id=val.id;
+  val=val.value;
+  
+  var table = $('#textdesigselect').DataTable();
+  table.destroy();
+  val=val.split(',');
+  var row='';
+  if(document.getElementById(id).checked==true)
+      {
+        globaldesigid.push(id.substring(2,id.length));
+          row += "<tr id='trid"+id+"'>";  
+              row+=  '<td hidden><input checked type="checkbox" id="'+val[0]+'" class="messageCheckbox" value="'+(val[0]+','+val[1])+'" name="chk" ></td>';
+            row += '<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="'+(val[2]+','+val[1])+'" hidden>'+(val[2]+','+val[1])+'</td>';
+            row += '</tr>';
+            $('#textdesigselect tbody').append(row);
+            var table = $('#textdesigselect').DataTable();
+      }
+      else 
+      {
+        let id1=id.substring(2,id.length);
+        id='trid'+id;
+
+            index = globaldesigid.indexOf(id1);
+            if (index > -1) { 
+              globaldesigid.splice(index, 1);
+            }
+
+        var row = document.getElementById(id);
+        row.parentNode.removeChild(row);
+        var table = $('#textdesigselect').DataTable();
+      }       
+}
+
+function getdesigdata()
+{
+  let desig=$('#desig').val();
+  $('#showdiv1').hide();
+  $('#showdiv2').show();
+  $('#textdesigselect').DataTable();
+  var table = $('#textdesig').DataTable();
+    table.destroy();
+
+  data={
+          'desig':desig,
+      }
+            $.ajax({
+                type: "GET",
+                url: "{% url 'designation_wise' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(mydata) {
+                   let row = "";
+                    let head = `<thead><tr><th>Mark All  <input type="checkbox"  onclick="selordesel(this)"></th>
+                    <th>Division Officers</th></tr></thead>`;
+                    
+                    for (let i = 0; i < mydata.length; i++) {
+                     
+   
+
+                      if(globaldesigid.includes(mydata[i]['designation']))
+                       { 
+                          row += "<tr>";  
+                          row+=  `<td><input type="checkbox" checked id="ab${mydata[i]['empno']}"  value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']},${mydata[i]['empname']}" name="chkdesig" onclick="selectdesig(this)"></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" hidden >
+                            ${mydata[i]['empname']},${mydata[i]['desig_longdesc']}</td>`;
+                        
+                          row += `</tr>`;
+                       }
+                       else
+                       {
+                          row += "<tr>";  
+                          row+=  `<td><input type="checkbox"  id="ab${mydata[i]['empno']}"  value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']},${mydata[i]['empname']}" name="chkdesig" onclick="selectdesig(this)"></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" hidden >
+                            ${mydata[i]['empname']},${mydata[i]['desig_longdesc']}</td>`;
+                        
+                          row += `</tr>`;
+                       }
+
+                    }
+                    
+                    $('#textdesig thead').remove();
+                    $('#textdesig tr').remove();
+                    $('#textdesig').append(head);
+                    $('#textdesig tbody').append(row);
+                    
+                    $('#textdesig').DataTable();
+                      
+       
+                },
+           
+            });
+
+}
+
+//////////////////////////////////////
+$('#desig').click(function(){
+    var username = $('#desig option:selected').text();
+    var userid = $('#desig').val();
+});
+
+$("#dept_1").select2();
+          
+$('#dept_1').click(function(){
+    var username = $('#desig option:selected').text();
+    var userid = $('#desig').val();
+});
+</script>
+   
+<script>
+
+function getdivdeptdata()
+{
+  $('#showdiv1').show();
+  $('#showdiv2').hide();
+  getdivwisedata();
+  fungetzonedata();
+}
+
+function getdivwisedata()
+{
+  $('#showdiv1').show();
+  $('#showdiv2').hide();
+  var table = $('#text1').DataTable();
+    table.destroy();
+    $('#text1').hide();
+    var rly_1=$('#rly_1').val();
+      var div_1=$('#div_1').val();
+      var dept_1=$('#dept_1').val();
+      data={
+          'rly_1':rly_1,
+          'dept_1':dept_1,
+          'div_1':div_1,
+          
+        }
+            $.ajax({
+                type: "GET",
+                url: "{% url 'division_wise' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                  mydata=response.divwise;
+                   let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>Division Officers</th></tr></thead>`;
+                    for (let i = 0; i < mydata.length; i++) {
+                        row += "<tr>";  
+                          row+=  `<td><input type="checkbox" id="${mydata[i]['empno']}" class="messageCheckbox" value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']}" name="chk" ></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" hidden>
+                            ${mydata[i]['empname']},${mydata[i]['desig_longdesc']}</td>`;
+                        
+                        row += `</tr>`;
+                    }
+                    $('#text1 thead').remove();
+                    $('#text1 tr').remove();
+                    $('#text1').append(head);
+                    $('#text1 tbody').append(row);
+                    $('#text1').show();
+                    $('#text1').DataTable();
+                      
+       
+                },
+            });
+           
+}
+
+    $('#allgm').click(function() {
+      document.getElementById('allboard').checked=false;
+      document.getElementById('allphod').checked=false;
+      var table = $('#text').DataTable();
+        table.destroy();
+      var rly_1=$('#rly_1').val();
+      data={
+          'rly_1':rly_1,
+          
+      }
+          
+       if(this.checked){
+          $.ajax({
+                type: "GET",
+                url: "{% url 'gm_list_officers' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                    mydata=response.allgm;
+                    let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>Division Officers</th></tr></thead>`;
+                    for (let i = 0; i < mydata.length; i++) {
+                      row += "<tr>";  
+                          row+=  `<td><input type="checkbox" checked id="${mydata[i]['empno']}" class="messageCheckbox" value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']}" name="chk"  ></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" hidden>
+                            ${mydata[i]['empname']},${mydata[i]['desig_longdesc']}</td>`;
+                          row += `</tr>`;
+                    }
+                    $('#text thead').remove();
+                    $('#text tr').remove();
+                    $('#text').append(head);
+                    $('#text tbody').append(row);
+                    $('#text').show();
+                    $('#text').DataTable();
+               
+                }, 
+            });
+
+        }
+        else{
+              var table = $('#text').DataTable();
+            }
+      });   
+
+      
+    $('#alldrm').click(function() {
+          
+      var table = $('#text1').DataTable();
+      table.destroy();
+      
+        var div_1=$('#div_1').val();
+    
+          data={
+              'div_1':div_1,
+              
+          }
+              
+       if(this.checked){
+            $.ajax({
+                type: "GET",
+                url: "{% url 'drm_officers' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                  mydata=response.alldrm;
+                  let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>Division Officers</th></tr></thead>`;
+                    for (let i = 0; i < mydata.length; i++) {
+                      row += "<tr>";  
+                          row+=  `<td><input type="checkbox" checked id="${mydata[i]['empno']}" class="messageCheckbox" value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']}" name="chk"  ></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" hidden>
+                            ${mydata[i]['empname']},${mydata[i]['desig_longdesc']}</td>`;
+                          row += `</tr>`;
+                    }
+                    $('#text1 thead').remove();
+                    $('#text1 tr').remove();
+                    $('#text1').append(head);
+                    $('#text1 tbody').append(row);
+                    $('#text1').show();
+                    $('#text1').DataTable();       
+                },
+  
+            });
+
+            }
+
+            else{
+              var table = $('#text1').DataTable();
+            }
+      });   
+
+ 
+    $('#allphod').click(function() {
+      document.getElementById('allboard').checked=false;
+      document.getElementById('allgm').checked=false;
+      var table = $('#text').DataTable();
+        table.destroy();
+      var rly_1=$('#rly_1').val();
+      data={
+          'rly_1':rly_1,
+          
+      }
+          
+       if(this.checked){
+          $.ajax({
+                type: "GET",
+                url: "{% url 'phod_officers' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                    mydata=response.allphod;
+                    let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>Division Officers</th></tr></thead>`;
+                    for (let i = 0; i < mydata.length; i++) {
+                      row += "<tr>";  
+                          row+=  `<td><input type="checkbox" checked id="${mydata[i]['empno']}" class="messageCheckbox" value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']}" name="chk"  ></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" hidden>
+                            ${mydata[i]['empname']},${mydata[i]['desig_longdesc']}</td>`;
+                          row += `</tr>`;
+                    }
+                    $('#text thead').remove();
+                    $('#text tr').remove();
+                    $('#text').append(head);
+                    $('#text tbody').append(row);
+                    $('#text').show();
+                    $('#text').DataTable();
+               
+                }, 
+            });
+
+        }
+        else{
+              var table = $('#text').DataTable();
+            }
+    }); 
+   
+    $('#allboard').click(function() {
+      document.getElementById('allphod').checked=false;
+      document.getElementById('allgm').checked=false;
+      var table = $('#text').DataTable();
+        table.destroy();
+      var rly_1=$('#rly_1').val();
+      data={
+          'rly_1':rly_1,
+          
+      }
+          
+       if(this.checked){
+          $.ajax({
+                type: "GET",
+                url: "{% url 'board_officers' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                    mydata=response.allboard;
+                    let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>Division Officers</th></tr></thead>`;
+                    for (let i = 0; i < mydata.length; i++) {
+                      row += "<tr>";  
+                          row+=  `<td><input type="checkbox" checked id="${mydata[i]['empno']}" class="messageCheckbox" value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']}" name="chk"  ></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" hidden>
+                            ${mydata[i]['empname']},${mydata[i]['desig_longdesc']}</td>`;
+                          row += `</tr>`;
+                    }
+                    $('#text thead').remove();
+                    $('#text tr').remove();
+                    $('#text').append(head);
+                    $('#text tbody').append(row);
+                    $('#text').show();
+                    $('#text').DataTable();
+               
+                }, 
+            });
+
+        }
+        else{
+              var table = $('#text').DataTable();
+            }
+}); 
+
+ function fungetzonedata()
+ {
+  $('#showdiv1').show();
+  $('#showdiv2').hide();
+      var table = $('#text').DataTable();
+      table.destroy();
+      $('#text').hide();
+      var rly_1=$('#rly_1').val();
+      var div_1=$('#div_1').val();
+      var dept_1=$('#dept_1').val();
+      data={
+          'rly_1':rly_1,
+          'dept_1':dept_1,
+          'div_1':div_1,
+          
+        }
+            $.ajax({
+                type: "GET",
+                url: "{% url 'headqwise' %}",
+                data: data,
+                success: function(response) {
+                  mydata=response.hqwise;
+                  let row = "";
+                  let head = `<tr><th></th>
+                    <th>Zonal Officers</th></tr>`;
+                    
+                   
+                      for (let i = 0; i < mydata.length; i++) {
+                          row += "<tr>";  
+                          row+=  `<td><input type="checkbox" id="${mydata[i]['empno']}" class="messageCheckbox" value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']}" name="chk"  ></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" hidden>
+                            ${mydata[i]['empname']},${mydata[i]['desig_longdesc']}</td>`;
+                          row += `</tr>`;
+                      }
+                    
+                    $('#text thead').empty();
+                    $('#text tbody').empty();
+                    //$('#text tr').remove();
+                    $('#text thead').append(head);
+                    $('#text tbody').append(row);
+                    $('#text').show();
+                    $('#text').DataTable();      
+                   
+                },
+                
+               
+            });
+ }
+        
+
+  $('#rly_1').change(function() {
+    var rly_1=$('#rly_1').val();
+    if(rly_1 == []) 
+      return false;
+    let divdata=$('#div_1').val();
+   
+    // elif(dept_1 == [] && rly_1 == [])
+    //   return false;
+    // elif(dept_1 != [])
+    //   return false;
+    data={
+        'rly_1':rly_1,
+    }
+  
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'division_by_rly1' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+        division=response.division;
+        $('#div_1').empty();
+        
+          for (let i = 0; i < division.length; i++) {
+            if(globaldiv.length!=0)
+            {
+              if(globaldiv == division[i])
+                { 
+                  $('#div_1').append(`<option selected value="${division[i]}">${division[i]}</option>`);
+                }
+              else
+                $('#div_1').append(`<option  value="${division[i]}">${division[i]}</option>`);
+            }
+            else
+            {
+              if(divdata.includes(division[i]))
+                { 
+                  $('#div_1').append(`<option selected value="${division[i]}">${division[i]}</option>`);
+                }
+              else
+                $('#div_1').append(`<option  value="${division[i]}">${division[i]}</option>`);
+            }
+
+          }
+          globaldiv=[];
+          fungetzonedata();
+          $('#div_1').select2().trigger('change');          
+      }
+
+      
+    })
+          
+  })  
+
+
+
+</script>
+        <script>
+      //     var officer = $('#officer_code1').val();
+      //     officers = JSON.stringify(officer);
+      //      document.getElementById('officer_code_hidden').value = officers;
+           
+
+
+        
+      //  $(document).ready(function () {
+      //      setSelect2();
+      //  });
+
+      //  function setSelect2() {
+      //      var selectedValues = new Array();
+
+      //      if ("{{officer_code1.empno}}" != "") {
+      //          var trades = "{{biodetails.instructor_trades}}";
+      //          trades = trades.split(',');
+      //          selectedValues.length = 0;
+      //          selectedValues = trades;
+      //      }
+
+ 
+   
+      //      $('#officer_code1').select2();
+      //      $('#officer_code1').val(selectedValues)
+      //      $('#officer_code1').trigger('change');}
+
+
+          
+       </script>
+
+
+<script>
+  $('#txtDate2').datepicker({
+    dateFormat: 'dd-mm-yy',
+    maxDate: 0
+    
+  })
+
+
+//     $(function(){
+//      var dtToday = new Date();
+
+//      var month = dtToday.getMonth() + 1;
+//      var day = dtToday.getDate();
+//      var year = dtToday.getFullYear();
+
+//      if(month < 10)
+//          month = '0' + month.toString();
+//      if(day < 10)
+//          day = '0' + day.toString();
+
+//      var maxDate = year + '-' + month + '-' + day;    
+//      $('#txtDate2').attr('max', maxDate);
+//  });
+
+
+
+
+
+
+
+function setTitle() {
+
+  let zone = $('#zone').val()
+  let division = $('#division').val()
+  let department = $('#department').val()
+  let txtDate = $('#txtDate2').val()
+  let user = '{{desig}}'
+  let title = 'Inspection of'
+  //alert(zone+'----'+ user +'----'+department)
+
+  
+  var x = document.getElementById("location");
+  x.value = x.value.toUpperCase();
+  
+  if(division == 'All'){
+    $('#titleinsp').val(title+''+x.value+'  '+zone +' by '+user+' date: '+txtDate)
+  }
+  else{
+    $('#titleinsp').val(title+' '+x.value+'  '+zone +'/'+division+' by '+user+' date: '+txtDate)
+  }
+  
+}
+
+$('#zone').change(function(){
+  $('#titleinsp').val('')
+})
+$('#division').change(function(){
+  $('#titleinsp').val('')
+})
+$('#department').change(function(){
+  $('#titleinsp').val('')
+})
+$('#location').change(function(){
+  $('#titleinsp').val('')
+})
+
+
+
+
+
+
+
+
+</script>
+<script>
+  $('#zone').change(function() {
+    var rly=$('#zone').val();
+      
+
+        data={
+            'rly':rly,
+            
+        }
+
+          $.ajax({
+            type : 'GET',
+            url : "{% url 'getdiv_rly' %}",
+            dataType : 'json',
+            data : data,
+
+            success : function(response){
+              division=response.division;
+                          $('#division').empty();
+                          $('#division').append(`<option value="">NA</option>`);
+                          for (let i = 0; i < division.length; i++) {
+                          $('#division').append(`<option value="${division[i]}">
+                                              ${division[i]}
+                                        </option>`);
+                                      }
+            }
+          })
+  })
+
+
+
+
+
+function changeColorBtn(el){
+  let val = el.id
+  if (val == 'addheading'){
+    document.getElementById('addheading').style.backgroundColor = "#3333ff";
+    document.getElementById('addmech').style.backgroundColor = "#337AB7";
+    document.getElementById('addSubmech').style.backgroundColor = "#337AB7";
+  }
+  else if(val == 'addmech'){
+    document.getElementById('addheading').style.backgroundColor = "#337AB7";
+    document.getElementById('addmech').style.backgroundColor = "#3333ff";
+    document.getElementById('addSubmech').style.backgroundColor = "#337AB7";
+  }
+  else if(val == 'addSubmech'){
+    document.getElementById('addheading').style.backgroundColor = "#337AB7";
+    document.getElementById('addmech').style.backgroundColor = "#337AB7";
+    document.getElementById('addSubmech').style.backgroundColor = "#3333ff";
+  }
+
+}
+
+
+</script>
+
+<script>
+  $("textarea").each(function () {
+  this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+    }).on("input", function () {
+      this.style.height = "auto";
+      this.style.height = (this.scrollHeight) + "px";
+    });
+</script>
+{% endblock %}  

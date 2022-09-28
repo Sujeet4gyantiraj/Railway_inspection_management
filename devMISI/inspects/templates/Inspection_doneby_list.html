@@ -1,0 +1,730 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<!-- <link rel="stylesheet" href="jquery.dropdown.css"> -->
+<script src="jquery.dropdown.js"></script>
+<!-- Include the plugin's CSS and JS: -->
+
+<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+<link rel="stylesheet" type="text" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+
+<link href="{% static '/css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+<script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+<link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+     
+<link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+
+<script src="{% static 'js/timepicker.js' %}"></script>
+<!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+   <!-- Select2 CSS --> 
+
+<!-- jQuery --> <script src="{% static '/js/jquery.min4.js' %}"></script> 
+
+<!-- Select2 JS --> 
+<script src="{% static '/js/select2.min.js' %}"></script>
+<!-- Load icon library -->
+<link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+<!-- multiple selesct marked officer -->
+
+<link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+<script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+  <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+  <!-- Sheets for datepicker for target date -->
+  
+  <link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/lato.css' %} ">
+
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  
+    
+    <style>
+      * {
+  box-sizing: border-box;
+}
+body {
+        font-family: 'Quicksand', sans-serif;;
+        height: 100%;
+        margin: 0;
+        }
+
+
+    
+      input[type=text]
+      {
+              width: 100%;
+              padding: 12px 20px;
+              margin: 8px 0;
+              display: block;
+              /* border: 1.5px solid rgb(14, 12, 12); */
+              border-radius: 4px;
+              box-sizing: border-box;
+      }
+    
+      input[type=submit] {
+              width: 40%;
+              text-align: center;
+              background-color: #4CAF50;
+             
+              padding: 14px 20px;
+              margin: 8px 0;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+      }
+    
+      input[type=submit]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+    
+    
+      input[type=button]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+      /* #viewbtn{
+        margin-left:1050px;
+      } */
+    
+      .inputtag{
+        height:20px;
+      }
+      .button {
+  padding: 15px 25px;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 2em;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #04AA6D;
+  border: none;
+  border-radius: 15px;
+ 
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.btn{
+  text-align: center;
+}
+
+
+
+</style>
+    
+  
+<body>
+  <h3 style="font-family: 'Lato', sans-serif; color: #28A745;">
+      <center><b>Inspections Done by {{desig}}</b></center>
+    </h3>
+  
+    <div class="container">
+      {% if messages %}
+          {% for message in messages %}
+              {% if message.tags == 'success' %}
+                <div class="alert alert-remove alert-success alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% elif message.tags == 'error' %}
+                
+                <div class="alert alert-remove alert-danger alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% elif message.tags == 'info' %}
+                
+                <div class="alert alert-remove alert-info alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% else %}
+              
+              {% endif %}
+             
+          
+          {% endfor %}
+      {% endif %}
+    </div>
+  
+  
+    <br>
+    
+    <!-- <div  class="col-sm-2s form-group" >
+    
+      <button class="button" style="height:6vh;width:25vh;margin-left:170vh;color:white;" ><a style="color: white;" href='{% url "create_inspection_form" %}' >Add New Inspection Report</a></button>
+  </div> -->
+  
+    <div class="container">
+      <!-- <form  method="POST" class="d-inline " >
+          
+        {% csrf_token %}
+    
+    <div class="row" id="row1" style="font-family: 'Lato', sans-serif;font-size: 1em;">
+
+      <div  class="col-3" >
+        <label for="location">Date Range</label>
+        <div id="date_range" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+          <i class="fa fa-calendar"></i>&nbsp;
+          <span></span> <i class="fa fa-caret-down"></i>
+        </div>
+    </div>
+
+        <div class="col-2"  >
+            <label for="Zone" >Rly./Org. Wise </label>
+            <select class="form-control" id="zone" name="zone" class="custom-select"
+                multiple ><span style="color:red;font-weight:bold">*</span>
+                <option value="" disabled>select</option>
+                {% for z in Zone %}
+                <option value="{{z}}">{{z}}</option>
+                {% endfor %}
+    
+            </select>
+        </div>
+    
+       
+       
+    <div class="col-2">
+        <label for="division">Div./Unit Wise</label>
+        <select class="form-control" id="division" name="division" class="custom-select" style="max-width:100%;"
+        multiple><span style="color:red;font-weight:bold">*</span>
+    
+                <option value="" disabled>select</option>
+                {% for d in division %}
+                <option value="{{d}}">{{d}}</option>
+                {% endfor %}
+    
+            </select>
+        
+    </div>
+    <div class="col-2">
+      <label for="division">Department Wise</label>
+      <select class="form-control" id="department" name="department" class="custom-select" style="max-width:100%;" multiple>
+    
+              <option value="" disabled>select</option>
+              {% for d in department %}
+              <option value="{{d.department_name}}">{{d.department_name}}</option>
+              {% endfor %}
+    
+          </select>
+      
+    </div>
+    
+    <div  class="col-2" >
+      <label for="location" >Location Wise</label><br>
+      <div>
+        <select name="location" id="location" class="form-control"  multiple>
+    
+        </select>
+      </div>
+      
+    </div>
+  
+  
+    
+  
+    <div  class="col-1" >
+     
+      <button  type="button"  name="zone_loc_submit"  style="margin-top:2em; " class="btn btn-success" id="insp_submit" onclick="getSearchValue()">Search</button>
+    </div>
+     
+  
+      
+      </form> -->
+
+  <form  method="POST" class="d-inline " >
+          
+        {% csrf_token %}
+    
+    <div class="row" id="row1" style="font-family: 'Lato', sans-serif;font-size: 1em; margin-left: 4em;">
+
+        <div  class="col-3" >
+          <label for="location">Date Range</label>
+          <div id="date_range" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+          </div>
+        </div>
+
+        <div class="col-3"  >
+            <label for="Zone" >Rly./Org. Wise </label>
+            <select class="form-control" id="zone" data-placeholder="Rly./Org Wise..." name="zone" class="custom-select"
+                multiple ><span style="color:red;font-weight:bold">*</span>
+                <option value="" disabled>select</option>
+                {% for z in Zone %}
+                <option value="{{z}}">{{z}}</option>
+                {% endfor %}
+    
+            </select>
+        </div>
+    
+       
+       
+    <div class="col-3">
+        <label for="division">Div./Unit Wise</label>
+        <select class="form-control" id="division" data-placeholder="Div./Unit Wise..." name="division" class="custom-select" style="max-width:100%;"
+        multiple><span style="color:red;font-weight:bold">*</span>
+    
+                <option value="" disabled>select</option>
+                {% for d in division %}
+                <option value="{{d}}">{{d}}</option>
+                {% endfor %}
+    
+            </select>
+        
+    </div>
+
+    <div class="col-2" hidden>
+      <label for="division">Department Wise</label>
+      <select class="form-control" id="department"  name="department" class="custom-select" style="max-width:100%;" multiple>
+    
+              <option value="" disabled>select</option>
+              {% for d in department %}
+              <option value="{{d.department_name}}">{{d.department_name}}</option>
+              {% endfor %}
+    
+      </select>
+      
+    </div>
+    
+    <div  class="col-2" hidden>
+      <label for="location" >Location Wise</label><br>
+      <div>
+        <select name="location" id="location" class="form-control"  multiple>
+    
+        </select>
+      </div>
+      
+    </div>
+    
+    <div  class="col-2" >
+     
+      <button  type="button"  name="zone_loc_submit"  style="margin-top:2em; " class="btn btn-success" id="insp_submit" onclick="getSearchValue()">Search</button>
+    </div>
+     
+  
+      
+      </form>
+    </div>
+    <br><br>
+  
+    <div class="modern" style="font-family:'Lato', sans-serif">
+      <table class="table table-striped table-bordered table-sm" id="instituteTable" >
+          <thead
+              style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+              <th>S.No.</th>
+              <th >Insp. Date</th>
+              <th >Insp. Note No.</th>
+              
+              <th >Insp. Title</th>
+              <th >Rly./Org.</th>
+              <th >Div./Unit</th>
+              <!-- <th >Department</th>
+              <th >Location</th> -->
+             
+              <th >View Insp</th>
+              <th >Reply</th>
+             
+              <!-- <th >Status</th> -->
+             
+          </thead>
+          <tbody>
+  
+              {% for g in mydata %}
+              <tr>
+                  <td>{{ forloop.counter }}</td>
+
+                  {% if g.inspected_on|date:"d/m/y" %}
+  
+                  <td>{{g.inspected_on|date:"d/m/y" }}</td>
+  
+                  {% else %}
+                  <td>NA</td>
+                  {% endif %}
+
+                  <td>{{ g.inspection_note_no }}</td>
+                  <td >
+
+                    <a class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='{{g.inspection_title}}'>
+                      {{g.inspection_title|slice:":50"}}..
+                    </a>
+                  </td>
+
+                  
+                  
+                  <td>
+                    
+                   
+                      {% for j in g.location_item %}
+                        {% if j.type == 'HQ' %}
+                        <span >{{j.item}}<br></span>
+                        {% endif %}
+                      {% endfor %}
+                   
+  
+                  </td>
+                  <td>
+                    
+                      {% for j in g.location_item %}
+                        {% if j.type == 'DIV' %}
+                        <span style="white-space: nowrap;">{{j.item}}<br></span>
+                           
+                        {% endif %}
+                      {% endfor %}
+                    
+                  </td>
+                  <!-- <td>
+                   
+                      {% for j in g.location_item %}
+                        {% if j.type == 'DPT' %}
+                        <span >{{j.item}}<br></span>
+                        {% endif %}
+                      {% endfor %}
+                    
+                  </td>
+                  <td>
+                    
+                      {% for j in g.location_item %}
+                        {% if j.type == 'LOC' %}
+                        <span >{{j.item}}<br></span>
+                        {% endif %}
+                      {% endfor %}
+                    
+                  </td> -->
+                 
+                
+                  
+                  <td ><a type="button" class="btn" style="background-color: #0000ff; color: #fff;" href="{% url 'inspectionReportPdf' g.inspection_no %}"   target="blank"><i class="fas fa-eye"></i></a></td>
+                  <td><a type="button" class="btn" style="background-color: #0000ff; color: #fff;" href="{% url 'inspectionReportReply' g.inspection_no %}"  target="blank" style="text-align: center;">Reply</a></td>
+                  
+                 
+              </tr> 
+              {% endfor %}
+          </tbody>
+  
+      </table>
+  </div>
+  <br>
+  
+  
+  
+  </body>   
+  <script>
+ 
+    $("#zone").select2();
+   
+           // Read selected option
+           $('#rly').click(function(){
+             var username = $('#rly option:selected').text();
+             var userid = $('#rly').val();
+         
+            
+         
+  
+           });
+   
+   $("#division").select2();
+   
+   $('#division').click(function(){
+     var username = $('#div option:selected').text();
+     var userid = $('#div').val();
+  });
+  
+   $("#department").select2();
+   
+   $('#department').click(function(){
+     var username = $('#department option:selected').text();
+     var userid = $('#department').val();
+  });
+  
+  
+  </script>
+                                                                                                                                                                                                                                                                                                
+  
+  <script>
+    // function filterinspectiondata(){
+    //           var rly=$('#zone').val();
+    //           var dept=$('#department').val();
+    //           var div=$('#division').val();
+    //           var loc=$('#location').val();
+    //           // alert(rly);
+    //           // alert(loc);
+    //           // alert(dept);
+    //           // alert(div);            
+    //           var start_date=$('input#start').val();
+    //           console.log(start_date,"%%%%%%%%%%")
+    //           // alert(start_date);
+             
+    //           var end_date=$('input#txtDate2').val();
+    //           console.log(end_date,"%%%%%%%%%%")
+             
+    // }
+    
+    </script>
+ 
+  <script>
+    $('#zone').change(function() {
+  var rly=$('#zone').val();
+  
+  data={
+    'rly':rly,
+    
+  }
+  
+  $.ajax({
+  type : 'GET',
+  url : "{% url 'getdiv_rly' %}",
+  dataType : 'json',
+  data : data,
+  
+  success : function(response){
+    division=response.division;
+                $('#division').empty();
+                $('#division').append(`<option value="">All</option>`);
+                for (let i = 0; i < division.length; i++) {
+                $('#division').append(`<option value="${division[i]}">
+                                   ${division[i]}
+                              </option>`);
+                            }
+  }
+     })
+     })
+  
+  
+  
+     $("#location").select2({
+      minimumInputLength: 1,
+      language: {
+          inputTooShort: function() {
+            return 'Search Location';
+          }
+        },
+      tags: [],
+      ajax: {
+          url: '{% url "autoFetchLocation" %}',
+          dataType: 'json',
+          type: "GET",
+          quietMillis: 50,
+          data: function (term) {
+              return {
+                  last_val: term.term
+              };
+              console.log(term.term)
+          },
+          processResults: function (data) {
+            return {
+                  results: $.map(data, function (item) {
+                    console.log(item)
+                      return{
+                        text: item.city,
+                        
+                        id: item.city,
+                      }
+                  })
+              };
+            },
+          
+          
+      }
+  });
+
+$(document).ready(function(){
+  
+})
+
+
+$(document).ready(function(){
+
+var start = moment().subtract(29, 'days');
+var end = moment();
+
+    function cb(start, end) {
+        $('#date_range span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+        
+        
+    }
+
+    $('#date_range').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+ cb(start, end);
+
+  
+
+});
+
+
+
+
+window.setTimeout(function() {
+
+$(".alert-remove").slideUp(100, function() {
+    $(this).remove();
+});
+}, 2000);
+
+
+
+var table = $('#instituteTable').DataTable({
+  "language": {
+    "search": "Keyword search:"
+  }
+});
+
+function getSearchValue(){
+  
+    console.log($('#date_range span').html())
+    
+    
+        
+    let data1 = {
+            zone1: JSON.stringify($('#zone').val()),
+            division1: JSON.stringify($('#division').val()),
+            department1: JSON.stringify($('#department').val()),
+            location1: JSON.stringify($('#location').val()),
+            date_range: $('#date_range span').html(),
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+                
+        }
+    
+        $.ajax({
+          type : 'POST',
+          url : "{% url 'getSearchValue_ajax' %}",
+          dataType : 'json',
+          data : data1,
+
+          success : function(res){
+            console.log(res)
+            
+            table.destroy()
+            $('#instituteTable tbody').empty()
+            content = ''
+            for(i in res.mydata){
+              let index = parseInt(i)+1
+              let hq = ''
+              let loc = ''
+              let dept = ''
+              let div = ''
+              for(y in res.mydata[i].location_item){
+                
+                if(res.mydata[i].location_item[y].type == 'HQ'){
+                  hq += '<span>' +res.mydata[i].location_item[y].item+'<br></span>'
+                }
+                else if (res.mydata[i].location_item[y].type == 'LOC'){
+                  loc += '<span>' +res.mydata[i].location_item[y].item+'<br></span>'
+                }
+                else if (res.mydata[i].location_item[y].type == 'DIV'){
+                  div += '<span>' +res.mydata[i].location_item[y].item+'<br></span>'
+                }
+                else if (res.mydata[i].location_item[y].type == 'DEPT'){
+                  dept += '<span>' +res.mydata[i].location_item[y].item+'<br></span>'
+                }
+            
+                  
+              } 
+
+
+              content += '<tr>'
+              content += '<td>'+ index +'</td>'
+              content += '<td>'+ formatDate(res.mydata[i].inspected_on) +'</td>'
+              content += '<td>'+ res.mydata[i].inspection_note_no +'</td>'
+              content += '<td>'+ res.mydata[i].inspection_title.slice(0, 50) +'</td>'
+              
+                 
+              content +='<td>'+hq+'</td>'
+              content +='<td>'+div+'</td>'
+              // content +='<td>'+dept+'</td>'
+              // content +='<td>'+loc+'</td>'
+
+              
+
+              
+              
+              content += '<td><a type="button" class="btn "  style="background-color: #0000ff; color: #fff;"  href="/inspectionReportPdf/'+res.mydata[i].inspection_no + '"   target="blank"><i class="fas fa-eye"></i></a></td>'
+              content += '<td><a type="button" class="btn" style="background-color: #0000ff; color: #fff;" href="/inspectionReportReply/'+res.mydata[i].inspection_no + '"  target="blank" style="text-align: center;">Reply</a></td>'
+              
+
+              content += '</tr>'
+              
+            }
+            
+            $('#instituteTable tbody').append(content)
+            table = $('#instituteTable').DataTable({
+                          "language": {
+                "search": "Keyword search:"
+              }
+            });
+          }
+      });
+}
+
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    let newyear = String(year).slice(2, 5)
+    return [day,month,newyear].join('-');
+}
+
+//for tooltip
+$(document).ready(function(){
+  
+  $('.js-btn-tooltip').tooltip();
+ 
+  $('.js-btn-tooltip--custom-alt').tooltip({
+    customClass: 'tooltip-custom-alt'
+  });
+  
+});
+
+</script>
+  
+  {% endblock %}  

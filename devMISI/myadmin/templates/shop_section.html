@@ -1,0 +1,448 @@
+{% extends 'adminDash.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+ 
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script> 
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+ 
+   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="{% static 'rkvy/css/bootstrap.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'rkvy/css/font-awesome.min.css' %}" />
+</head>
+<script>
+    $(document).ready( function () {
+        
+        $('#table1').DataTable({
+           
+            filter: true,
+            deferRender: true,
+          
+            scroller: true,
+        });
+    } );
+</script>
+<script>
+    $(document).ready(function(){
+      $('#btn').click(function(){
+        if (confirm ("Are you sure you want to add this department?")) {
+        $.ajax({
+          url:"{% url 'dept_data' %}",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            
+            department:$('#department').val(),
+            
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(response){
+           
+            location.reload();
+          },
+          error: function(response){
+            alert('some error')
+          }
+        })
+    }
+      });
+
+
+
+      $('#btn1').click(function(){
+        if (confirm ("Are you sure you want to add this shop?")) {
+        $.ajax({
+          url:"{% url 'shop_data' %}",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            
+            dept:$('#dept').val(),
+            shop:$('#shop').val(),
+            
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(response){
+           
+            location.reload();
+          },
+          error: function(response){
+            alert('some error')
+          }
+        })
+    }
+      });
+
+      
+
+    $('#btn2').click(function(){
+        if (confirm ("Are you sure you want to add this section?")) {
+            
+        $.ajax({
+          url:"{% url 'section_data' %}",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            
+            dept1:$('#dept1').val(),
+            sectiondept:$('#sectiondept').val(),
+            sec:$('#sec').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(response){
+           
+            location.reload();
+          },
+          error: function(response){
+            alert('some error')
+          }
+        })
+    }
+      });
+    
+    
+    });
+    
+    
+    
+    
+      
+    
+    
+    
+    
+  
+   
+</script>
+
+
+
+
+
+<br>
+<center><h4>Manage Department</h4></center>
+<center>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <font size="4">
+            <li>
+                {{ message }}
+            </li>
+        </font>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</center>
+<br>
+<body>
+  
+<center>
+    <form method="POST">{%csrf_token%}
+
+        
+<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal1"><i class='fas fa-plus'></i> Add Department</button>    
+
+<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal2"><i class='fas fa-plus'></i> Add Area</button>    
+
+<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal3"><i class='fas fa-plus'></i> Add Subarea</button>    
+
+        
+    
+<br></br>
+<div class="container">
+  <table class="table table-bordered table-striped table-hover" id="table1">
+    <thead class="thead-dark">
+     <tr>
+      <th>Department</th>
+      <th>Area </th>
+      <th>Area Code</th>
+      <th>Subarea </th>
+      <th>Subarea Code</th>
+      <!-- <th colspan="2">Action</th></tr> -->
+    </thead>
+    <tbody>
+        {% for i in list %}
+       <tr>
+       <td>{{i.department_name}}</td>
+       <td> {{i.shop_code}}
+       
+    </td>
+         <td>{{i.shop_id}}</td>
+         <td>{{i.section_code}}</td>
+         <td>{{i.section_id}}</td>
+         <!-- <td> <button type="button" class="btn btn-primary btn-sm" id="{{i.shop_id}}" name="edit" onclick="editbtn(this);" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i></button></td>
+    <td>  <button type="button" class="btn btn-danger btn-sm" name="myid" id="{{i.shop_id}}" onclick="deletebtn(this);" value=""><i class="fa fa-trash" ></i></button></td>
+        </tr> -->
+        {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+<!-- department add -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModal1Label"
+aria-hidden="true">
+<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal1Label">Add New Department</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                onclick="window.location.href = window.location.href;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <label><b>Department Name</b></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="department" name="department" list="productName" autocomplete="off" placeholder="Enter Department" class="form-control">
+                            <datalist id="productName">
+                                <option selected disabled hidden></option>
+                    {% for i in unit %}
+                        <option value = {{i.department_name}}>{{i.department_name}}</option>
+                    {% endfor %}
+                            </datalist>
+                      </div></div>
+                       
+              <br>
+                  
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                onclick="window.location.href = window.location.href;">Close</button>
+            <button type="button" class="btn btn-primary" id="btn">Save
+                    changes</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+<!-- shop add -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label"
+aria-hidden="true">
+<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal2Label">Add Shop</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                onclick="window.location.href = window.location.href;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                <label><b>Department</b></label></div>
+                <div class="col-md-6">
+                <select  class="form-control" name="dept" id="dept" >
+                    <option disabled selected  value=""> Select department</option>
+                    {% for i in unit %}
+                    <option  value="{{i.department_name}}"> {{i.department_name}} </option>
+                    {% endfor %}
+                      </select></div>
+                   </div> <br>
+
+                   <div class="row">
+                    <div class="col-md-6">
+                <label><b>Shop</b></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="shop" name="shop" list="shopname" autocomplete="off" class="form-control" placeholder="Enter Shop name">
+                    <datalist id="shopname">
+                        <option selected disabled hidden></option>
+            <!-- {% for i in shop_code %}
+                <option value = {{i.shop_code}}>{{i.shop_code}}</option>
+            {% endfor %} -->
+                    </datalist>
+                    </div>
+                   </div>
+                 
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                onclick="window.location.href = window.location.href;">Close</button>
+            <button type="button" class="btn btn-primary" id="btn1">Save
+                    changes</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- section add -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModal3Label"
+aria-hidden="true">
+<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal3Label">Add Section</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                onclick="window.location.href = window.location.href;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                <label><b>Department Name</b></label></div>
+                <div class="col-md-6">
+                <select  class="form-control" name="dept1" id="dept1" >
+                    <option disabled selected  value=""> Select department</option>
+                    {% for i in unit %}
+                    <option  value="{{i.department_name}}">{{i.department_name}} </option>
+                    {% endfor %}
+                      </select></div>
+                   </div> <br>
+
+                   <div class="row">
+                    <div class="col-md-6">
+                <label><b>Shop Code</b></label></div>
+                <div class="col-md-6">
+                  
+                        <select name="sectiondept" id="sectiondept" class="form-control" placeholder="Choose Shop">
+                            <option disabled selected  value=""> Select Shop</option>
+                        </select>
+                      
+                    </div></div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                    <label><b>Section Description</b></label></div>
+                    <div class="col-md-6">
+                        <input type="text" id="sec" name="sec" list="section" autocomplete="off" class="form-control" placeholder="Enter Section">
+                        <datalist id="section">
+                            <option selected disabled hidden></option>
+               
+                        </datalist></div>
+                       </div>
+                </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                onclick="window.location.href = window.location.href;">Close</button>
+            <button type="button" class="btn btn-primary" id="btn2">Save
+                    changes</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+    </form>
+</center>
+
+</body>
+<script>
+ $(document).ready(function(){ 
+  
+ 
+
+
+$("#dept").change(function(){
+   
+    var dept = $("#dept").val();
+    var data = {dept};
+    alert(dept); 
+      $.ajax({
+        type : 'GET',
+        url : "{% url 'shop_bydept' %}",
+        dataType : 'json',
+        data : data,
+  
+        success : function(response){
+            console.log(response)
+            let htm = ''
+            for (i in response.shop_code){
+                htm = '<option>'+response.shop_code[i].shop_code+'</option>'
+                $('#shopname').append(htm)
+            }
+             
+        }
+           })
+           })
+        })
+
+    
+
+$("#dept1").change(function(){
+   var dept = $("#dept1").val();
+   var data = {dept};
+  
+     $.ajax({
+       type : 'GET',
+       url : "{% url 'shop_bydept' %}",
+       dataType : 'json',
+       data : data,
+ 
+       success : function(response){
+           
+        // $("#sectiondept").find("option").remove()
+           for(i in response.shop_code){
+            var option = document.createElement("option");
+            option.text = response.shop_code[i].shop_code;
+            option.value = response.shop_code[i].shop_code;
+            var select = document.getElementById("sectiondept");
+            select.appendChild(option);
+           }
+       
+           }
+        })
+          
+
+$("#sectiondept").change(function(){
+   var dept = $("#dept1").val();
+   var sectiondept = $("#sectiondept").val();
+   var data = {sectiondept,dept};
+   
+     $.ajax({
+       type : 'GET',
+       url : "{% url 'section_bydept' %}",
+       dataType : 'json',
+       data : data,
+ 
+       success : function(response){
+           console.log(response)
+            let htm = ''
+            $('#section').empty();
+            for (i in response.section_desc){
+            
+                htm = '<option>'+response.section_desc[i].section_desc+'</option>'
+                $('#section').append(htm)
+            }
+            
+       }
+          })
+          })
+       
+       })
+    
+          
+       
+    </script>
+
+
+
+{% endblock content %}

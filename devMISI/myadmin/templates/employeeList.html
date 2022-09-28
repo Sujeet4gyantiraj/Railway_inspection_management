@@ -1,0 +1,970 @@
+{% extends 'adminDash.html' %} 
+{% block content %} 
+{% load static %}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+  <script src="{% static '/js/autosize.min.js' %}"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"  rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<style>
+
+ form{
+     width: 100%;
+     margin: auto;
+     border: 1px solid #ced4da;
+     padding: 15px 10px;
+ }
+ .alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 0rem;  
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    top: -50px;
+    width: 25%;
+}
+</style>
+<body>
+  <form method="POST">{%csrf_token%}
+
+
+<div class="container">
+    <br>
+    <h3 class="well text-center"> Employees List</h3>
+    {% if messages %}       
+    {% for message in messages %}
+    
+        <div class="alert alert-success" role="alert">
+            <strong>{{message}}</strong> 
+          </div> 
+    
+    {% endfor %}
+ 
+{% endif %}
+
+{% if emp.role == 'admin' %} 
+   
+                <button type="button" class="btn btn-primary" onclick="location.href = '/empregistNew/'">Add New</button>
+                {% else %}
+                <button type="button" class="btn btn-primary" onclick="location.href = '/empregistNew/'" hidden>Add New</button>
+                {% endif %}
+                <br><br> 
+                <table class="table table-striped table-bordered table-hover" id="table2">
+      
+                    <thead class="thead-dark"> 
+            <tr>
+                <th>S.No</th>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Pay Level</th>
+                <th>Department</th>
+                <th>Designation</th>
+               
+                <!-- <th>Profile</th> -->
+<!--               
+                 <th hidden="true">Role</th> -->
+                <th>Designation</th> 
+                <th>View</th>
+                
+                
+            </tr>
+                    </thead>
+            <tbody>
+              
+                {%for i in employees %}
+                <tr>
+                 <td>{{forloop.counter}}</td>
+                  <td>{{i.empno }}</td>
+                  <td>{% if i.empmname == null and i.emplname == null %}
+                    {{i.empname}}
+
+                    {% elif i.empmname == null %}
+                    {{i.empname}} {{i.emplname}}
+                    
+                    {% elif i.emplname == null %}
+                    {{i.empname}} {{i.empmname}}
+                    
+                    {% else %}
+                    {{i.empname}} {{i.empmname}} {{i.emplname}}
+                    {% endif %}</td>
+                  <td>{{i.pc7_level}}</td>
+                  <td>{{i.dept_desc }}</td>
+                  <td>{{i.desig_longdesc}}</td>
+                
+               
+                  <!-- <td><a href = "/open_empregistNew/{{i.empno}}" ><button type="button" class="btn btn-primary btn-sm" >Edit</button></a></td> -->
+                
+                  <!-- <td><button type="button" hidden  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#MyModal"  id="{{i.empno}}" onclick="viewRole_Emp(this)" ><i class="fas fa-edit" ></i></button></td> -->
+                  <td><button type="button"   class="btn btn-primary btn-sm"  id="{{i.empno}}"  data-toggle="modal" data-target="#MyModal" onclick="viewEmployee_Det(this)">Edit</button></td> 
+                  <td><button type="button"   class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal"  id="{{i.empno}}" onclick="viewEmployee_Det(this)">View</button></td>
+                 </tr>
+                {% endfor %}
+            </tbody>
+                </table>
+            
+            
+	</div>	
+   
+   
+<!-- edit role -->
+      <div class="modal fade"  role="dialog" id="MyModal">
+        <div class="modal-dialog modal-lg"> 
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Employee Designation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Employee Name</label></div>
+                    <div class="col-md-3">
+                      <label id="empname1"></label></div>
+                    <div class="col-md-3">
+                      <label>Employee Number</label></div>
+                      <div class="col-md-3">
+                       <label id="empno1"></label>
+                         
+                  </div>
+           
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-3">
+                  <label>Railway</label></div>
+                  <div class="col-md-3">
+                    <!-- <select class="form-control" id="rly" name="rly" class="custom-select" style="max-width:100%;">
+
+                      <option value="All" selected>All</option>
+                      {% for i in rail %}
+                      <option>{{i.location_code}}</option>
+                      {% endfor %}
+          
+                  </select>-->
+                    <input type="text" class="form-control" id="railway" required readonly></input>
+                </div>
+                  <div class="col-md-3">
+                    <label>Division</label></div>
+                    <div class="col-md-3">
+                      <!-- <select class="form-control" id="div" name="div" class="custom-select" style="max-width:100%;">
+
+                        <option value="All" selected>All</option>
+                        {% for i in division %}
+                        <option>{{i.location_code}}</option>
+                        {% endfor %}
+            
+                    </select> -->
+                    <input type="text" class="form-control" id="div" readonly></input>
+                </div>
+         
+          </div>
+            
+        </br>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Department</label></div>
+                    <div class="col-md-3">
+                        <!-- <select  class="form-control" id="department" name="department" >
+                            <option disabled selected  value=""> Select Department</option>
+                            {% for i in department %}
+                            <option value="{{i.department_name}}"> {{i.department_name}} </option>
+                            {% endfor %}
+                        </select> -->
+                        <input type="text" class="form-control" id="department" readonly></input>
+                </div>
+                <div class="col-md-3">
+                  <label>Sub Department</label></div>
+                  <div class="col-md-3">
+                    <input type="text" class="form-control" id="subdepart" readonly></input></div>
+            </div>
+<br>
+<div class="row">
+  <div class="col-md-3">
+      <label>Railway type</label></div>
+      <div class="col-md-3">
+          <input type="text" class="form-control" id="rl_type" name="rl_type" readonly>
+              
+          
+  </div>
+  
+    
+  <div class="col-md-3">
+      <label>Pay Level</label></div>
+      <div class="col-md-3">
+      <label id="paylevel1"></label>
+  </div>
+</div><br>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Designation</label></div>
+                    <div class="col-md-3">
+                       
+                       <select  class="form-control" name="designation" id="designation" required>
+                        <option id="" selected disabled hidden value=""> Select Designation</option>
+                        {% for i in designation %}
+                        <option value="{{i.designation}}"> {{i.designation}} </option>
+                        {% endfor %}
+                       </select>
+                </div>
+
+             
+                <div class="col-md-3">
+                    <label>Reporting Officer Designation</label></div>
+                    <div class="col-md-3">
+                        <select  class="form-control" name="parentdesig" id="parentdesig" >
+                          <option disabled selected value="" > Select Designation</option>
+                        </select>
+                </div>
+            </div>
+<br>
+<div class="row">
+  <div class="col-md-3">
+    <label id="station_des">Station Destination</label></div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" id="station"></input></div>
+</div>
+            <!-- <div class="row">
+                <div class="col-md-3">
+                    <label id="shopcode_area">Area</label></div>
+                    <div class="col-md-3">
+                        <select  class="form-control" name="shop" id="shop" >
+                        
+                            <option disabled selected  value=""> Select Area</option>
+                            
+                        </select>
+                </div>
+                <div class="col-md-3">
+                    <label id="shopsec_area">Subarea</label></div>
+                    <div class="col-md-3">
+                        <select  class="form-control" multiple="multiple" name="s_section" id="s_section"  placeholder="Select Subarea" style="width: 100%">
+                            <option disabled selected  value=""> Select Subarea</option>
+                           
+                              </select>
+                </div>  -->
+            </div></br>
+            <div class="row">
+             
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="btn">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+            </div></div>
+          </div>
+        </div>
+      </div>		
+
+     
+	
+      <div class="modal fade" id="exampleModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+        
+          <!-- empdetails-->
+          <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Employee Details</h3>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+             
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3"><label><b>Employee ID</b></label></div>
+                    <div class="col-md-3"><label id="empno"></label></div>
+                   <div class="col-md-3"><label><b>Employee Name</b></label></div>
+                   <div class="col-md-3"><label id="empname"></label></div>
+                  
+              </div>
+   
+              <!-- <div class="row">
+                
+                <div class="col-md-3"><label><b>Date of Joining</b></label></div>
+                <div class="col-md-3"><label id="joining_date"></label></div>
+                
+                <div class="col-md-3"><label><b>Date of Promotion</b></label></div>
+                <div class="col-md-3"><label id="date_of_promotion"></label></div> 
+                  
+               </div> -->
+       
+   
+               <div class="row">
+                   <div class="col-md-3"><label><b>Date of Birth</b></label></div>
+                   <div class="col-md-3"><label id="dobdate"></label></div>
+   
+                   <div class="col-md-3"><label><b>Appointment Date</b></label></div>
+                   <div class="col-md-3"><label id="dateapp"></label></div>
+               </div>
+             
+               <div class="row">
+                   <!-- <div class="col-md-3"><label><b>Marital Status</b></label></div>
+                   <div class="col-md-3"><label id="empmarital"></label></div> -->
+                   <!-- <div class="col-md-3"><label><b>Pay Level</b></label></div>
+                   <div class="col-md-3"><label id="paylevel"></label></div> -->
+                   <div class="col-md-3"><label><b>Superannuation Date</b></label></div>
+                   <div class="col-md-3"><label id="superdate"></label></div>
+                   <div class="col-md-3"><label><b>Gender</b></label></div>
+                   <div class="col-md-3"><label id="empsex"></label></div>
+               </div>
+               <div class="row">
+                   <div class="col-md-3"><label><b>Pay Level</b></label></div>
+                   <div class="col-md-3"><label id="paylevel"></label></div>
+               
+                   <div class="col-md-3"><label><b>Designation</b></label></div>
+                   <div class="col-md-3"><label id="empdesignation"></label></div>
+               </div>
+              
+               
+               <div class="row">
+                   <div class="col-md-3"><label><b>Sub department</b></label></div>
+                   <div class="col-md-3"><label id="subdept"></label></div>
+             
+                   <div class="col-md-3"><label><b>Railway type</b></label></div>
+                   <div class="col-md-3"><label id="rltype"></label></div>
+               </div>
+               <div class="row">
+                   <!-- <div class="col-md-3"><label><b>WAU</b></label></div>
+                   <div class="col-md-3"><label id="wau"></label></div> -->
+                   <div class="col-md-3"><label><b>Bill Unit</b></label></div>
+                   <div class="col-md-3"><label id="billunit"></label></div>
+                   <div class="col-md-3"><label><b>Station Destination</b></label></div>
+                   <div class="col-md-3"><label id="station_dest"></label></div>
+               </div>
+              
+               <div class="row">
+                <div class="col-md-3"><label><b>Phone Number</b></label></div>
+                <div class="col-md-3"><label id="empphone"></label></div>
+               
+                   <div class="col-md-3"><label><b>Service Status</b></label></div>
+                   <div class="col-md-3"><label id="service"></label></div>
+               </div>
+               <!-- <div class="row">
+                   <div class="col-md-3"><label><b>Employee Status</b></label></div>
+                   <div class="col-md-3"><label id="empstatus"></label></div>
+               
+                   <div class="col-md-3"><label><b>Employee type</b></label></div>
+                   <div class="col-md-3"><label id="emptype"></label></div>
+               </div> -->
+               <div class="row">
+                <div class="col-md-3"><label><b>Department</b></label></div>
+                <div class="col-md-3"><label id="emptdepartment"></label></div>
+               
+                   <div class="col-md-3"><label><b>Email Address</b></label></div>
+                   <div class="col-md-3"><label id="empemail"></label></div>
+               </div>
+               <!-- <div class="row">
+                   <div class="col-md-3"><label><b>Department</b></label></div>
+                   <div class="col-md-3"><label id="emptdepartment"></label></div>
+               
+                   <div class="col-md-3"><label><b>Designation</b></label></div>
+                   <div class="col-md-3"><label id="empdesignation"></label></div>
+               </div> -->
+               
+               <!-- <div class="row">
+                   <div class="col-md-3"><label><b>Office Order No</b></label></div>
+                   <div class="col-md-3"><label id="officeor"></label></div>
+               
+                   <div class="col-md-3"><label><b>Pay Category</b></label></div>
+                   <div class="col-md-3"><label id="category"></label></div>
+               </div> -->
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>    
+    </div>
+  </form>
+</body>
+    
+  
+      
+<script type="text/javascript">
+      function convertDate(dateString){
+    
+    if(dateString!=null){
+        var p = dateString.split(/\D/g);
+        return [p[2],p[1],p[0] ].join("-");
+    }
+    return '';
+}
+function viewEmployee_Det(el)
+    {
+
+        var x =el.id;
+       
+        $.ajax({
+
+        url: "{% url 'viewEmployee_Det' %}",
+        type: "GET",
+        dataType: "json",
+        data: {
+            'empno':x,
+            
+        },
+        success: function (response) {
+            $("#empno").text(response.empno);    
+            $("#empno1").text(response.empno); 
+            // $("#wau1").text(response.wau);    
+            $("#empname").text(response.empname); 
+            $("#empname1").text(response.empname); 
+            $("#railway").val(response.railway); 
+            $("#div").val(response.division); 
+            $("#department").val(response.department); 
+            $("#subdepart").val(response.sub_depart); 
+            $("#rl_type").val(response.railwaytype); 
+            $("#station").val(response.stationdes); 
+            // $("#joining_date").text(convertDate(response.date_of_joining));    
+            $("#date_of_promotion").text(convertDate(response.date_of_promotion)); 
+            $("#dobdate").text(convertDate(response.birthdate));    
+            $("#superdate").text(convertDate(response.superdate));    
+            $("#dateapp").text(convertDate(response.dateapp));
+            $("#empmarital").text(response.marital_status); 
+            $("#empsex").text(response.gender); 
+            $("#payband").text(response.payband);  
+            $("#scalecode").text(response.scalecode);  
+            $("#gradepay").text(response.gradepay); 
+            $("#paylevel").text(response.paylevel); 
+            $("#paylevel1").text(response.paylevel);  
+            $("#emptype").text(response.emp_inctype); 
+            $("#empemail").text(response.email); 
+            $("#subdept").text(response.subdept); 
+            $("#rltype").text(response.rltype); 
+
+            $("#empphone").text(response.contactno);
+            $("#officeor").text(response.office_or);
+            $("#station_dest").text(response.station_dest); 
+            $("#wau").text(response.wau);
+            $("#billunit").text(response.billunit);   
+            $("#service").text(response.service);  
+            $("#emptype").text(response.emptype);   
+            $("#office_orderno").text(response.office_orderno);
+            $("#empstatus").text(response.status);
+            $("#emp_inctype").text(response.emp_inctype);
+            $("#role").text(response.role);
+            $("#station").text(response.station_des);
+            // $("#shop_section").text(response.shop_section);
+           $("#inc_category").text(response.inc_category);
+           $("#designation").text(response.desig);
+           $("#ticket").text(response.ticket_no);
+         
+           $("#id_card").text(response.idcard_no);
+         
+            $("#empdesignation").text(response.desig);
+            $("#emptdepartment").text(response.dept);
+            
+            $("#medicalcode").text(response.medicalcode);
+            $("#tradecode").text(response.tradecode); 
+            $("#category").text(response.category); 
+            let row1='';
+          // alert('hhh')
+          $('#parentdesig').empty();
+          row1+='<option >Select officer Designation</option>'
+            for(i=0;i<response.parentdesignation.length;i++)
+            {
+              row1+='<option >'+response.parentdesignation[i].designation+'</option>';
+            }
+            $('#parentdesig').append(row1);
+          // if(response.paylevel>10)
+          // {
+          //     $('#shopcode_area').html('Area');shopsec_area
+          //     $('#shopsec_area').html('Subarea');
+          // }
+          let row='';
+          // alert('hhh')
+          $('#designation').empty();
+          row+='<option >Select Designation</option>'
+            for(i=0;i<response.desigall.length;i++)
+            {
+              row+='<option >'+response.desigall[i].designation+'</option>';
+            }
+            $('#designation').append(row);
+    
+          },
+        error: function () {
+            alert("error");
+        }
+        }); 
+
+    }
+
+
+    function editEmployee_Det(el)
+    {
+
+        var x =el.id;
+       alert(x);
+        $.ajax({
+
+        url: "{% url 'get_emp_detNew' %}",
+        type: "GET",
+        dataType: "json",
+        data: {
+            'empno':x,
+            
+        },
+        success: function (response) {
+            console.log(response)
+                if (response.rno==0) {
+                   // alert(response.rno)                   
+           $("#save").val("Submit");
+           $("#empname").val("");
+           $("#empname").attr('readonly', false); 
+           $("#category").val("");
+           $("#category").attr('readonly', false);  
+           $("#officeor").val("");
+           $("#officeor").attr('readonly', false);
+           $("#gradepay").val("");
+           $("#gradepay").attr('readonly', false);
+           $("#paylevel").val("");
+           $("#paylevel").attr('readonly', false);
+           $("#idcardno").val("");
+           $("#idcardno").attr('readonly', false);
+           $("#dobdate").val(""); 
+           $("#dobdate").attr('readonly', false);
+           $("#dateapp").val(""); 
+           $("#dateapp").attr('readonly', false);
+           $("#empsex").val(""); 
+           $("#empsex").attr('readonly', false);
+           $("#emptype").val("");  
+           $("#emptype").attr('disabled', false);
+           $("#empmarital").val("");  
+           $("#empmarital").attr('readonly', false);
+           $("#empemail").val(""); 
+           $("#empemail").attr('readonly', false);
+           $("#empphone").val(""); 
+           $("#empphone").attr('readonly', false);
+          //  $("#sub_shop_sec").val(""); 
+          //  $("#sub_shop_sec").attr('disabled', false);
+          //  $("#shop_sec").val("");
+          //  $("#shop_sec").attr('disabled', false);
+           $("#empdesignation").val("");
+           $("#empdesignation").attr('disabled', false);
+           $("#empstatus").val(""); 
+            
+           $("#emptdepartment").val(""); 
+           $("#emptdepartment").attr('disabled', false);
+           $("#sex2").attr('disabled', false);
+           $("#marital2").attr('disabled', false);
+           $("#payband").val(""); 
+           $("#payband").attr('disabled', false); 
+           $("#scalecode").val("");  
+           $("#scalecode").attr('disabled', false); 
+
+           $("#joining_date").val("");  
+           $("#joining_date").attr('disabled', false); 
+           $("#date_of_promotion").val(""); 
+           $("#date_of_promotion").attr('disabled', false); 
+           $("#station_dest").val(""); 
+           $("#station_dest").attr('disabled', false);
+           $("#wau").val("");
+           $("#wau").attr('disabled', false);
+           $("#billunit").val("");   
+           $("#billunit").attr('disabled', false);
+           $("#service").val(""); 
+           $("#service").attr('disabled', false); 
+           $("#emptype").val("");
+           $("#emptype").attr('disabled', false);
+
+           $(".calendardate").attr('disabled', false);
+
+              } else {
+           $("#save").val("Update");
+           $("#empno").attr('readonly', true);
+          $("#empname").val(response.empfname);
+           $("#empno").val(response.empno);     
+           $("#dobdate").val(convertDate(response.birthdate)); 
+           $("#joining_date").val(convertDate(response.joining_date));  
+           $("#date_of_promotion").val(convertDate(response.date_of_promotion));   
+           $("#dateapp").val(convertDate(response.dateapp));          
+          $("#officeor").val(response.office_or);
+          $("#empsex").val(response.sex); 
+            if (response.sex=='M') {
+                $("#sex1").attr('checked', true);
+            } 
+            else {
+                $("#sex2").attr('checked', true);
+                }
+            if (response.marital_status=='M') {
+                    $("#marital1").attr('checked', true);
+                } 
+            else {
+                $("#marital2").attr('checked', true);
+            }
+         $("#emptype").val(response.emp_inctype); 
+        $("#empemail").val(response.email); 
+          $("#empphone").val(response.contactno);
+          //  $("#sub_shop_sec").val(response.shopno);
+          //  $("#sub_shop_sec").attr('disabled', true); 
+          //  $("#shop_sec").val(response.parentshop);
+          //  $("#shop_sec").attr('disabled', true);
+           $("#empdesignation").val(response.desig);
+          $("#empstatus").val(response.status);           
+           $("#emptdepartment").val(response.dept); 
+           $("#category").val(response.category); 
+          $("#payband").val(response.payband);  
+           $("#scalecode").val(response.scalecode);  
+           $("#gradepay").val(response.gradepay); 
+           $("#paylevel").val(response.paylevel);  
+           $("#station_dest").val(response.station_dest); 
+           $("#wau").val(response.wau);
+           $("#billunit").val(response.billunit);   
+           $("#service").val(response.service);  
+           $("#emptype").val(response.emptype);   
+           $("#officeor").val(response.office_orderno);
+        }
+    },
+        error: function () {
+            alert("error");
+        }
+        }); 
+
+    }
+</script>    
+<script>
+    
+
+   
+     
+ $(document).ready(function () {
+  $('#rly').change(function() {
+    var rly=$('#rly').val();
+    alert(rly);
+    data={
+        'rly':rly,
+        
+    }
+  
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'div_by_rly' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+        division=response.division;
+                    $('#div').empty();
+                    $('#div').append(`<option value="">All</option>`);
+                    for (let i = 0; i < division.length; i++) {
+                    $('#div').append(`<option value="${division[i]}">
+                                       ${division[i]}
+                                  </option>`);
+                                }
+      }
+         })
+         })
+    $("[type='number']").keypress(function (evt) {
+    evt.preventDefault();
+});
+
+
+   
+ setTimeout(function(){  $(".alert").hide()  }, 3000); 
+    //$("#shop_sec").select2({         
+    //   tags: true          
+    //    });
+    //    $("#sub_shop_sec").select2({         
+    //      tags: true          
+    //    });
+    
+  
+    })
+   
+ 
+    
+</script>
+<script>
+    
+  $('#btn').click(function(){
+    alert('Please enter');
+    alert($('#parentdesig').val());
+    var data = {
+     
+    parentdesig:$('#parentdesig').val(),
+    s_section: JSON.stringify($('#s_section').val()),
+    empno1:$('#empno1').text(),
+    department:$('#department').val(),
+    designation:$('#designation').val(),
+    emprole:$('#emprole').val(),
+    rly:$('#rly').val(),
+    div:$('#div').val(),
+    
+  }
+  alert($('#parentdesig').val());
+    $.ajax({
+      url:"{% url 'assign_role' %}",
+      type: 'GET',
+      dataType: 'json',
+      data: data,
+      success: function(response){
+       
+        location.reload();
+      },
+      error: function(response){
+        alert('some error')
+      }
+    })
+  });
+  
+</script>
+<script>
+     
+  $(".multiple").select2({
+    tags: true,
+    tokenSeparators: [',', ' ']
+})
+$('#s_section').select2({
+  createTag: function (params) {
+    // Don't offset to create a tag if there is no @ symbol
+    if (params.term.indexOf('@') === -1) {
+      // Return null to disable tag creation
+      return null;
+    }
+
+    return {
+      id: params.term,
+      text: params.term
+    }
+  }
+});
+
+</script>
+<script>
+    
+    $(document).ready(function () {
+      
+$("#department").change(function(e){
+  
+  e.preventDefault(); 
+  var department = $("#department").val();
+  var data = {department};
+  
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'getDesigbyDepartment' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+            var elementsadded = document.querySelectorAll(".newelestaff");
+            if(elementsadded.length>0){
+              var elementsaddedarr = Array.from(elementsadded);
+            elementsaddedarr.forEach((el)=> el.remove());
+            document.querySelector("#empno").selected = true;
+           
+            }
+            var brarr,mystr,html;
+            brarr = response.map((el)=>el.designation);
+            mystr = "";
+           
+            $("#designation").empty();
+            html = `<option  class="newelecdno" value="" disabled hidden>Select Designation</option>`;
+            mystr = html.concat(mystr);
+            brarr.forEach((el,index)=>{
+              html = `<option class="newelecdno">${brarr[index]}</option>`
+              mystr = html.concat(mystr);
+            });
+            html = "";
+            document.querySelector("#designation").insertAdjacentHTML('beforeend',mystr);
+            mystr="";
+      }
+         })
+         })
+
+        $('#table2').DataTable();
+        $('#table1_wrapper').css('margin-bottom','2%');
+
+ 
+
+             
+        $("#shop").change(function(e){
+  
+          e.preventDefault(); 
+          var shop = $("#shop").val();
+          
+          var data = {shop};
+        
+          
+            $.ajax({
+              type : 'GET',
+              url : "{% url 'getsection_byshop1' %}",
+              dataType : 'json',
+              data : data,
+        
+              success : function(response){
+              
+                    var elementsadded = document.querySelectorAll(".newelestaff");
+                    if(elementsadded.length>0){
+                      var elementsaddedarr = Array.from(elementsadded);
+                    elementsaddedarr.forEach((el)=> el.remove());
+                    document.querySelector("#empno").selected = true;
+                   
+                    }
+                    var brarr,mystr,html;
+                    brarr = response.shop_id;
+                    mystr = "";
+                   
+                    $("#s_section").empty();
+                    html = `<option  class="newelecdno" value="" disabled hidden>Select Post</option>`;
+                    mystr = html.concat(mystr);
+                    brarr.forEach((el,index)=>{
+                      html = `<option class="newelecdno">${brarr[index]}</option>`
+                      
+                      mystr = html.concat(mystr);
+                    });
+                    html = "";
+                    document.querySelector("#s_section").insertAdjacentHTML('beforeend',mystr);
+                    mystr="";
+              }
+                 })
+                 })
+              
+
+$("#designation").change(function(e){
+  
+  e.preventDefault(); 
+  var designation = $("#designation").val();
+  
+  var data = {designation};
+
+  
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'getrole_bydesig' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+      
+            var elementsadded = document.querySelectorAll(".newelestaff");
+            if(elementsadded.length>0){
+              var elementsaddedarr = Array.from(elementsadded);
+            elementsaddedarr.forEach((el)=> el.remove());
+            document.querySelector("#empno").selected = true;
+           
+            }
+            var brarr,mystr,html;
+            brarr = response.role;
+            mystr = "";
+           
+            $("#emprole").empty();
+            html = `<option  class="newelecdno" value="" disabled hidden>Select Post</option>`;
+            mystr = html.concat(mystr);
+            brarr.forEach((el,index)=>{
+              html = `<option class="newelecdno">${brarr[index]}</option>`
+              
+              mystr = html.concat(mystr);
+            });
+            html = "";
+            document.querySelector("#emprole").insertAdjacentHTML('beforeend',mystr);
+            mystr="";
+      }
+         })
+         })
+
+                     
+$("#department").change(function(e){
+  
+  e.preventDefault(); 
+  var department = $("#department").val();
+  
+  var data = {department};
+
+  
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'getshopcode_bydept' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+      
+            var elementsadded = document.querySelectorAll(".newelestaff");
+            if(elementsadded.length>0){
+              var elementsaddedarr = Array.from(elementsadded);
+            elementsaddedarr.forEach((el)=> el.remove());
+            document.querySelector("#empno").selected = true;
+           
+            }
+            var brarr,mystr,html;
+            brarr = response.shop_code;
+            mystr = "";
+           
+            $("#shop").empty();
+            html = `<option  class="newelecdno" value="" disabled hidden>Select Post</option>`;
+            mystr = html.concat(mystr);
+            brarr.forEach((el,index)=>{
+              html = `<option class="newelecdno">${brarr[index]}</option>`
+              
+              mystr = html.concat(mystr);
+            });
+            html = "";
+            document.querySelector("#shop").insertAdjacentHTML('beforeend',mystr);
+            mystr="";
+      }
+         })
+         })
+        
+         $("#department").change(function(e){
+  alert("hiiiiiii");
+          e.preventDefault(); 
+          var department = $("#department").val();
+          var paylevel1 = $("#paylevel1").text();
+          var data = {paylevel1, department };
+        
+          
+            $.ajax({
+              type : 'GET',
+              url : "{% url 'get_parentdesig' %}",
+              dataType : 'json',
+              data : data,
+        
+              success : function(response){
+              
+                    var elementsadded = document.querySelectorAll(".newelestaff");
+                    if(elementsadded.length>0){
+                      var elementsaddedarr = Array.from(elementsadded);
+                    elementsaddedarr.forEach((el)=> el.remove());
+                    document.querySelector("#empno").selected = true;
+                   
+                    }
+                    var brarr,mystr,html;
+                    brarr = response.desig_id;
+                    mystr = "";
+                   
+                    $("#parentdesig").empty();
+                    html = `<option  class="newelecdno" value="" disabled hidden>Select Post</option>`;
+                    mystr = html.concat(mystr);
+                    brarr.forEach((el,index)=>{
+                      html = `<option class="newelecdno">${brarr[index]}</option>`
+                      
+                      mystr = html.concat(mystr);
+                    });
+                    html = "";
+                    document.querySelector("#parentdesig").insertAdjacentHTML('beforeend',mystr);
+                    mystr="";
+              }
+                 })
+                 })
+               
+    } );
+    
+</script>
+ 
+{% endblock content %}

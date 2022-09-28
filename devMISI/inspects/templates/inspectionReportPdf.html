@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Inspection Report</title>
+</head>
+ 
+<style>
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;
+
+      @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 270pt; top: 800pt;
+        
+    }
+    }
+   
+ 
+</style>
+<body>
+    {% for i in ins_detail %}
+        <b><h1 style="text-align: center; font-size: 18px; padding-top: 40px;">{{i.inspection_title}}</h1></b>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="font-size: 14px; padding: 2px; "> S.No.</th>
+                    <th style="font-size: 14px; padding: 2px; ">Inspection Para</th>
+                    <th style="font-size: 14px; padding: 2px; ">Action By</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for j in i.item_details1 %}
+                {% if j.type == 'H' %}
+                    
+                    {% if j.chk_cts == 'YES' %}
+                        <tr>
+                            <td style="width: 8%; height: auto; font-size: 13px; font-weight: bold;">{{j.des_id}}</td>
+                            <td style="width: 70%;height: auto;  font-size: 13px;"><b>{{j.item_title}}</b></td>
+                            <td style="width: 22%; height: auto; font-size: 13px;">
+                            {% for y in j.mrkoffi %}
+                                {{y.marked_to__designation}}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td style="width: 8%; height: auto; font-size: 13px; font-weight: bold;">{{j.des_id}}</td>
+                            <td style="width: 70%;height: auto;  font-size: 13px;"><b>{{j.item_title}}</b></td>
+                            <td style="width: 22%; height: auto; font-size: 13px;"></td>
+                        </tr>
+                    {% endif %}
+                    
+                
+                
+                {% elif j.type == 'SH' %}
+                    <tr>
+                        <td style="width: 8%; height: auto; font-size: 13px;">{{j.des_id}}</td>
+                        <td style="width: 70%; height: auto; font-size: 13px;">{{j.observation}}</td>
+                        <td style="width: 22%; height: auto; font-size: 13px; ">{{j.mrkoffi.desig_longdesc}}</td>      
+                    </tr>
+                {% else %}
+                <tr>
+                    <td style="width: 8%; height: auto; font-size: 13px;">{{j.des_id}}</td>
+                    <td style="width: 70%; height: auto; font-size: 13px;">{{j.item_subtitle}}</td>
+                    <td style="width: 22%; height: auto; "></td>  
+                </tr>
+                
+                {% endif  %}  
+                {% endfor %}    
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <div></div>
+                
+                <td>
+                    <br><br><br><br><br><br><br><br><br><br><br><br>
+                    <h5 align="left" style="font-size: 14px; white-space: nowrap;" >Note No: {{inspection_note_no}} </h5>
+                    <h4 align="left" style="font-size: 14px;" ><b>Copy to:</b></h4>
+                    <div id="officer_id">
+                        <ol type="1" >
+                            {% for i in copyto %}
+                            <li style="font-size: 15px;">{{i.send_desig}}</li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+               
+                <td>
+                    <br><br><br><br><br>
+                    <h3 align="right" style="font-size: 15px;" ><b>({{empname.empname}})<br>{{desig}}</b></h3>
+                    <h3 align="right" style="font-size: 15px;" ><b>
+                        {% if empname.station_des %}
+                        {{empname.station_des}} Dated: {{today_date|date:'d/m/Y'}}
+                        {% else %}
+                            Dated: {{today_date|date:'d/m/Y'}}
+                        {% endif %}
+                    </b></h3>
+                 </td>
+           
+        </tr>
+    </table>        
+            <div id="footer_content"> Page <pdf:pagenumber> of <pdf:pagecount> </div>       
+               
+               
+    {% endfor %}    
+</body>
+</html>

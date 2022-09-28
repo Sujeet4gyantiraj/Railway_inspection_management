@@ -1,0 +1,692 @@
+{% extends 'base.html' %} 
+{% block content %} 
+{% load static %}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+<script src="{% static '/js/autosize.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"  rel="stylesheet"/>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    
+.select2-container--default .select2-selection--single {
+     
+     border: 1px solid #ced4da;
+     
+ }
+  
+ .select2-container .select2-selection--single
+ {
+     height: 40px;
+     
+     padding-top: 4px;
+ } 
+ form{
+     width: 100%;
+     margin: auto;
+     border: 1px solid #ced4da;
+     padding: 15px 10px;
+ }
+ .alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 0rem;  
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    top: -50px;
+    width: 25%;
+}
+</style>
+<div class="container">
+    <br>
+    <h3 class="well text-center"> Employee Registration</h3>
+    {% if messages %}       
+    {% for message in messages %}
+    
+        <div class="alert alert-success" role="alert">
+            <strong>{{message}}</strong> 
+          </div> 
+    
+    {% endfor %}
+ 
+{% endif %}
+
+   
+     
+	<div class="col-lg-12 well">
+        <div class="row" style="margin-bottom:2%">
+            <button type="button" class="btn btn-primary" onclick="location.href = '/employeeList/'">Back</button>
+
+        </div>
+       
+            <div class="row">
+              <form action="{% url 'empregistNew' %}" method="POST"> 
+              
+                {% csrf_token %}  			
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-sm-3 form-group">
+								<label>Employee No</label>
+								<input type="text" name="empno" id="empno" placeholder="Enter Employee ID" maxlength="12" autocomplete="off" onclick="get_empno(this)" onblur="get_empno(this)" class="form-control" value="{{emplist.empno}}" required autocomplete="off">
+                                
+                            </div>
+							<div class="col-sm-3 form-group">
+								<label>Employee  Name</label>
+								<input type="text" name="empname" id="empname"  placeholder="Enter full Name " value="{{emplist.empname}}" onclick="get_empno(this)" maxlength="30" class="form-control" required>
+                            </div>
+                            <div class="col-sm-3 form-group">
+								<label> Date of Birth</label>
+                                
+								<input type="text" id="dobdate" name="dobdate" value="{{emplist.birthdate|date:'d-m-Y'}}" placeholder="dd-mm-yyyy" class="form-control calendardate" required autocomplete="off" readonly="true">
+                            </div>
+                            <div class="col-sm-3 form-group">
+								<label>Appointment Date </label>
+								<input type="text" id="dateapp" name="dateapp" value="{{emplist.appointmentdate|date:'d-m-Y'}}" placeholder="dd-mm-yyyy" class="form-control calendardate" required autocomplete="off" readonly="true">
+                            </div>
+
+                           
+						</div>					
+						 	
+						<div class="row">
+                            <div class="col-sm-3 form-group">
+                                <label>Date of Joining(in BLW) </label>
+                                <input type="text" id="joining_date" name="joining_date" value="{{emplist.date_of_joining|date:'d-m-Y'}}" placeholder="dd-mm-yyyy" class="form-control calendardate" required autocomplete="off" readonly="true">
+
+                                <!-- <select  class="form-control" name='shop_sec' id="shop_sec" required>
+                                  <option selected disabled hidden value=""> Select Shop Section</option>
+                                {% for i in shoplist%}
+                                <option value="{{i.shop_id}}"> {{i.shop_code}} </option>
+                                {% endfor %}
+                                 </select> -->
+                                </div>
+
+                            <div class="col-sm-3 form-group">
+						      
+
+
+                                
+                                 <label>Date of Promotion(last promotion)</label>
+                                 <input type="text" id="date_of_promotion" name="date_of_promotion" value="{{emplist.date_of_promotion|date:'d-m-Y'}}" placeholder="dd-mm-yyyy" class="form-control calendardate" required autocomplete="off" readonly="true">
+
+                                 <!-- <select  class="form-control" name='sub_shop_sec' id="sub_shop_sec" required>
+                                             <option id="sub_shop_sec" selected disabled hidden value=""> Select Shop Section</option>
+                                           
+                                            </select> -->
+                             
+                              </div>
+                              
+                            <div class="col-sm-3 form-group">
+								<label>Marital status</label>
+                                <br>
+								<!-- Default inline 1-->
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" class="custom-control-input" id="marital1" name="empmarital"  value="M" required>
+    <label class="custom-control-label" for="marital1">Married </label>
+  </div>
+  
+  <!-- Default inline 2-->
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" class="custom-control-input" id="marital2" name="empmarital" value="B" required>
+    <label class="custom-control-label" for="marital2">Unmarried</label>
+  </div>
+							  </div>
+							<div class="col-sm-3 form-group">
+                                <label>Sex</label>
+                                <br>
+								<!-- Default inline 1-->
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" class="custom-control-input" id="sex1" name="empsex" value="M" required>
+    <label class="custom-control-label" for="sex1">Male </label>
+  </div>
+  
+  <!-- Default inline 2-->
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" class="custom-control-input" id="sex2" name="empsex" value="F" required>
+    <label class="custom-control-label" for="sex2">Female</label>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" class="custom-control-input" id="sex3" name="empsex" value="O" required>
+    <label class="custom-control-label" for="sex3">Others</label>
+  </div>
+
+								 
+                            </div>
+                        </div>	
+
+
+                        <div class="row">
+                            
+                            
+
+                            <div class="col-sm-3 form-group">
+								<label>Pay Level</label>
+                                <input type="number" min="1" max="18" value="{{emplist.paylevel}}" class="form-control " name="paylevel" id="paylevel" placeholder="Enter Pay Level">
+                            </div>
+                            <div class="col-sm-3 form-group">
+								<label>Grade Pay</label>
+								<input type="text" id="scalecode" name="scalecode" value="{{emplist.scalecode}}" placeholder="Enter Scalecode" maxlength="5" class="form-control" required autocomplete="off">
+                            </div>
+
+                           
+
+                              <div class="col-sm-3 form-group">
+								<label> Pay Band</label>
+								<input type="text" id="payband" name="payband" value="{{emplist.payband}}" placeholder="Enter Pay Band" maxlength="12" class="form-control" required autocomplete="off">
+                            </div>
+                            <div class="col-sm-3 form-group">
+								<label>Pay Rate</label>
+                                <input type="text"  placeholder="Enter Grade Pay" value="{{emplist.payrate}}" class="form-control" name="gradepay" id="gradepay" maxlength="6" required>
+                            </div>
+							
+                        </div>	
+
+                        <div class="row">
+                            <div class="col-sm-3 form-group">
+                                <label>WAU</label>
+                               <select  class="form-control" id="wau" name="wau" >
+                                    <option disabled selected  value=""> Select Railway Unit</option>
+                                    {% for i in railway %}
+                                    <option> {{i.location_code}} </option>
+                                    {% endfor %}
+                                </select>
+
+								 
+                            </div>
+                            <div class="col-sm-3 form-group">
+								<label>Station Destination</label>
+                                <input type="text" id="station_dest" name="station_dest" value="{{emplist.station_des}}" maxlength="20" placeholder="Enter Station Destination"   class="form-control " required autocomplete="off">
+							  </div>
+
+                            <div class="col-sm-3 form-group">
+								<label>Bill Unit</label>
+                                <input type="text"  placeholder="Enter bill unit"  value="{{emplist.billunit}}" id="billunit" class="form-control" name="billunit" maxlength="10" placeholder="Enter bill unit"required>
+							  </div>
+							<div class="col-sm-3 form-group">
+                                <label>Service Status</label>
+                                <select  class="form-control" name="empstatus" id="empstatus" required>
+                                    <option disabled selected  value=""> Select Status </option>
+                                    
+                                    <option >SR</option>
+                                    <option >Retired</option>
+                                    <option>Transfer</option>
+                                   
+                                   
+                             </select>
+                                 
+
+								 
+                            </div>
+                        </div>	
+
+
+                            <div class="row">
+                            <div class="col-sm-3 form-group">
+                                <label>Employee Status</label>
+                                {% comment %} <input type="text" class="form-control" placeholder=" Enter status" name="empstatus" id="empstatus" required> {% endcomment %}
+							 <select  class="form-control" name="empstatus" id="empstatus" required>
+                                    <option disabled selected  value=""> Select Status </option>
+                                    
+                                    <option selected disabled hidden>Select Employee Status</option>
+                                    <option value="AD">AD</option>
+                                    <option value="AP">AP</option>
+                                    <option value="CE">CE</option>
+                                    <option value="CL">CL</option>
+                                    <option value="CT">CT</option>
+                                    <option value="OF">OF</option>
+                                    <option value="PM">PM</option>
+                                    <option value="RG">RG</option>
+                                    <option value="ST">ST</option>
+                                    <option value="TM">TM</option>
+                                    <option value="TN">TN</option>
+                                    <option value="TP">TP</option>
+                                    <option value="TR">TR</option>
+                                   
+                             </select>
+                                 
+                                 
+							</div>
+							<div class="col-sm-3 form-group">
+                                <label>Employee Type</label>
+                                <input type="text" class="form-control" value="{{emplist.emptype}}" placeholder=" Enter Type" name="emptype" id="emptype" required>
+								<!-- <select  class="form-control" name="emptype" id="emptype" required>
+                               <option disabled selected  value=""> Select Employee Type</option>
+                               <option value="D"> Direct</option>
+                               <option value="I">Indirect</option>
+                               <option value="E">Essential indirect</option>
+                                 </select> -->
+                                 
+                            </div>	
+                            
+                            <div class=" col-sm-3 form-group">
+                                <label>Phone Number</label>
+                                <input type="text" name="empphone" value="{{emplist.contactno}}" onblur="isNumber14();"  onkeypress="return isNumberKey(event);" maxlength="10" id="empphone" placeholder="Enter Phone Number" class="form-control" required>
+                            </div>		
+                            <div class="col-sm-3 form-group">
+                                <label>Email Address</label>
+                                <input type="text" name="empemail" id="empemail" value="{{emplist.email}}" onblur="ValidateEmail(this.id);" maxlength="50" placeholder="Enter Email Address" class="form-control" required>
+                            </div>	
+                        </div>
+                        <div class="row">
+                            	
+                            <div class="col-sm-3 form-group">
+								<label>ID Card No.</label>
+                                <input type="text"  placeholder="Enter ID Card" id="id_card" value="{{emplist.idcard_no}}" class="form-control" name="id_card" maxlength="15" required>
+							  
+                            </div>	
+                            <div class="col-sm-3 form-group">
+                                <label>Ticket No.</label>
+                                <input type="text"  placeholder="Enter Ticket" id="ticket" value="{{emplist.ticket_no}}" class="form-control" name="ticket" maxlength="12" required>
+			
+                            </div>
+
+                            <div class="col-sm-3 form-group">
+								<label>Office Order No </label>
+                                <input type="text" id="office_orderno" name="office_orderno" placeholder="Enter office  order no" maxlength="20" class="form-control" required >
+                            </div>
+                            <div class="col-sm-3 form-group">
+                                <label>Pay Category</label>
+                                <!-- <input type="text" id="category" name="category" value="{{emplist.decode_paycategory}}" placeholder="Enter pay category" class="form-control" required >
+                                 -->
+                                 <select  class="form-control" id="category" name="category" required>
+                                    <option disabled selected  value=""> Select Category </option>
+                                    
+                                   
+                                    <option value="gaz">GAZ</option>
+                                    <option value="non-gaz">NON GAZ</option>
+                                    
+                                   
+                             </select>
+                                 
+                            </div>		
+						</div>
+
+                        <div class="row">
+                            <div class="col-sm-3 form-group">
+                                <label>Incentive Category</label>
+                                <input type="text"  placeholder="Enter Incentive" value="{{emplist.inc_category}}" class="form-control" name="inc_category" id="inc_category" required autocomplete="off">
+			
+
+								 
+                            </div>
+                            <div class="col-sm-3 form-group">
+								<label>Employee Inc.Type</label>
+                                <!-- <input type="text" id="emp_inctype" name="emp_inctype"  value="{{emplist.emp_inctype}}" maxlength="20" placeholder="Enter Employee Inc.Type"   class="form-control " required autocomplete="off">
+							  -->
+                              <select  class="form-control" id="emp_inctype" name="emp_inctype" required>
+                                <option disabled selected  value=""> Select Inc.Type </option>
+                                
+                               
+                                <option value="D">Direct</option>
+                                <option value="I">Indirect</option>
+                                <option value="E">Essential</option>
+                                
+                               
+                         </select></div>
+                         <div class="col-sm-3 form-group">
+                            <label>Medical Code</label>
+                            <input type="text"  placeholder="Enter Medical code" value="{{emplist.medicalcode}}" class="form-control" name="medicalcode" id="medicalcode"  autocomplete="off">
+        
+
+                             
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <label>Trade Code</label>
+                            <!-- <input type="text" id="emp_inctype" name="emp_inctype"  value="{{emplist.emp_inctype}}" maxlength="20" placeholder="Enter Employee Inc.Type"   class="form-control " required autocomplete="off">
+                          -->
+                          <select  class="form-control" id="tradecode" name="tradecode" required>
+                            <option disabled selected  value=""> Select Trade </option>
+                            
+                           
+                            <option value="El">Electrician</option>
+                            <option value="Fi">Fitter</option>
+                            <option value="Ma">Machinist</option>
+                            <option value="Ca">Carpenter</option>
+                            <option value="We">Welder</option>
+                           
+                           
+                     </select></div>
+                            </div>
+
+                        </div>	
+
+                    </div>
+                    
+
+            
+						 
+				 <div class="row"> 
+                     <div class="col-sm-12 text-center"> 
+                     <br>  
+                        <input type="submit" class="btn btn-md btn-success text-center"  id='save'  name="Submit" value="Submit" />
+                    
+                        
+                      
+                    </div>
+                 </div>		
+                 		
+					</div>
+                </form>  <br>
+               
+                </div>
+            
+				
+	</div>
+    
+	</div>
+
+    
+    <script>
+
+        
+        $(document).ready(function () {
+
+            $('#table2').DataTable( {
+                "paging": true,
+                "searching": true,
+                "autoWidth": false,
+                "ordering": true,
+                "scrollY":  "400px",
+                    "scrollCollapse": true,
+                    columnDefs: [
+                    { width: 20, targets: 0 }
+                    
+                ]
+      
+          
+               
+            }
+            );
+        
+
+
+           var currentDate = new Date();
+           $('.calendardate').datepicker({
+           dateFormat: 'dd-mm-yy',
+           autoclose:true,
+           endDate: "currentDate",
+           maxDate: currentDate,
+           changeMonth: true,
+           changeYear: true,
+           clearBtn: true
+           })
+        });
+
+       
+     </script>
+<script>
+
+   
+     
+ $(document).ready(function () {
+
+    $("[type='number']").keypress(function (evt) {
+    evt.preventDefault();
+});
+
+
+             
+                                    
+});
+ setTimeout(function(){  $(".alert").hide()  }, 3000); 
+    //$("#shop_sec").select2({         
+    //   tags: true          
+    //    });
+    //    $("#sub_shop_sec").select2({         
+    //      tags: true          
+    //    });
+   
+
+    function convertDate(dateString){
+    
+        if(dateString!=null){
+            var p = dateString.split(/\D/g);
+            return [p[2],p[1],p[0] ].join("-");
+        }
+        return '';
+    }
+
+    
+function ValidateEmail(inputText)
+{
+var emailid = document.getElementById(inputText).value;
+var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+if(emailid.match(mailformat))
+{
+
+return true;
+}
+else
+{
+alert("You have entered an invalid email address!");
+document.getElementById(inputText).value="";
+return false;
+}
+}
+   
+function isNumber14() {
+    empphone = document.getElementById("empphone").value;
+  if (isNaN(empphone) || empphone < 0 || empphone > 9999999999) {
+    document.getElementById("empphone").value="";
+    document.getElementById("empphone").focus();
+  }
+  }
+
+
+function isNumberKey(evt) {
+
+var charCode = (evt.which) ? evt.which : evt.keyCode;
+if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+return true; 
+
+}
+
+
+   function get_empno() {
+       var empno=$("#empno").val();
+   //alert(empno)
+    var data = {empno};
+       $.ajax({
+           type:'GET',
+           data:data,
+           url : "{% url 'get_emp_detNew' %}",
+            dataType : 'json',
+            success : function(response){
+                console.log(response)
+                if (response.rno==0) {
+                   // alert(response.rno)                   
+           $("#save").val("Submit");
+           $("#empname").val("");
+           $("#empname").attr('readonly', false); 
+           $("#category").val("");
+           $("#category").attr('readonly', false);  
+           $("#office_orderno").val("");
+           $("#office_orderno").attr('readonly', false);
+           $("#gradepay").val("");
+           $("#gradepay").attr('readonly', false);
+           $("#paylevel").val("");
+           $("#paylevel").attr('readonly', false);
+           $("#idcardno").val("");
+           $("#idcardno").attr('readonly', false);
+           $("#dobdate").val(""); 
+           $("#dobdate").attr('readonly', false);
+           $("#dateapp").val(""); 
+           $("#dateapp").attr('readonly', false);
+           $("#empsex").val(""); 
+           $("#empsex").attr('readonly', false);
+           $("#emptype").val("");  
+           $("#emptype").attr('disabled', false);
+           $("#empmarital").val("");  
+           $("#empmarital").attr('readonly', false);
+           $("#empemail").val(""); 
+           $("#empemail").attr('readonly', false);
+           $("#empphone").val(""); 
+           $("#empphone").attr('readonly', false);
+           $("#sub_shop_sec").val(""); 
+           $("#sub_shop_sec").attr('disabled', false);
+           $("#shop_sec").val("");
+           $("#shop_sec").attr('disabled', false);
+           $("#empdesignation").val("");
+           $("#empdesignation").attr('disabled', false);
+           $("#medicalcode").val("");
+           $("#medicalcode").attr('disabled', false);
+           $("#tradecode").val("");
+           $("#tradecode").attr('disabled', false);
+           $("#empstatus").val(""); 
+                    
+           $("#emptdepartment").val(""); 
+           $("#emptdepartment").attr('disabled', false);
+           $("#sex2").attr('disabled', false);
+           $("#sex3").attr('disabled', false);
+           $("#marital2").attr('disabled', false);
+           $("#payband").val(""); 
+           $("#payband").attr('disabled', false); 
+           $("#scalecode").val("");  
+           $("#scalecode").attr('disabled', false); 
+
+           $("#joining_date").val("");  
+           $("#joining_date").attr('disabled', false); 
+           $("#date_of_promotion").val(""); 
+           $("#date_of_promotion").attr('disabled', false); 
+           $("#station_dest").val(""); 
+           $("#station_dest").attr('disabled', false);
+           $("#wau").val("");
+           $("#wau").attr('disabled', false);
+           $("#billunit").val("");   
+           $("#billunit").attr('disabled', false);
+           $("#service").val(""); 
+           $("#service").attr('disabled', false); 
+           $("#emptype").val("");
+           $("#emptype").attr('disabled', false);
+           $("#emp_inctype").val("");
+           $("#emp_inctype").attr('disabled', false);
+           $("#inc_category").val("");
+           $("#inc_category").attr('disabled', false);
+           $("#ticket").val("");
+           $("#ticket").attr('disabled', false);
+           $("#id_card").val("");
+           $("#id_card").attr('disabled', false);
+           $(".calendardate").attr('disabled', false);
+
+              } else {
+
+                   // alert(response.rno)
+           $("#save").val("Update");
+           $("#empno").attr('readonly', true);
+          
+           $("#empname").val(response.empname);
+           $("#empno").val(response.empno);     
+             
+           $("#dobdate").val(convertDate(response.birthdate)); 
+           $("#joining_date").val(convertDate(response.joining_date));  
+           $("#date_of_promotion").val(convertDate(response.date_of_promotion));   
+           
+           $("#dateapp").val(convertDate(response.dateapp)); 
+                    
+           $("#emp_inctype").val(response.emp_inctype);
+          
+           $("#inc_category").val(response.inc_category);
+           
+           $("#ticket").val(response.ticket_no);
+         
+           $("#id_card").val(response.idcard_no);
+         
+           $("#office_orderno").val(response.office_orderno);
+           $("#medicalcode").val(response.medicalcode);
+         
+         $("#tradecode").val(response.tradecode);
+          
+           $("#empsex").val(response.sex); 
+if (response.sex=='M') {
+    $("#sex1").attr('checked', true);
+   
+    
+} else if(response.sex=='F') {
+    
+    $("#sex2").attr('checked', true);
+}
+else {
+    
+    $("#sex3").attr('checked', true);
+}
+if (response.marital_status=='M') {
+    $("#marital1").attr('checked', true);
+   
+} else {
+  
+    $("#marital2").attr('checked', true);
+}
+         
+
+           $("#emptype").val(response.emp_inctype); 
+        //    $("#emptype").attr('disabled', true); 
+           
+           $("#empemail").val(response.email); 
+           //$("#empemail").attr('readonly', true);
+           $("#empphone").val(response.contactno);
+           //$("#empphone").attr('readonly', true);
+           $("#sub_shop_sec").val(response.shopno);
+           $("#sub_shop_sec").attr('disabled', true); 
+           $("#shop_sec").val(response.parentshop);
+           $("#shop_sec").attr('disabled', true);
+           $("#empdesignation").val(response.desig);
+          
+           $("#empstatus").val(response.status);           
+           $("#emptdepartment").val(response.dept); 
+           
+           $("#category").val(response.category); 
+          
+           $("#payband").val(response.payband);  
+           $("#scalecode").val(response.scalecode);  
+           $("#gradepay").val(response.gradepay); 
+           $("#paylevel").val(response.paylevel);  
+             
+           $("#station_dest").val(response.station_dest); 
+           $("#wau").val(response.wau);
+           $("#billunit").val(response.billunit);   
+           $("#service").val(response.service);  
+           $("#emptype").val(response.emptype);   
+           $("#medicalcode").val(response.medicalcode);  
+           $("#tradecode").val(response.tradecode);  
+           $("#office_orderno").val(response.office_orderno);
+
+
+
+
+
+
+                }
+
+            }
+       }) 
+   }   
+
+
+
+
+    
+
+    
+</script>
+
+<script>
+    
+    $(document).ready(function () {
+        $('#table2').DataTable();
+        $('#table1_wrapper').css('margin-bottom','2%');
+    } );
+</script>
+ 
+{% endblock content %}

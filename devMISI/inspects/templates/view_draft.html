@@ -1,0 +1,318 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="../assets/vendor/daterangepicker/daterangepicker.css">
+<script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+<script src="{% static '/DataTables/datatables.min.js' %}"></script>
+<script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="{% static '/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="{% static '/js/select2.min.js' %}"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="{% static 'js/timepicker.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../assets/vendor/daterangepicker/moment.min.js"></script>
+<script src="../assets/vendor/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+  <!-- Select2 CSS --> 
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" /> 
+
+  <!-- jQuery --> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+  
+  <!-- Select2 JS --> 
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<br>
+    
+    <style>
+      * {
+  box-sizing: border-box;
+}
+    
+    
+      input[type=text]
+      {
+              width: 100%;
+              padding: 12px 20px;
+              margin: 8px 0;
+              display: block;
+              /* border: 1.5px solid rgb(14, 12, 12); */
+              border-radius: 4px;
+              box-sizing: border-box;
+      }
+    
+      input[type=submit] {
+              width: 40%;
+              text-align: center;
+              background-color: #4CAF50;
+             
+              padding: 14px 20px;
+              margin: 8px 0;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+      }
+    
+      input[type=submit]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+    
+    
+      input[type=button]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+      /* #viewbtn{
+        margin-left:1050px;
+      } */
+    
+      .inputtag{
+        height:20px;
+      }
+      .button {
+  padding: 15px 25px;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 2em;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #04AA6D;
+  border: none;
+  border-radius: 15px;
+ 
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+    </style>
+    
+  
+<body>
+<h2 style="font-family: 'Times New Roman', Times, serif;">
+    <center><b>Inspection Draft</b></center>
+  </h2>
+
+  <br>
+
+  <div class="container">
+  <form  method="POST" class="d-inline " action = '{% url "created_checklist" %}'>
+        
+    {% csrf_token %}
+
+
+   
+  
+
+<!-- <div class="row" id="row1">
+    <div class="col-md-2"  style="margin-left:4em ;">
+        <label for="Zone" >Rly/Org</label><span style="color:red;font-weight:bold">*</span>
+        <select class="form-control" id="zone" name="zone" class="custom-select"
+            required><span style="color:red;font-weight:bold">*</span>
+            <option value="All" selected>All</option>
+            {% for z in Zone %}
+            <option value="{{z}}">{{z}}</option>
+            {% endfor %}
+
+        </select>
+    </div>
+
+   
+   
+<div class="col-md-2">
+    <label for="division">Division</label><span style="color:red;font-weight:bold">*</span>
+    <select class="form-control" id="division" name="division" class="custom-select" style="max-width:100%;"
+             required><span style="color:red;font-weight:bold">*</span>
+
+            <option value="All" selected>All</option>
+            {% for d in division %}
+            <option value="{{d}}">{{d}}</option>
+            {% endfor %}
+
+        </select>
+    
+</div>
+<div class="col-md-2">
+  <label for="division">Department</label><span style="color:red;font-weight:bold">*</span>
+  <select class="form-control" id="department" name="department" class="custom-select" style="max-width:100%;"
+          onchange="fetch_department();" required>
+
+          <option value="All" selected>All</option>
+          {% for d in department %}
+          <option value="{{d.department_name}}">{{d.department_name}}</option>
+          {% endfor %}
+
+      </select>
+  
+</div>
+
+  <div  class="col-md-2" >
+      <label for="location" >Location</label>
+      <input  id="location" style="margin-top:0em ;margin-right:1vh;height:3.5vh;width:25vh;" type="text" class="form-control"/>
+      
+  </div>
+  
+  <div  class="col-sm-2s form-group" >
+      
+      <button  type="submit"  name="zone_loc_submit"  style="margin-top:2em;margin-left:10em;height:3em;width:6em;" class="btn btn-success btn-sm" id="insp_submit" onClick=" filterinspectiondata();popclose()">Submit</button>
+  </div>
+  </form>
+  </div>
+  <br><br> -->
+
+  <div class="modern" >
+    <table class="table table-striped table-bordered table-sm" id="instituteTable">
+        <thead
+            style="background-color: #343a40;white-space: nowrap;font-size: 1.5rem; color:white;text-align: left;">
+            <th>S.No</th>
+           
+            <th >Inspection No.</th>
+            <th >Inspection Title</th>
+            <th >Railway</th>
+            <th >Division</th>
+            <th >Department</th>
+            <th >Location</th>
+            <th >View</th>
+            <th >Reply</th>
+            
+           
+            <!-- <th >Status</th> -->
+           
+        </thead>
+        <tbody>
+
+            {% for g in context %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <!-- <td>{{ g.institute_name }}</td> -->
+                <!-- <td>{{ g.id }}</td> -->
+                <td>{{ g.inspection_no_id }}</td>
+                <td>{{g.item_title}}</td>
+                <td>{{g.zone}}</td>
+                <td>{{g.division}}</td>
+                <td>{{g.dept}}</td>
+                <td>{{g.location}}</td>
+                <td><button type="button" class="btn btn-primary svBtn"><a href=""  style="color: white;" target="blank">Edit</button></a></td>
+                <td><button type="button" class="btn btn-primary svBtn"><a   style="color: white;" target="blank">Save  </button></a></td>
+                <!-- <td>{{g.status}}</td> -->
+               
+            </tr> 
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+<br>
+
+
+
+</body>   
+<script>
+  $("#zone").select2();
+ 
+         // Read selected option
+         $('#rly').click(function(){
+           var username = $('#rly option:selected').text();
+           var userid = $('#rly').val();
+       
+          
+       
+
+         });
+ 
+ $("#division").select2();
+ 
+ $('#division').click(function(){
+   var username = $('#div option:selected').text();
+   var userid = $('#div').val();
+});
+
+ $("#department").select2();
+ 
+ $('#department').click(function(){
+   var username = $('#department option:selected').text();
+   var userid = $('#department').val();
+});
+
+
+</script>
+                                                                                                                                                                                                                                                                                              
+
+<script>
+  function filterinspectiondata(){
+            var rly=$('#zone').val();
+            var dept=$('#department').val();
+            var div=$('#division').val();
+            var loc=$('#location').val();
+            alert(rly);
+            alert(loc);
+            alert(dept);
+            alert(div);            
+            var start_date=$('input#start').val();
+            console.log(start_date,"%%%%%%%%%%")
+            // alert(start_date);
+           
+            var end_date=$('input#txtDate2').val();
+            console.log(end_date,"%%%%%%%%%%")
+           
+  }</script>
+  <script>
+    $(document).ready(function () {
+        $('#instituteTable').DataTable();
+    });
+</script>
+<script>
+  $('#zone').change(function() {
+var rly=$('#zone').val();
+
+data={
+  'rly':rly,
+  
+}
+
+$.ajax({
+type : 'GET',
+url : "{% url 'getdiv_rly' %}",
+dataType : 'json',
+data : data,
+
+success : function(response){
+  division=response.division;
+              $('#division').empty();
+              $('#division').append(`<option value="">All</option>`);
+              for (let i = 0; i < division.length; i++) {
+              $('#division').append(`<option value="${division[i]}">
+                                 ${division[i]}
+                            </option>`);
+                          }
+}
+   })
+   })
+</script>
+
+{% endblock %}  

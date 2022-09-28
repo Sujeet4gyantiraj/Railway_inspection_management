@@ -1,0 +1,1006 @@
+{% extends 'adminDash.html' %}
+
+{% block content %}
+
+<head>
+ 
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"crossorigin="anonymous">
+  
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script> 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+     
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   -->
+   <title>Designation master</title>
+  </head>
+  
+<br>
+<h3><center>Add Designation</center></h3>
+<center>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <font size="4">
+            <li>
+                {{ message }}
+            </li>
+        </font>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</center>
+<br>
+
+<center>
+    <form method="POST">{%csrf_token%}
+        <div class="container">
+             <table class="table table-borderless">
+               
+                
+            
+                <!-- <div class="row">
+                    <div class="col-md-3">
+                      <label>Area</label></div>
+                      <div class="col-md-3">
+                          <select  class="form-control" name="shop" id="shop" >
+                            
+                            <option id="shops"  > Select Area</option>
+                            
+                          </select>
+                          
+                    </div>
+                    <div class="col-md-3">
+                      <label>Subarea</label></div>
+                      <div class="col-md-3">
+                        <select  class="form-control" name="section" id="section" >
+                          <option id="section" disabled selected value="" > Select SubArea</option>
+                        </select>
+                    </div>
+                </div> -->
+
+                <div class="row">
+                   
+                    <!-- <div class="col-md-3">
+                        <label>Designation</label></div>
+                        <div class="col-md-3">
+                           <input class="form-control" id="design" name="design" maxlength="15" onkeypress="myFunction();" autocomplete="off">
+                    </div> -->
+                    <div class="col-md-3">
+                      <label>Post</label><span style="color:red;font-weight:bold">*</span></div>
+                      <div class="col-md-3">
+                        <select  class="form-control" name="post" id="post" onchange="createdesig(); cal_desig();" >
+                          <option disabled selected  value=""> Select post</option>
+                          {% for i in post %}
+                          <option> {{i.post_desc}} </option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                    <div class="col-md-3">
+                      <label>Category</label><span style="color:red;font-weight:bold">*</span></div>
+                      <div class="col-md-3">
+                        <select  class="form-control" name="category" id="category" >
+                          <option disabled selected  value=""> Select category</option>
+                          {% for i in cat %}
+                          <option> {{i.category}} </option>
+                          {% endfor %}
+                      </select>
+                  </div>
+
+                  
+
+                </div>
+                <br>
+                <div class="row">
+                  <!-- <div class="col-md-3">
+                      <label>Department</label></div>
+                      <div class="col-md-3">
+                          <select  class="form-control" name="dept" id="dept" >
+                              <option disabled selected  value=""> Select department</option>
+                              {% for i in unit %}
+                              <option> {{i.department_name}} </option>
+                              {% endfor %}
+                          </select>
+                  </div> -->
+                  <div class="col-md-3">
+                    <label>Pay level Max</label><span style="color:red;font-weight:bold">*</span></div>
+                    <div class="col-md-3">
+                       <input type="number" min="0" class="form-control" id="paymax" maxlength="2" name="paymax" placeholder="Enter maximum pay level" required/>
+                </div>
+                  <!-- <div class="col-md-3">
+                      <label>Pay Level</label></div>
+                      <div class="col-md-3">
+                          <select  class="form-control" name="level" id="level" >
+                            <option disabled selected value="" > Select level</option>
+                          </select>
+                  </div> -->
+                  <div class="col-md-3">
+                    <label>Pay level Min</label><span style="color:red;font-weight:bold">*</span></div>
+                    <div class="col-md-3">
+                       <input type="number" min="0" maxlength="2" class="form-control" id="paymin" name="paymin" placeholder="Enter minimum pay level" required/>
+                </div>
+              </div> <br>
+              
+                <div class="row">
+
+                  <div class="col-md-3">
+                    <label>Department</label><span style="color:red;font-weight:bold">*</span></div>
+                    <div class="col-md-3">
+                      <select  class="form-control" name="depart" id="depart" >
+                        <option disabled selected  value=""> Select department</option>
+                        {% for i in unit %}
+                        <option value="{{i.department_name}}"> {{i.department_name}} </option>
+                        {% endfor %}
+                    </select>          
+                    </div>
+
+                  <div class="col-md-3">
+                    <label>Railway type</label><span style="color:red;font-weight:bold">*</span></div>
+                    <div class="col-md-3">
+                      <select  class="form-control" name="rltype" id="rltype" onchange="railwaytype()">
+                        <option disabled selected  value=""> Select Railway type</option>
+                        {% for i in rltype %}
+                        <option> {{i.location_type_desc}} </option>
+                        {% endfor %}
+                    </select>                </div>
+
+                
+            
+              </div>
+              <br>
+              <div class="row">
+                
+                <div class="col-md-3">
+                  <label>Rly/Org</label><span style="color:red;font-weight:bold">*</span></div>
+                  <div class="col-md-3">
+                     <!-- <input class="form-control" id="rly" name="rly" placeholder="Enter railway/Organisation" disabled required/> -->
+                     <select  class="form-control" name="rly" id="rly" onchange="divbyrly(); createdesig();" disabled>
+                      <option disabled selected  value=""> Enter railway/Organisation</option>
+                      <!-- {% for i in railway %}
+                      <option> {{i.location_code}} </option>
+                      {% endfor %} -->
+                  </select>
+              </div>
+              <div class="col-md-3">
+                <label>Unit/Division</label><span style="color:red;font-weight:bold">*</span></div>
+                <div class="col-md-3">
+                   <!-- <input class="form-control" id="div" name="div" placeholder="Enter unit/division" disabled required/> -->
+                   <select  class="form-control" name="div" id="div" onchange="createdesig()" disabled>
+                    <option disabled selected  value=""> Enter unit/division</option>
+                    <!-- {% for i in division %}
+                    <option> {{i.location_code}} </option>
+                    {% endfor %} -->
+                </select>
+            </div>
+              
+              </div>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <label>Work</label><span style="color:red;font-weight:bold">*</span></div>
+              <div class="col-md-3">
+                 <input class="form-control" id="work" name="work" placeholder="Enter work" onchange="createdesig()" required/>
+          </div>
+             <div class="col-md-3">
+            <label>Designation</label><span style="color:red;font-weight:bold">*</span></div>
+            <div class="col-md-3">
+               <input class="form-control" id="desig" name="desig" placeholder="Enter designation" required readonly/>
+        </div>
+            </div><br>
+            <div class="row">
+              <!-- <div class="col-md-3">
+                  <label>Railway Unit</label></div>
+                  <div class="col-md-3">
+                 <input value="{{wau}}" id="wau" class="form-control" readonly="readonly">
+                 <input  id="wau" class="form-control" readonly="readonly"></div>
+              </div> -->
+              <!-- <div class="col-md-3">
+                <label>Employee No.</label></div>
+                <div class="col-md-3">
+                   <input class="form-control" id="empno" name="empno" maxlength="11" onkeypress="alphanumeric(event)" placeholder="Enter employee number" required/>
+            </div> -->
+            <div class="col-md-3">
+              <label>Official Email ID</label></div>
+              <div class="col-md-3">
+                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email ID" />
+          </div>
+
+
+            <div class="col-md-3">
+              <label>Official Contact No.</label></div>
+              <div class="col-md-3">
+                 <input type="number" min="0" class="form-control" id="contact" name="contact" maxlength="10" placeholder="Enter Contact number" />
+          </div>
+          
+          </div>
+          <br>
+          <br>
+          <div class="row">
+                   <textarea style="margin-left:90px;width:1200px;height:100px;" id="designation_data"></textarea>
+                  </div>
+   
+          <br>
+                <button  type="button" value="submit" name="submit" class="btn btn-success" id="savedesig"> Submit</button></div>
+                
+                <br><br>
+                  <div class="col-md-4">
+                    <!-- <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal2"> Add Area</button>  </div>   
+                    <div class="col-md-4">
+                    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal3"> Add Subarea</button>  </div>    -->
+                    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal"> Add Post</button>  </div>   
+                    
+                    </div>        
+
+ <!-- department add -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModal1Label"
+aria-hidden="true">
+<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal1Label">Add New Department</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                onclick="window.location.href = window.location.href;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <label><b>Department Name</b></label></div>
+                        <div class="col-md-6">
+                            <input type="text" id="department" name="department" list="productName" autocomplete="off" placeholder="Enter Department" class="form-control">
+                            <datalist id="productName">
+                                <option selected disabled hidden></option>
+                    {% for i in unit %}
+                        <option value = {{i.department_name}}>{{i.department_name}}</option>
+                    {% endfor %}
+                            </datalist>
+                      </div></div>
+                       
+              <br>
+                  
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                onclick="window.location.href = window.location.href;">Close</button>
+            <button type="button" class="btn btn-primary" id="btn">Save
+                    changes</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label"
+aria-hidden="true">
+<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal2Label">Add Area</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                onclick="window.location.href = window.location.href;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                <label><b>Department</b></label></div>
+                <div class="col-md-6">
+                <select  class="form-control" name="dept3" id="dept3" >
+                    <option disabled selected  value=""> Select department</option>
+                    {% for i in unit %}
+                    <option  value="{{i.department_name}}"> {{i.department_name}} </option>
+                    {% endfor %}
+                      </select></div>
+                   </div> <br>
+
+                   <div class="row">
+                    <div class="col-md-6">
+                <label><b>Area</b></label></div>
+                <div class="col-md-6">
+                    <input type="text" id="shop2" name="shop2" list="shopname" autocomplete="off" class="form-control" placeholder="Enter Area name">
+                    <datalist id="shopname">
+                        <option selected disabled hidden></option>
+            <!-- {% for i in shop_code %}
+                <option value = {{i.shop_code}}>{{i.shop_code}}</option>
+            {% endfor %} -->
+                    </datalist>
+                    </div>
+                   </div>
+                 
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                onclick="window.location.href = window.location.href;">Close</button>
+            <button type="button" class="btn btn-primary" id="btn1">Save
+                    changes</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- section add -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModal3Label"
+aria-hidden="true">
+<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal3Label">Add Subarea</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                onclick="window.location.href = window.location.href;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                <label><b>Department Name</b></label></div>
+                <div class="col-md-6">
+                <select  class="form-control" name="dept1" id="dept1" >
+                    <option disabled selected  value=""> Select department</option>
+                    {% for i in unit %}
+                    <option  value="{{i.department_name}}">{{i.department_name}} </option>
+                    {% endfor %}
+                      </select></div>
+                   </div> <br>
+
+                   <div class="row">
+                    <div class="col-md-6">
+                <label>
+                  <b>Area Code</b></label></div>
+                <div class="col-md-6">
+                  
+                        <select name="sectiondept" id="sectiondept" class="form-control" placeholder="Choose Area">
+                            <option disabled selected  value=""> Select Area</option>
+                        </select>
+                      
+                    </div></div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                    <label><b>Subarea Description</b></label></div>
+                    <div class="col-md-6">
+                        <input type="text" id="sec" name="sec" list="section" autocomplete="off" class="form-control" placeholder="Enter Subarea">
+                        <datalist id="section">
+                            <option selected disabled hidden></option>
+               
+                        </datalist></div>
+                       </div>
+                </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                onclick="window.location.href = window.location.href;">Close</button>
+            <button type="button" class="btn btn-primary" id="btn2">Save
+                    changes</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+  <!-- Modal add post -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <!-- <div class="col-md-6">
+            <label><b>Department</b></label></div>
+            <div class="col-md-6"> -->
+            <!-- <select  class="form-control" name="dept2" id="dept2" >
+                <option disabled selected  value=""> Select department</option>
+                {% for i in unit %}
+                <option  value="{{i.department_name}}"> {{i.department_name}} </option>
+                {% endfor %}
+                  </select> -->
+                  <div class="col-md">
+                    <label>Post Description</label><span style="color:red;font-weight:bold">*</span></div>
+                    <div class="col-md">
+                       <input type="text" class="form-control" id="postname" name="postname" placeholder="Enter post description" required/>
+                </div></div><br>
+                <div class="row">
+                <div class="col-md">
+                  <label>Post Code</label><span style="color:red;font-weight:bold">*</span></div>
+                  <div class="col-md">
+                     <input type="text" class="form-control" id="postcode" name="postcode" placeholder="Enter post code" required/>
+              </div>
+                </div>
+                </br>
+                  <!-- <div class="col-md-6">
+                    <label><b>Post Name</b></label></div><br>
+                    <div class="col-md-6"></br>
+                      <input type="text" id="post_name" name="post_name" list="productName" autocomplete="off" placeholder="Enter Post" class="form-control">
+                      <datalist id="productName">
+                          <option selected disabled hidden></option>
+             
+                      </datalist> </div> -->
+                      <!-- <div class="col-md-6">
+                        <label><b>Post Name</b></label></div><br>
+                        <div class="col-md-6"></br>
+                          <input type="text" id="post_name" name="post_name" list="productName" autocomplete="off" placeholder="Enter Post" class="form-control">
+                          <datalist id="productName">
+                              <option selected disabled hidden></option>
+                 
+                          </datalist> </div> -->
+                <br>
+                
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="btnn">Save changes</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+        </div>
+     
+        <div>
+
+    </form>
+</center>
+<script>
+  $(function() {
+    $('#design').on('keypress', function(e) {
+      
+        if (e.which == 32){
+           
+            return false;
+        }
+    });
+      
+});
+
+
+function alphanumeric(e)
+{
+  var code=('charcode' in e) ? e.charCode:e.keyCode;
+  if(
+    !(code>47 && code<58) && !(code>64 && code<91) && !(code>96 && code<123)
+  ){
+    e.preventDefault();
+  }
+}
+</script>
+<script>
+  $(document).ready(function(){ 
+  
+    
+      
+$("#shop").change(function(e){
+  
+
+  var shop = $("#shop").val();
+
+  var data = {shop};
+
+  
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'getsection_byshop' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+      
+            var elementsadded = document.querySelectorAll(".newelestaff");
+            if(elementsadded.length>0){
+              var elementsaddedarr = Array.from(elementsadded);
+            elementsaddedarr.forEach((el)=> el.remove());
+            document.querySelector("#empno").selected = true;
+           
+            }
+            var brarr,mystr,html;
+            brarr = response.shop;
+            mystr = "";
+           
+            $("#section").empty();
+            html = `<option  class="newelecdno" value="" disabled hidden>Select Subarea</option>`;
+            mystr = html.concat(mystr);
+            brarr.forEach((el,index)=>{
+              html = `<option class="newelecdno">${brarr[index]}</option>`
+              
+              mystr = html.concat(mystr);
+            });
+            html = "";
+            document.querySelector("#section").insertAdjacentHTML('beforeend',mystr);
+            mystr="";
+      }
+         })
+         })
+          
+      
+// $("#dept").change(function(e){
+  
+//   e.preventDefault(); 
+//   var dept = $("#dept").val();
+
+//   var data = {dept};
+
+  
+//     $.ajax({
+//       type : 'GET',
+//       url : "{% url 'getshop_bydept' %}",
+//       dataType : 'json',
+//       data : data,
+
+//       success : function(response){
+      
+//             var elementsadded = document.querySelectorAll(".newelestaff");
+//             if(elementsadded.length>0){
+//               var elementsaddedarr = Array.from(elementsadded);
+//             elementsaddedarr.forEach((el)=> el.remove());
+//             document.querySelector("#empno").selected = true;
+           
+//             }
+//             var brarr,mystr,html;
+//             brarr = response.shop;
+//             mystr = "";
+           
+//             $("#shop").empty();
+//             html = `<option  class="newelecdno" value="" disabled hidden>Select Post</option>`;
+//             mystr = html.concat(mystr);
+//             brarr.forEach((el,index)=>{
+//               html = `<option class="newelecdno">${brarr[index]}</option>`
+              
+//               mystr = html.concat(mystr);
+//             });
+//             html = "";
+//             document.querySelector("#shop").insertAdjacentHTML('beforeend',mystr);
+//             mystr="";
+//       }
+//          })
+//          })
+ 
+ 
+ $("#dept1").change(function(){
+    
+     var dept1 = $("#dept1").val();
+     var data = {dept1};
+  
+       $.ajax({
+         type : 'GET',
+         url : "{% url 'post_bydept' %}",
+         dataType : 'json',
+         data : data,
+   
+         success : function(response){
+             console.log(response)
+             let htm = ''
+             for (i in response.post_desc){
+                 htm = '<option>'+response.post_desc[i].post_desc+'</option>'
+                 $('#productName').append(htm)
+             }
+              
+         }
+            })
+            })
+
+            
+      
+// $("#dept").change(function(e){
+  
+//   e.preventDefault(); 
+//   var dept = $("#dept").val();
+  
+//   var data = {dept};
+
+  
+//     $.ajax({
+//       type : 'GET',
+//       url : "{% url 'getpost_bydept' %}",
+//       dataType : 'json',
+//       data : data,
+
+//       success : function(response){
+      
+//             var elementsadded = document.querySelectorAll(".newelestaff");
+//             if(elementsadded.length>0){
+//               var elementsaddedarr = Array.from(elementsadded);
+//             elementsaddedarr.forEach((el)=> el.remove());
+//             document.querySelector("#empno").selected = true;
+           
+//             }
+//             var brarr,mystr,html;
+//             brarr = response.post;
+//             mystr = "";
+           
+//             $("#deptpost").empty();
+//             html = `<option  class="newelecdno" value="" disabled hidden>Select Post</option>`;
+//             mystr = html.concat(mystr);
+//             brarr.forEach((el,index)=>{
+//               html = `<option class="newelecdno">${brarr[index]}</option>`
+              
+//               mystr = html.concat(mystr);
+//             });
+//             html = "";
+//             document.querySelector("#deptpost").insertAdjacentHTML('beforeend',mystr);
+//             mystr="";
+//       }
+//          })
+//          })
+
+
+
+  })
+ 
+     
+        </script> 
+<script>
+
+
+    var select = '';
+for (i=1;i<=18;i++){
+  
+    select += '<option val=' + i + '>' + i + '</option>';
+}
+$('#level').html(select);
+
+    </script>
+    <script>
+      $(document).ready(function(){
+        
+        $('#btnn').click(function(){
+      
+          if (confirm ("Are you sure you want to add the post?")) {
+          $.ajax({
+            url:"{% url 'add_post' %}",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+              
+              postname:$('#postname').val(),
+              postcode:$('#postcode').val(),
+              
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(response){
+             
+              location.reload();
+            },
+            error: function(response){
+              alert('some error')
+            }
+          })
+      }
+        });
+
+       
+        $('#savedesig').click(function(){
+          if (confirm ("Are you sure you want to add the designation?")){
+            alert($('#desig').val())
+            $.ajax({
+              url:"{% url 'save_designation' %}",
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                // wau:$('#wau').val(),
+                // dept:$('#dept').val(),
+                // design:$('#design').val(),
+                // level:$('#level').val(),
+                // section:$('#section').val(),
+                // shop:$('#shop').val(),
+                pc7_levelmax:$('#paymax').val(),
+                pc7_levelmin:$('#paymin').val(),
+                d_level:$('#category').val(),
+                designation:$('#desig').val(),
+                department:$('#depart').val(),
+                contact:$('#contact').val(),
+                email:$('#email').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+              },
+              success: function(response){
+               
+                location.reload();
+              },
+              error: function(response){
+                alert('some error')
+              }
+            })
+          }
+          
+         
+      }
+        );
+
+ 
+
+$("#dept1").change(function(){
+  var dept = $("#dept1").val();
+  var data = {dept};
+ 
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'shop_bydept' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+          
+       // $("#sectiondept").find("option").remove()
+          for(i in response.shop_code){
+           var option = document.createElement("option");
+           option.text = response.shop_code[i].shop_code;
+           option.value = response.shop_code[i].shop_code;
+           var select = document.getElementById("sectiondept");
+           select.appendChild(option);
+          }
+      
+          }
+       })
+         
+
+$("#sectiondept").change(function(){
+  var dept = $("#dept1").val();
+  var sectiondept = $("#sectiondept").val();
+  var data = {sectiondept,dept};
+  
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'section_bydept' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+          console.log(response)
+           let htm = ''
+           $('#section').empty();
+           for (i in response.section_desc){
+           
+               htm = '<option>'+response.section_desc[i].section_desc+'</option>'
+               $('#section').append(htm)
+           }
+           
+      }
+         })
+         })
+      
+      })
+   
+    
+
+$("#dept").change(function(){
+   
+  var dept = $("#dept").val();
+  var data = {dept};
+ 
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'shop_bydept' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+          console.log(response)
+          let htm = ''
+          for (i in response.shop_code){
+              htm = '<option>'+response.shop_code[i].shop_code+'</option>'
+              $('#shopname').append(htm)
+          }
+           
+      }
+         })
+         })
+      })
+      
+    
+         
+   
+      
+    </script>
+    <script>
+      
+      $('#btn').click(function(){
+        if (confirm ("Are you sure you want to add this department?")) {
+        $.ajax({
+          url:"{% url 'dept_data' %}",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            
+            department:$('#department').val(),
+            
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(response){
+           
+            location.reload();
+          },
+          error: function(response){
+            alert('some error')
+          }
+        })
+    }
+      });
+
+
+
+      $('#btn1').click(function(){
+        if (confirm ("Are you sure you want to add this shop?")) {
+          
+        $.ajax({
+          url:"{% url 'shop_data' %}",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            
+            dept:$('#dept3').val(),
+            shop:$('#shop2').val(),
+            
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(response){
+           
+            location.reload();
+          },
+          error: function(response){
+            alert('some error')
+          }
+        })
+    }
+      });
+
+  function createdesig(){
+    var post=document.getElementById('post').value;
+    var rail=document.getElementById('rly').value;
+    var divi=document.getElementById('div').value;
+    var work=document.getElementById('work').value;
+    var des=post;
+    $('#desig').val(des);
+    // if(!rail)
+    // {
+    //   alert(divi)
+    //   var des=post+'/'+divi+work;
+    //   // alert(post+'/'+divi+'('+work+')')
+    //   $('#desig').val(des);
+    // }
+    if(!divi && document.getElementById('div').disabled)
+
+    {
+      var des=post+'/'+rail+work;
+      // alert(post+'/'+rail+'('+work+')')
+      $('#desig').val(des);
+
+    }
+    else
+    {
+      var des=post+'/'+divi+work;
+      // alert(post+'/'+divi+'('+work+')')
+      $('#desig').val(des);
+    }
+  }
+
+  function cal_desig(){
+  var post=document.getElementById('post').value;
+  data={
+    'post':post,
+  }
+  $.ajax({
+             url: "{% url 'cal_desig' %}",
+             method: "GET",
+             dataType: "JSON",
+             async: false,
+             data: data,
+             success: function (response) {
+              
+              for(i in response){
+                var design = response[i].designation.split('/')[0]
+                if(post == design){
+                 
+                  $('#designation_data').append(response[i].designation+'  ,  ')
+                }
+               }}
+            })
+}
+
+
+function railwaytype(){
+  var rltype=document.getElementById('rltype').value;
+  // rltype=('#rltype').val();
+  data={
+            'rltype':rltype,
+        }
+
+        $.ajax({
+             url: "{% url 'railwaytype' %}",
+             method: "GET",
+             dataType: "JSON",
+             async: false,
+             data: data,
+             success: function (response) {
+              for (i in response.railway){
+                $("#rly").append(`<option>${response.railway[i].location_code}</option>`);
+              }
+              
+              }
+            }
+  )
+}
+
+function divbyrly()
+{
+  var rly=document.getElementById('rly').value;
+  data={
+    'rly':rly,
+  }
+  $.ajax({
+             url: "{% url 'divbyrly' %}",
+             method: "GET",
+             dataType: "JSON",
+             async: false,
+             data: data,
+             success: function (response) {
+              for (i in response.division){
+                $("#div").append(`<option>${response.division[i].location_code}</option>`);
+              }
+              
+              }
+            }
+  )
+}
+
+ $('#rltype').click(function(){
+    
+  var rltype=document.getElementById('rltype').value;
+  if(rltype=='DIVISION' | rltype=='WORKSHOP' | rltype=='STORE' | rltype=='CONSTRUCTION')
+  {
+    document.getElementById('div').disabled=false;
+    document.getElementById('rly').disabled=false;
+  }
+  else if(rltype=='OFFICE' | rltype=='HEAD QUATER' | rltype=='INSTITUTE' | rltype=='PRODUCTION UNIT')
+  {
+    document.getElementById('rly').disabled=false;
+  }
+ })
+
+    $('#btn2').click(function(){
+        if (confirm ("Are you sure you want to add this section?")) {
+            
+        $.ajax({
+          url:"{% url 'section_data' %}",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            
+            dept1:$('#dept1').val(),
+            sectiondept:$('#sectiondept').val(),
+            sec:$('#sec').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(response){
+           
+            location.reload();
+          },
+          error: function(response){
+            alert('some error')
+          }
+        })
+    }
+  })
+
+    </script>
+{% endblock content %}

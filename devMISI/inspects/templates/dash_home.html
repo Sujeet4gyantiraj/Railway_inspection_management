@@ -1,0 +1,2546 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+
+<script src="{%static '/js/jquery-3.6.0.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/js/chart.min2.js'%}"></script>
+<script type="text/javascript" src="{% static '/js/chartjs-plugin-datalabels.min.js'%}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+<script type="text/javascript" src="{% static '/DataTables/datatables.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/highcharts.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/highcharts-3d.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/exporting.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/export-data.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/accessibility.js'%}"></script>
+<link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static '/DataTables/datatables.min.css'%}" />
+<link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+<link rel="stylesheet" type="text/css" hef="{% static '/css/lato.css' %}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+  .table-bordered th {
+    background: rgb(243, 205, 205);
+
+  }
+  th{
+    border: 1px;
+    padding: 5px;
+    width: 80px;
+    min-width: 80px;
+  }
+
+  td{
+    border: 1px;
+    padding: 5px;
+    width: 80px;
+    min-width: 80px;
+  }
+
+
+  .headcol{
+    position:sticky;
+
+  }
+
+ 
+
+  #sidebar-container .list-group button {
+    padding: 50%;
+    margin: 0%;
+    height: 312.5%;
+    color: white;
+  }
+
+  #sidebar-container2 .list-group button {
+    padding: 12.5%;
+    margin: 12.5%;
+    height: 312.5%;
+    color: white;
+  }
+
+
+  .btn {
+    background-color: rgb(122, 237, 243);
+    color: black;
+
+  }
+
+  .btn:hover {
+    background-color: #ecfbfd;
+    color:black
+  }
+
+  .readmore {
+    margin-top: -11px;
+
+  }
+
+  #more {
+    display: none;
+  }
+
+  #myBtn {
+    border: none;
+    background-color: white;
+  }
+
+  .button1 {
+    float: right;
+    margin-right: 2%;
+    margin-top: 10%;
+  }
+
+  .button2 {
+    float: right;
+    margin-right: 2%;
+    margin-top: 10%;
+    margin-bottom: 0%;
+  }
+
+  .date1 {
+    background-color: transparent;
+    border: none;
+
+  }
+
+  .btnchart {
+    color: #007bff;
+    font-weight: bold;
+  }
+
+  .btnchart:hover {
+    color: rgb(250, 48, 34);
+  }
+
+  .btnchart:active1 {
+    color: rgb(250, 48, 34);
+  }
+
+  .active1 {
+    color: rgb(250, 67, 39);
+  }
+  
+
+  .chart2#drm {
+    padding-left: 20px;
+    float: left !important;
+    width: 24%;
+    margin-left: 1%;
+    margin-right: 0%;
+  }
+
+  .chart2#phod {
+    padding-right: 20px;
+    float: right !important;
+    width: 24%;
+    margin-left: 1%;
+    margin-right: 0%;
+  }
+
+  #poi tr,th {
+  position: sticky;
+  left: 0;
+}
+
+#fo tr,th {
+  position: sticky;
+  left: 0;
+}
+
+  /* .card5{
+    width: 23%;
+    margin-left: 15px;
+    float: right;
+  } */
+</style>
+
+<form method="POST">{%csrf_token%}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="chart1" style=" width: 100%;height: 10%; ">
+        <div class="card shadow ">
+          <div class="card-header " style="height:20% ;">
+            <h5 class="font-weight-bold text-black float-justify"> Summary Of My Inspection
+
+              <input class="date1 btn-sm font-weight-bold" type="text" id="summarydate" value="({{daterange}})" readonly />
+
+
+              <div class="font-weight-bold text-primary float-right">
+                {% if color == 'all' %}
+                <button class="btn btn-sm " type="submit" name="submit" value="sum1"
+                  style="background-color: rgb(79, 245, 73);"><b>All</b></button>
+                <button class="btn btn-sm " id="bt2" type="submit" name="submit" value="sum2"><b>0 - 3
+                    months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum3"><b>3-6 months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum4"><b> > 6 months</b></button>
+                <input class="btn btn-sm font-weight-bold" type="text" name="daterange" value="{{daterange}}" onchange="setsummarydate(this.value)"
+                  readonly />
+
+                {% elif color == '0-3' %}
+                <button class="btn btn-sm " type="submit" name="submit" value="sum1"><b>All</b></button>
+                <button class="btn btn-sm " id="bt2" type="submit" name="submit" value="sum2"
+                  style="background-color: rgb(79, 245, 73);"><b>0 - 3 months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum3"><b>3-6 months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum4"><b> > 6 months</b></button>
+                <input class="btn btn-sm font-weight-bold" type="text" name="daterange" value="{{daterange}}" onchange="setsummarydate(this.value)"
+                  readonly />
+
+                {% elif color == '3-6' %}
+                <button class="btn btn-sm " type="submit" name="submit" value="sum1"><b>All</b></button>
+                <button class="btn btn-sm " id="bt2" type="submit" name="submit" value="sum2"><b>0 - 3
+                    months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum3"
+                  style="background-color: rgb(79, 245, 73);"><b>3-6 months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum4"><b> > 6 months</b></button>
+                <input class="btn btn-sm font-weight-bold" type="text" name="daterange" value="{{daterange}}" onchange="setsummarydate(this.value)"
+                  readonly />
+
+                {% elif color == '>6' %}
+                <button class="btn btn-sm " type="submit" name="submit" value="sum1"><b>All</b></button>
+                <button class="btn btn-sm " id="bt2" type="submit" name="submit" value="sum2"><b>0 - 3
+                    months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum3"><b>3-6 months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum4"
+                  style="background-color: rgb(79, 245, 73);"><b> > 6 months</b></button>
+                <input class="btn btn-sm font-weight-bold" type="text" name="daterange" value="{{daterange}}" onchange="setsummarydate(this.value)"
+                  readonly />
+
+                {% else %}
+                <button class="btn btn-sm " type="submit" name="submit" value="sum1"><b>All</b></button>
+                <button class="btn btn-sm " id="bt2" type="submit" name="submit" value="sum2"><b>0 - 3
+                    months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum3"><b>3-6 months</b></button>
+                <button class="btn btn-sm " type="submit" name="submit" value="sum4"><b> > 6 months</b></button>
+                <input class="btn btn-sm font-weight-bold" type="text" name="daterange" value="{{daterange}}" onchange="setsummarydate(this.value)" readonly
+                  style="background-color: rgb(79, 245, 73);" />
+                {% endif %}
+              </div>
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="row ">
+              <div class="col-lg-3" id="myinsp1" style="height:80px !important ;">
+                <div class=" card text-white mb-1 text-center " style="background-color:rgb(222, 93, 199) ;">
+                  <table>
+                    <tr>
+                      <th>
+                        <h6 style=" color: rgb(8, 8, 8); margin-bottom:10px;">Draft ( Under Issue ) <br></h6>
+                      </th>
+                    </tr>
+                    <tr>
+                      <td style="background-color:rgb(251, 208, 243) ;">
+                        <h3 style=" color: rgb(8, 8, 8);">{{deti}}/{{detj}}</h3>
+                      </td>
+                    </tr>
+                  </table>
+
+
+                  <b><a href="/draft_inspection_form/" class="stretched-link" data-toggle="tooltip"
+                      title="(Total Inspection/Total Items Count)"></a></b>
+
+                </div>
+              </div>
+
+              <div class=" col-lg-3 " id="myinsp2">
+                <div class="card text-white mb-1 text-center" style="background-color:rgb(58, 229, 52) ;">
+                  <table>
+                    <tr>
+                      <th>
+                        <h6 class="" style="color: rgb(8, 8, 8);">View (Previous Notes)<br></h6>
+                      </th>
+                    </tr>
+                    <tr>
+                      <td style="background-color: rgb(172, 251, 153); ">
+                        <h3 style=" color: rgb(8, 8, 8);">{{totali}}/{{totalj}}</h3>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <b><a href="/inspection_doneby_list/" class="stretched-link" data-toggle="tooltip"
+                      title="(Total Inspection/Total Items Count)"></a></b>
+
+
+                </div>
+              </div>
+
+              
+              <div class=" col-lg-3 " id="myinsp5">
+                <div class="card text-white mb-1 text-center" style="background-color:rgb(252, 236, 19);">
+
+                  <table style="width: 100%;">
+                    <tr>
+                      <th colspan="3">
+                        <h6 class="" style=" color: rgb(8, 8, 8);">Notes From Higher Ups</h6>
+                      </th>
+                    </tr>
+                    
+                    <tr style="width:100%;">
+                      <td style="background-color: rgb(255, 255, 147); "><a  href="/close_compliance_checklist/"
+                        data-toggle="tooltip" title= "Reply Sent&#013;(Total Inspection/Total Items Count)"
+                          style="color: rgb(44, 140, 12);text-decoration: none;"><h3>{{repliedi}}/{{repliedj}}</h3></a>
+                      </td>
+                      <td style="background-color: rgb(255, 255, 147);"><a href="/created_checklist/"
+                        data-toggle="tooltip"
+                          title="Pending Reply&#013; (Total Inspection/Total Items Count)"
+                          style="color: rgb(245, 61, 20); text-decoration: none;"><h3>{{pendingi}}/{{pendingj}}</h3></a>
+                      </td>
+                      <td style="background-color: rgb(255, 255, 147);"><h3 
+                        data-toggle="tooltip"
+                          title="% &#013; (Total Inspection/Total Items Count)"
+                          style="color: rgb(21, 13, 137);">{{replyi}}/{{replyj}} %</h3>
+                      </td>
+                    </tr>
+                  </table>
+                  <!-- <h3 style=" color: rgb(8, 8, 8);">{{fulli}}/{{fullj}}</h3>-->
+
+                </div>
+              </div>
+
+              <div class=" col-lg-3 " id="myinsp5">
+                <div class="card text-white mb-1 text-center" style="background-color:rgb(249, 100, 55);">
+
+                  <table style="width: 100%;">
+                    <tr>
+                      <th colspan="3">
+                        <h6 class="" style=" color: rgb(8, 8, 8);">Compliance Status</h6>
+                      </th>
+                    </tr>
+                    
+                    <tr style="width:100%;">
+                      <td style="background-color: rgb(255, 213, 200); "><a  href="/close_compliance_checklist/"
+                        data-toggle="tooltip" title= "Fully Compliance&#013;(Total Inspection/Total Items Count)"
+                          style="color: rgb(44, 140, 12);text-decoration: none;"><h3>{{fulli}}/{{fullj}}</h3></a>
+                      </td>
+                      <td style="background-color: rgb(255, 213, 200);"><a href="/created_checklist/"
+                        data-toggle="tooltip"
+                          title="Pending Compliance&#013; (Total Inspection/Total Items Count)"
+                          style="color: rgb(245, 61, 20); text-decoration: none;"><h3>{{pendi}}/{{pendj}}</h3></a>
+                      </td>
+                      <td style="background-color: rgb(255, 213, 200);"><h3 
+                        data-toggle="tooltip"
+                          title="% Compliance&#013; (Total Inspection/Total Items Count)"
+                          style="color: rgb(21, 13, 137);">{{pmy}}/{{pitem}} %</h3>
+                      </td>
+                    </tr>
+                  </table>
+                  <!-- <h3 style=" color: rgb(8, 8, 8);">{{fulli}}/{{fullj}}</h3>-->
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <!-- GRAPH-1 -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-3 col-lg-6 col-md-12" id="zone">
+        <div class="chart2" >
+          <div class="card shadow ">
+            <div class="card-header">
+              <h6 class="font-weight-bold text-primary text-center">
+                <a class="btnchart" href="javascript:void(0);" id="all" role="button" onclick="chartall()">%
+                  Compliance</a> <a class="btnchart" href="javascript:void(0);" id="zoneid" role="button"
+                  onclick="chartzone()">Zone</a>/<a class="btnchart" href="javascript:void(0);" id="rb" role="button"
+                  onclick="chartRB()">RB</a>
+                  <!-- <button class="btn btn-sm " style="float: right;"><b>T</b></button> -->
+             
+              </h6>
+            </div>
+            <div class="card-body d-flex flex-column" style="padding: 0.25rem; height: 100%;">
+              <!-- <div class="tab-content"> -->
+              <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab">
+                <canvas id="myChart7" style="width:100%; "></canvas>
+                <canvas id="myChart71" style="width:100%; "></canvas>
+                <canvas id="myChart72" style="width:100%; "></canvas>
+              </div>
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- GRAPH 2 -->
+      <div class="col-xl-3 col-lg-6" id="cti">
+        <div class="chart2">
+          <div class="card shadow " style="height:100%;">
+            <div class="card-header">
+              <h6 class="font-weight-bold text-primary text-center">
+                <a class="btnchart" href="javascript:void(0);" id="all1" role="button" onclick="chartall1()">%
+                  Compliance </a>
+                <a class="btnchart" href="javascript:void(0);" id="pu" role="button" onclick="chartPU()">PU</a>/<a
+                  class="btnchart" href="javascript:void(0);" id="ctiid" role="button" onclick="chartCTI()">CTI</a>/<a
+                  class="btnchart" href="javascript:void(0);" id="psu" role="button" onclick="chartPSU()">PSU</a>
+                  <!-- <button class="btn btn-sm " style="float: right;"><b>T</b></button> -->
+             
+                <!-- <span>
+                  <i class="fas fa-angle-left" role="button" style="font-size:22px" ></i>
+                <i class="fas fa-angle-right" role="button" style="font-size:22px"></i></span> -->
+              </h6>
+
+            </div>
+            <div class="card-body" style="padding: 0.25rem;">
+              <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab">
+                <canvas id="myChart8" style="width:100%; "></canvas>
+                <canvas id="myChart81" style="width:100%; "></canvas>
+                <canvas id="myChart82" style="width:100%; "></canvas>
+                <canvas id="myChart83" style="width:100%; "></canvas>
+              </div>
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="col-xl-3 col-lg-6" id="drm">
+        <div class="chart2">
+        <div class="card shadow " style="height:100%;">
+          <div class="card-header">
+            <h6 class="font-weight-bold text-primary text-center">DRM Wise Compliance %
+              <!-- <button class="btn btn-sm " style="float: right;"><b>T</b></button> -->
+             
+            </h6>
+          </div>
+          <div class="card-body"  style="padding: 0.25rem;">
+              <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="flamingo-tab" >
+                <canvas id="myChart9" style="width:100%; "></canvas>
+              </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <br>
+  
+      <div class="chart2" id="phod">
+        <div class="card shadow " style="height:100%;">
+          <div class="card-header">
+            <h6 class="font-weight-bold text-primary text-center">PHOD Wise Compliance %
+              <!-- <button class="btn btn-sm " style="float: right;"><b>T</b></button> -->
+             
+            </h6>
+          </div>
+          <div class="card-body" style="padding: 0.25rem;">
+              <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="flamingo-tab">
+                <canvas id="myChart10" style="width:100%;"></canvas>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHART-D.O LETTERS -->
+      <div class="col-xl-3 col-lg-6" id="cardf">
+        <div class="card3">
+          <div class="card shadow ">
+            <div class="card-header">
+              <h6 class="font-weight-bold text-black text-center">
+                D.O. Letters
+              </h6>
+            </div>
+            <div class="" style="padding: 0.25rem;">
+              <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="flamingo-tab">
+                <p class="show-read-more">&#x25CF; 17-08-2022 <a href="{% static '/pdf/inspection module.pdf' %}"
+                    target="_blank">Inclusion of 'Decisions of Board Meeting'<span id="dots">... </span><span
+                      id="more">and 'my important d.o. letters' applications in the Inspection Module </span></a><button
+                    type="button" onclick="readmore()" id="myBtn">Read more</button>
+                </p>
+                <p class="show-read-more readmore">&#x25CF; 15-08-2022 <a
+                    href="{% static '/pdf/inspection module.pdf' %}" target="_blank">Review of policy of house
+                    retention<span id="dots">... </span><span id="more">of Moti Bagh bungalore beyond two months
+                    </span></a><button type="button" onclick="readmore()" id="myBtn">Read more</button>
+                </p>
+                <button class="button1">View All</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <!-- CHART-R.B MINUTES -->
+      <div class="col-xl-2 col-lg-6" id="cardr">
+        <div class="card4 ">
+          <div class="card shadow " style="height:100%;">
+            <div class="card-header">
+              <h6 class="font-weight-bold text-center text-black">
+                RB Minutes
+              </h6>
+            </div>
+            <div class="card-body" style="padding: 0.25rem;height:230px">
+              <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="flamingo-tab">
+                <p class="show-read-more">&#x25CF;<a href="{% static '/pdf/inspection module.pdf' %}" target="_blank">
+                    17-08-2022</a>
+                </p>
+                <p class="show-read-more readmore">&#x25CF;<a href="{% static '/pdf/inspection module.pdf' %}"
+                    target="_blank"> 16-08-2022</a>
+                </p>
+                <p class="show-read-more readmore">&#x25CF;<a href="{% static '/pdf/inspection module.pdf' %}"
+                    target="_blank"> 15-08-2022 </a>
+                </p>
+                <p class="show-read-more readmore">&#x25CF;<a href="{% static '/pdf/inspection module.pdf' %}"
+                    target="_blank"> 14-08-2022 </a>
+                </p>
+                <!-- </marquee> -->
+                <button class="button2">View All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-lg-3" id="mm">
+        <div class="card5 ">
+          <div class="card shadow " style="height:100%;">
+            <div class="card-header">
+              <h6 class="font-weight-bold text-center text-black">
+                Morning Meeting
+              </h6>
+            </div>
+                      <div class="card-body" style="padding: 0.25rem;height:230px">
+              <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="flamingo-tab">
+                <p class="show-read-more">&#x25CF; 17-08-2022  <a href="{% static '/pdf/inspection module.pdf' %}" target="_blank">Inclusion of 'Decisions of Board Meeting'<span id="dots">...  </span><span id="more">and 'my important d.o. letters' applications in the Inspection Module  </span></a><button type="button" onclick="readmore()" id="myBtn">Read more</button>
+                </p>
+                <p class="show-read-more readmore">&#x25CF; 15-08-2022  <a href="{% static '/pdf/inspection module.pdf' %}" target="_blank">Review of policy of house retention<span id="dots">...  </span><span id="more">of Moti Bagh bungalore beyond two months  </span></a><button type="button" onclick="readmore()" id="myBtn">Read more</button>
+                </p>
+                <button class="button2">View All</button>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <br>
+
+  <!-- TABLE -Summary of Inspection (Unit Wise)  -->
+  <div class="row-md-12">
+    <div class="col-md-12 ">
+      <div class="card shadow" id="table">
+        <div class="card-header">
+          <h5 class="font-weight-bold text-center text-black"> Summary of Inspection (Unit Wise)
+            <br>
+          </h5>
+        </div>
+        <div class="tscroll table-responsive  col-md-12 pl-0 pr-0" id="tbll1">
+          <table class="table-bordered table-sm table-hover " style="width: 100%;" id="table1" cellspacing="0">
+            <tbody>
+
+              <tr class="font-weight-bold" style=" background-color:rgb(244, 205, 205) ">
+                <th id="poi" class="headcol" style=" vertical-align: center;">Railway</th>
+
+                {% for i in tablec %}
+                <td>{{i.type}}</td>
+                {% endfor %}
+              </tr>
+              <tr>
+                <th  id="fo" class="headcol" style=" vertical-align: super;">Total</th>
+                {% for i in tablec %}
+                {% if i.total == "0/0" %}
+                <td>{{i.total}}</td>
+                {% else %}
+                <td>
+                  <a target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Total&data2=Insp&data3={{color}}">{{i.ti}}</a>/<a
+                    target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Total&data2=Item&data3={{color}}">{{i.tj}}</a>
+                </td>
+                {% endif %}
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <th  id="fo" class="headcol" style=" vertical-align: super;">Pending</th>
+                {% for i in tablec %}
+                <!-- <td>{{i.pend}}</td> -->
+                {% if i.pend == "0/0" %}
+                <td>{{i.pend}}</td>
+                {% else %}
+                <td>
+                  <a target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Pending&data2=Insp&data3={{color}}">{{i.pi}}</a>/<a
+                    target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Pending&data2=Item&data3={{color}}">{{i.pj}}</a>
+                </td>
+                {% endif %}
+                {% endfor %}
+
+              </tr>
+              <tr hidden>
+                <th id="fo" class="headcol" style=" vertical-align: super;">Closed</th>
+                {% for i in tablec %}
+                <!-- <td>{{i.closed}}</td> -->
+                {% if i.closed == "0/0" %}
+                <td>{{i.closed}}</td>
+                {% else %}
+                <td><a target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Closed&data2=Insp&data3={{color}}">{{i.fi}}</a>/<a
+                    target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Closed&data2=Item&data3={{color}}">{{i.fj}}</a>
+                </td>
+                {% endif %}
+                {% endfor %}
+              </tr>
+
+              <tr>
+                <th  id="fo" class="headcol" style=" vertical-align: super;">% Compliance</th>
+                {% for i in tablec %}
+                <td>
+                  {{i.pc_insp}}/{{i.pc_item}}
+                </td>
+
+                {% endfor %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+
+      <div class="card shadow"  id="table23">
+        <div class="card-header">
+          <h6 class="font-weight-bold text-primary text-center"> Division/Workshop Wise Inspection/Item Details<br></h6>
+        </div>
+
+        <div class="table-responsive  col-md-12 pl-0 pr-0" id="tbll3">
+          <table class="table-bordered table-sm table-hover " style="width: 100%;" id="table1" >
+            <tbody>
+              <tr style="background-color:rgb(218, 204, 204)">
+                <th id="poi" class="fixed-side" style=" vertical-align: center;">Div./W.S.</th>
+
+                {% for i in tablep %}
+                <td>{{i.type}}</td>
+                {% endfor %}
+              </tr>
+              <tr>
+                <th id="fo" class="fixed-side" style=" vertical-align: super;">Total</th>
+                {% for i in tablep %}
+                {% if i.total == "0/0" %}
+                <td>{{i.total}}</td>
+                {% else %}
+                <td>
+                  <a target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Total&data2=Insp&data3={{color}}">{{i.ti}}</a>/<a
+                    target="_blank" href="{% url 'dash_details' %}?data={{i.type}}&data1=Total&data2=Item&data3={{color}}">{{i.tj}}</a>
+                </td>
+                {% endif %}
+                {% endfor %}
+                
+              </tr>
+              <tr>
+                <th  id="fo" class="fixed-side" style=" vertical-align: super;">Pending</th>
+                {% for i in tablep %}
+                {% if i.pend == "0/0" %}
+                <td>{{i.pend}}</td>
+                {% else %}
+                <td>
+                  <a target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Pending&data2=Insp&data3={{color}}">{{i.pi}}</a>/<a
+                    target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Pending&data2=Item&data3={{color}}">{{i.pj}}</a>
+                </td>
+                {% endif %}
+                {% endfor %}
+                
+              </tr>
+              <tr>
+                <th  id="fo" class="fixed-side" style=" vertical-align: super;">Closed</th>
+                {% for i in tablep %}
+                {% if i.closed == "0/0" %}
+                <td>{{i.closed}}</td>
+                {% else %}
+                <td><a target="_blank"
+                    href="{% url 'dash_details' %}?data={{i.type}}&data1=Closed&data2=Insp&data3={{color}}">{{i.fi}}</a>/<a
+                    target="_blank" href="{% url 'dash_details' %}?data={{i.type}}&data1=Closed&data2=Item&data3={{color}}">{{i.fj}}</a>
+                </td>
+                {% endif %}
+                {% endfor %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+
+      <div class="row align-items-stretch justify-content-start card-deck">
+        <div class="col-md-6 text-center" id="inspectiondiv1" style="display:none;">
+          <div class="card cardnew1">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-md-2">
+                  <button data-toggle="sidebar-colapse" class="btn btn-info btn-md bg-info ">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-bars" id="collapse-icon" style="font-size:12%;margin-right:2%"></span>
+                      <span class="menu-collapsed">Menu</span>
+                    </div>
+                  </button>
+                </div>
+                <div class="col">
+                  <h6 class="font-weight-bold text-primary text-center">Inspection Done by me</h6>
+                </div>
+                <div class="col">
+                  <div id="reportrange"
+                    style="background: #fff; cursor: pointer; padding:5% 10%; border: 1% solid #ccc; width: 100%">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span id="ghj"></span> <i class="fa fa-caret-down"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" id="body-row">
+                <div class="col-md-2 temp bg-light" style="padding-left:0;margin-left:0;margin-right:0;padding-right:0;"
+                  id="sidebar-container">
+                  <div style="width:100%;padding:0;" class="temp bg-dark">
+                    <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu'-->
+                    <ul class="list-group" id="chan">
+                      <button id="asd" class="bg-danger list-group-item list-group-item-action trial normal "
+                        style="width:100%;">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <span class="fa fa-train" style="font-size:10%;margin-right:1%;"></span>
+                          <span class="menu-collapsed"> Railway</span>
+                        </div>
+                      </button>
+                      <button id="sdf" class="bg-success list-group-item list-group-item-action trial normal"
+                        style="display:none ;">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <span class="fa fa-city" style="font-size:10%;margin-right:1%;"></span>
+                          <span class="menu-collapsed"> Division</span>
+                        </div>
+                      </button>
+                      <button id="dfg" class="bg-warning list-group-item list-group-item-action trial normal"
+                        style="display:none ;">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <span class="fa fa-people-carry" style="font-size:10%;margin-right:2%;"></span>
+                          <span class="menu-collapsed" style="font-size:14%"> Department</span>
+                        </div>
+                      </button>
+                      <button id="fgh" class="bg-primary list-group-item list-group-item-action trial normal "
+                        style="display:none ;">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <span class="fa fa-id-badge " style="font-size:10%;margin-right:1%;"></span>
+                          <span class="menu-collapsed" style="font-size:14%"> Designation</span>
+                        </div>
+                      </button>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 text-center" id="inspectiondiv2" style="display:none;">
+          <div class="card cardnew1">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-md-2">
+                  <button data-toggle="sidebar-colapse2" class="btn btn-info btn-md bg-info">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-bars" id="collapse-icon2" style="font-size:12%;margin-right:2%"></span>
+                      <span class="menu-collapsed2">Menu</span>
+                    </div>
+                  </button>
+                </div>
+                <div class="col">
+                  <h6 class="font-weight-bold text-primary text-center">Items Marked to me</h6>
+                </div>
+                <div class="col">
+                  <div id="reportrange"
+                    style="background: #fff; cursor: pointer; padding: 5% 10%; border: 1% solid #ccc; width: 100%">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row" id="body-row2">
+                <div class="col-md-2 temp bg-dark" style="padding-left:0;margin-left:0;margin-right:0;padding-right:0;"
+                  id="sidebar-container2">
+                  <div style="width:100%;padding:0;" class="temp bg-dark">
+                    <ul class="list-group" id="chan2">
+                      <button id="asd2" onclick="myfunc2();"
+                        class="bg-danger list-group-item list-group-item-action trial2 normal2">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <span class="fa fa-train" style="font-size:10%;margin-right:1%;"></span>
+                          <span class="menu-collapsed2"> Railway</span>
+                        </div>
+                      </button>
+                      <button id="sdf2" class="bg-success list-group-item list-group-item-action trial2 normal2">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <span class="fa fa-city" style="font-size:10%;margin-right:1%;"></span>
+                          <span class="menu-collapsed2"> Division</span>
+                        </div>
+                      </button>
+                      <button id="dfg2" class="bg-warning list-group-item list-group-item-action trial2 normal2">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <span class="fa fa-people-carry" style="font-size:10%;margin-right:2%;"></span>
+                          <span class="menu-collapsed2" style="font-size:14%"> Department</span>
+                        </div>
+                      </button>
+                      <button id="fgh2" class="bg-primary list-group-item list-group-item-action trial2 normal2 ">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <span class="fa fa-id-badge " style="font-size:10%;margin-right:1%;"></span>
+                          <span class="menu-collapsed2" style="font-size:14%"> Designation</span>
+                        </div>
+                      </button>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-12" id="tbll2">
+                  <table class="table table-bordered" style="width:100%" id="table2">
+                    <thead class="">
+                      <th id="poi2" style=" vertical-align: super;">Type</th>
+                      <th style=" vertical-align: super;">Total</th>
+                      <th>Pending</th>
+                      <th style=" vertical-align: super;">Closed</th>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<script type="text/javascript">
+  
+  function setsummarydate(val) {
+    document.getElementById('summarydate').value=val;
+  }
+
+  $(function () {
+    var das_desig2 = '{{das_desig2}}'; 
+    if (das_desig2 === "GM"){
+      $('#cardr').hide();
+      $('#table').hide();
+      $('#myinsp3').hide();
+      $('#zone').hide();
+      $('#cti').hide();
+    }
+    if (das_desig2 === "PHOD"){
+      $('#cardr').hide();
+      $('#table').hide();
+      $('#myinsp3').hide();
+      $('#zone').hide();
+      $('#cti').hide();
+    }
+    if (das_desig2 === "BM"){
+      $('#cardr').hide();
+      $('#table').hide();
+      $('#myinsp3').hide();
+      $('#zone').hide();
+      $('#cti').hide();
+    }
+    if (das_desig2 === "CRB"){
+      $('#mm').hide();
+      $('#drm').hide();
+      $('#table23').hide();
+      $('#myinsp4').hide();
+      $('#phod').hide();
+    }
+    if (das_desig2 === "DRM"){
+      $('#cardr').hide();
+      $('#table').hide();
+      $('#myinsp3').hide();
+      $('#zone').hide();
+      $('#cti').hide();
+    }
+  });
+  </script>
+
+<script type="text/javascript">
+  $(function () {
+    $('input[name="daterange"]').daterangepicker({
+      opens: 'left',
+      locale: {
+        format: 'DD/MM/YY'
+      }
+    }, function (start, end, label) {
+      console.log("A new date selection was made: " + start.format('YY-MM-DD') + ' to ' + end.format('YY-MM-DD'));
+    });
+  });
+
+  function chartzone() {
+    $("#myChart7").hide();
+    $("#myChart71").hide();
+    $("#myChart72").show();
+    document.getElementById('all').style.color = '#007bff';
+    document.getElementById('zoneid').style.color = 'red';
+    document.getElementById('rb').style.color = '#007bff';
+
+  }
+  function chartRB() {
+    $("#myChart7").hide();
+    $("#myChart72").hide();
+    $("#myChart71").show();
+    document.getElementById('all').style.color = '#007bff';
+    document.getElementById('rb').style.color = 'red';
+    document.getElementById('zoneid').style.color = '#007bff';
+
+  }
+  function chartall() {
+    $("#myChart71").hide();
+    $("#myChart72").hide();
+    $("#myChart7").show();
+    document.getElementById('all').style.color = 'red';
+    document.getElementById('zoneid').style.color = '#007bff';
+    document.getElementById('rb').style.color = '#007bff';
+  }
+  function chartPU() {
+    $("#myChart8").hide();
+    $("#myChart82").hide();
+    $("#myChart83").hide();
+    $("#myChart81").show();
+    document.getElementById('all1').style.color = '#007bff';
+    document.getElementById('pu').style.color = 'red';
+    document.getElementById('ctiid').style.color = '#007bff';
+    document.getElementById('psu').style.color = '#007bff';
+  }
+  function chartCTI() {
+    $("#myChart8").hide();
+    $("#myChart81").hide();
+    $("#myChart83").hide();
+    $("#myChart82").show();
+    document.getElementById('all1').style.color = '#007bff';
+    document.getElementById('ctiid').style.color = 'red';
+    document.getElementById('pu').style.color = '#007bff';
+    document.getElementById('psu').style.color = '#007bff';
+  }
+  function chartPSU() {
+    $("#myChart8").hide();
+    $("#myChart81").hide();
+    $("#myChart82").hide();
+    $("#myChart83").show();
+    document.getElementById('all1').style.color = '#007bff';
+    document.getElementById('psu').style.color = 'red';
+    document.getElementById('pu').style.color = '#007bff';
+    document.getElementById('ctiid').style.color = '#007bff';
+  }
+  function chartall1() {
+    $("#myChart82").hide();
+    $("#myChart81").hide();
+    $("#myChart83").hide();
+    $("#myChart8").show();
+    document.getElementById('all1').style.color = 'red';
+    document.getElementById('pu').style.color = '#007bff';
+    document.getElementById('ctiid').style.color = '#007bff';
+    document.getElementById('psu').style.color = '#007bff';
+  }
+
+  function showdiv1() {
+    // document.getElementById('inspectiondiv').style.display="block";
+    var x = document.getElementById("inspectiondiv1");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+  function showdiv2() {
+    // document.getElementById('inspectiondiv').style.display="block";
+    var x = document.getElementById("inspectiondiv2");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+
+  $(document).ready(function () {
+    chartdata();
+    $('#sidebar-container').hide();
+    $('#sidebar-container2').hide();
+    $('#myChart71').hide();
+    $('#myChart72').hide();
+    $('#all').addClass('active1')
+    $('#all1').addClass('active1')
+    $('#myChart81').hide();
+    $('#myChart82').hide();
+    $('#myChart83').hide();
+    $('#tbll1').addClass('col-md-12');
+    $('#tbll2').addClass('col-md-12');
+    tb1 = $('#table1').DataTable({
+      pageLength: 5,
+      lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+    })
+    tb2 = $('#table2').DataTable({
+      pageLength: 5,
+      lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+    })
+  });
+  $('[data-toggle=sidebar-colapse]').click(function () {
+    SidebarCollapse();
+
+  });
+
+  function SidebarCollapse() {
+    if ($('#sidebar-container').hasClass('temp')) {
+      $('#sidebar-container').show();
+
+      $('#tbll1').removeClass('col-md-12');
+      $('#tbll1').addClass('col-md-10');
+      $('#sidebar-container').removeClass('temp');
+    }
+    else {
+      $('#sidebar-container').hide();
+      $('#sidebar-container').addClass('temp');
+      $('#tbll1').removeClass('col-md-10');
+      $('#tbll1').addClass('col-md-12');
+
+    }
+  }
+
+  // Collapse/Expand icon
+  //  $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
+
+  $('[data-toggle=sidebar-colapse2]').click(function () {
+    SidebarCollapse2();
+  });
+
+  function SidebarCollapse2() {
+    if ($('#sidebar-container2').hasClass('temp')) {
+      $('#sidebar-container2').show();
+      $('#tbll2').removeClass('col-md-12');
+      $('#tbll2').addClass('col-md-10');
+      $('#sidebar-container2').removeClass('temp');
+    }
+    else {
+      $('#sidebar-container2').hide();
+      $('#sidebar-container2').addClass('temp');
+      $('#tbll2').removeClass('col-md-10');
+      $('#tbll2').addClass('col-md-12');
+
+    }
+
+
+    // Collapse/Expand icon
+    //  $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
+  }
+
+  let month = "";
+  var xValues = ["jan", "Feb", "Mar", "apr", "may", "june"];
+  var yValues = [50, 49, 44, 24, 15, 8];
+  var barColors = ["red", "green", "blue", "orange", "brown", "pink"];
+  var up = 0, down = 0;
+  function chartdata(str) {
+    if (str == 'D') down += 1;
+    if (str == 'U') up += 1;
+    console.log(month);
+    var mydata = { 'up': up, 'down': down, 'month': month };
+    down = 0; up = 0;
+    $.ajax({
+      method: "GET",
+      url: "{%url 'chartdata'%}",
+      data: mydata,
+      success: function (response) {
+        var label = new Array()
+        var target = new Array()
+        var target2 = new Array()
+        for (var i = 0; i < response.mon.length; i++) {
+          label.push(response.mon[i]);
+          target.push(response.count[i]);
+          target2.push(response.count1[i]);
+        }
+        month = response.mon[0];
+        var c1 = document.getElementById("myChart");
+        var ctx1 = c1.getContext('2d');
+        c1.height = 300;
+        var myChart = new Chart(ctx1, {
+          type: "bar",
+          data: {
+            labels: label,
+            datasets: [{
+              label: "Drafted",
+              backgroundColor: "red",
+              data: target
+            }, {
+              label: "Final",
+              backgroundColor: "green",
+              data: target2
+            },
+            ]
+          },
+          options: {
+            legend: { display: false },
+            title: {
+              display: false,
+              text: "Inspection Report Generated in 2022"
+            },
+            plugins: {
+              datalabels: {
+                display: false,
+              },
+            }
+          }
+        });
+
+      }
+    })
+  }
+
+  function piedata() {
+    $.ajax({
+      method: "GET",
+      url: "{%url 'piedata'%}",
+      success: function (response) {
+        var label = new Array()
+        var target = new Array()
+        var target2 = new Array()
+        var sum2 = response.closed + response.partial + response.pending;
+        var sum3 = response.closed2 + response.partial2 + response.pending2;
+        target.push(response.closed)
+        target.push(response.partial)
+        target.push(response.pending)
+        target2.push(response.closed2)
+        target2.push(response.partial2)
+        target2.push(response.pending2)
+        label.push("Closed")
+        label.push("Partial Compliances")
+        label.push("Pending Compliances")
+        let i = 0;
+
+        var data = [{
+          data: target,
+          backgroundColor: [
+            "#4b77a9",
+            "#5f255f",
+            "#d21243"
+          ],
+          borderColor: "#fff"
+        }];
+
+        var options = {
+          tooltips: {
+            enabled: true,
+          },
+          legend: {
+            position: 'bottom',
+            fontColor: "#000",
+            display: false,
+            labels: {
+              boxWidth: 15,
+              boxHeight: 2,
+              fontColor: "black",
+              fontStyle: 'bold',
+            }
+          },
+          plugins: {
+            datalabels: {
+              formatter: (value, ctx1) => {
+
+                let sum = sum2;
+                let percentage = (value * 100 / sum).toFixed(1) + "%";
+                if (percentage == "0.0%") { return ""; }
+                else { return percentage; }
+              },
+              color: '#fff',
+            },
+
+
+          }
+        };
+
+
+        var ctx2 = document.getElementById("myChart1").getContext('2d');
+        var chart = new Chart(ctx2, {
+          type: 'pie',
+          data: {
+            labels: label,
+            datasets: data
+          },
+          options: options
+        });
+        var myLegendContainer = document.getElementById("legend");
+        // generate HTML legend
+        myLegendContainer.innerHTML = chart.generateLegend();
+        // bind onClick event to all LI-tags of the legend
+        var legendItems = myLegendContainer.getElementsByTagName('li');
+
+
+
+
+        var data2 = [{
+          data: target2,
+          backgroundColor: [
+            "#4b77a9",
+            "#5f255f",
+            "#d21243"
+          ],
+          borderColor: "#fff"
+        }];
+
+        var options2 = {
+          tooltips: {
+            enabled: true
+          },
+          legend: {
+            position: 'bottom',
+            fontColor: "#000",
+            display: false,
+            labels: {
+              boxWidth: 15,
+              boxHeight: 2,
+              fontColor: "black",
+              fontStyle: 'bold',
+            }
+          },
+          plugins: {
+            datalabels: {
+              formatter: (value, ctx2) => {
+
+                let sum = sum3;
+                let percentage = (value * 100 / sum).toFixed(1) + "%";
+                if (percentage == "0.0%") { return ""; }
+                else { return percentage; }
+              },
+              color: '#fff',
+            }
+          }
+        };
+
+
+        var ctx2 = document.getElementById("myChart4").getContext('2d');
+        var myChart2 = new Chart(ctx2, {
+          type: 'pie',
+          data: {
+            labels: label,
+            datasets: data2
+          },
+          options: options2
+        });
+
+
+      }
+    })
+  }
+
+
+
+  var xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+  new Chart("myChart2", {
+    type: "line",
+    data: {
+      labels: xValues,
+      datasets: [{
+        data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+        borderColor: "red",
+        fill: false
+      }, {
+        data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+        borderColor: "green",
+        fill: false
+      }, {
+        data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+        borderColor: "blue",
+        fill: false
+      }]
+    },
+    options: {
+      legend: { display: false }
+    }
+  });
+  var tb1;
+  let sd = "", ed = "";
+  $(function () {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+    sd = start.format('YYYY-MM-DD');
+    ed = end.format('YYYY-MM-DD');
+    function cb(start, end) {
+      $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      sd = start.format('YYYY-MM-DD');
+      ed = end.format('YYYY-MM-DD');
+      myfunc();
+    }
+
+    $('#reportrange').daterangepicker({
+      startDate: start,
+      endDate: end,
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    }, cb);
+
+
+    cb(start, end);
+
+  });
+  let sd2 = "", ed2 = "";
+  $(function () {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+    sd2 = start.format('YYYY-MM-DD');
+    ed2 = end.format('YYYY-MM-DD');
+    function cb2(start, end) {
+      $('#reportrange2 span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      sd2 = start.format('YYYY-MM-DD');
+      ed2 = end.format('YYYY-MM-DD');
+      myfunc2();
+    }
+
+    $('#reportrange2').daterangepicker({
+      startDate: start,
+      endDate: end,
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    }, cb2);
+
+
+    cb2(start, end);
+
+  });
+
+
+  function myfunc() {
+    tb1 = $('#table1').DataTable()
+    tb1.destroy();
+    mydata = { sd: sd, ed: ed };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi').html("Railway");
+        for (var i = 0; i < response.list1.length; i++) {
+          if (response.list1[i].count == 0) {
+            html += '<tr><td >' + response.list1[i].loc + '</td><td >' + response.list1[i].count + '</td><td >' + response.list1[i].c3 + '</td><td >' + response.list1[i].c2 + '</td><td >' + response.list1[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list1[i].c1 > 0 && response.list1[i].c2 > 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 > 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a> </td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 == 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td >' + response.list1[i].c2 + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 > 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 > 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 == 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 == 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</td></tr>'; }
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 == 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</a></td></tr>'; }
+
+          }
+        }
+
+        $('#tbody1').html(html);
+        tb1 = $('#table1').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  }
+
+
+  $('#sdf').click(function () {
+    tb1 = $('#table1').DataTable()
+    tb1.destroy();
+    mydata = { sd: sd, ed: ed };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi').html("Division");
+        for (var i = 0; i < response.list2.length; i++) {
+          if (response.list2[i].count == 0) {
+            html += '<tr><td >' + response.list2[i].loc + '</td><td >' + response.list2[i].count + '</td><td >' + response.list2[i].c3 + '</td><td >' + response.list2[i].c2 + '</td><td >' + response.list2[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list2[i].c1 > 0 && response.list2[i].c2 > 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td ><a href="/new_page?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 > 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a> </td><td ><a href="/new_page?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 == 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td >' + response.list2[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 > 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 > 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 == 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td >' + response.list2[i].c2 + '</td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 == 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td >' + response.list2[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 == 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</a></td></tr>'; }
+
+          }
+        }
+        $('#tbody1').html(html);
+        tb1 = $('#table1').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+  $('#dfg').click(function () {
+    mydata = { sd: sd, ed: ed };
+    tb1 = $('#table1').DataTable()
+    tb1.destroy();
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi').html("Department");
+        for (var i = 0; i < response.list3.length; i++) {
+          if (response.list3[i].count == 0) {
+            html += '<tr><td >' + response.list3[i].loc + '</td><td >' + response.list3[i].count + '</td><td >' + response.list3[i].c3 + '</td><td >' + response.list3[i].c2 + '</td><td >' + response.list3[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list3[i].c1 > 0 && response.list3[i].c2 > 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td ><a href="/new_page?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 > 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a> </td><td ><a href="/new_page?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 == 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td >' + response.list3[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 > 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 > 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 == 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td >' + response.list3[i].c2 + '</td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 == 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td >' + response.list3[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</td></tr>'; }
+          }
+        }
+        $('#tbody1').html(html);
+        tb1 = $('#table1').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+  $('#fgh').click(function () {
+    tb1 = $('#table1').DataTable()
+    tb1.destroy();
+    mydata = { sd: sd, ed: ed };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi').html("Designation");
+        for (var i = 0; i < response.list4.length; i++) {
+          if (response.list4[i].count == 0) {
+            html += '<tr><td >' + response.list4[i].loc + '</td><td >' + response.list4[i].count + '</td><td >' + response.list4[i].c3 + '</td><td >' + response.list4[i].c2 + '</td><td >' + response.list4[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list4[i].c1 > 0 && response.list4[i].c2 > 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td ><a href="/new_page?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 > 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a> </td><td ><a href="/new_page?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 == 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td >' + response.list4[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 > 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td ><a href="/new_page?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 > 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td ><a href="/new_page?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 == 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td >' + response.list4[i].c2 + '</td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 == 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td >' + response.list4[i].c2 + '</td><td ><a href="/new_page?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd + '&ed=' + ed + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</td></tr>'; }
+
+          }
+        }
+        $('#tbody1').html(html);
+        tb1 = $('#table1').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+  var tb2;
+  function myfunc2() {
+    tb2 = $('#table2').DataTable()
+    tb2.destroy();
+    mydata = { sd2: sd2, ed2: ed2 };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data2'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi2').html("Railway");
+        for (var i = 0; i < response.list1.length; i++) {
+          if (response.list1[i].count == 0) {
+            html += '<tr><td >' + response.list1[i].loc + '</td><td >' + response.list1[i].count + '</td><td >' + response.list1[i].c3 + '</td><td >' + response.list1[i].c2 + '</td><td >' + response.list1[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list1[i].c1 > 0 && response.list1[i].c2 > 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 > 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a> </td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 == 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td >' + response.list1[i].c2 + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</a></td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 > 0 && response.list1[i].c3 == 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td >' + response.list1[i].c3 + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 > 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=2&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c2 + '</a></td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 == 0 && response.list1[i].c2 == 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</td><td >' + response.list1[i].c1 + '</td></tr>'; }
+
+            else if (response.list1[i].c1 > 0 && response.list1[i].c2 == 0 && response.list1[i].c3 > 0) { html += '<tr><td >' + response.list1[i].loc + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=0&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].count + '</a></td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=1&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c3 + '</a></td><td >' + response.list1[i].c2 + '</td><td ><a href="/new_page2?railway=' + response.list1[i].id + '&status=3&div=false&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list1[i].c1 + '</td></tr>'; }
+          }
+        }
+
+        $('#tbody2').html(html);
+        tb2 = $('#table2').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  }
+
+
+  $('#sdf2').click(function () {
+    tb2 = $('#table2').DataTable()
+    tb2.destroy();
+    mydata = { sd2: sd2, ed2: ed2 };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data2'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi2').html("Division");
+        for (var i = 0; i < response.list2.length; i++) {
+          if (response.list2[i].count == 0) {
+            html += '<tr><td >' + response.list2[i].loc + '</td><td >' + response.list2[i].count + '</td><td >' + response.list2[i].c3 + '</td><td >' + response.list2[i].c2 + '</td><td >' + response.list2[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list2[i].c1 > 0 && response.list2[i].c2 > 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td ><a href="/new_page2?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 > 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a> </td><td ><a href="/new_page2?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 == 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td >' + response.list2[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</a></td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 > 0 && response.list2[i].c3 == 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td >' + response.list2[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 > 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c2 + '</a></td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 == 0 && response.list2[i].c2 == 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td >' + response.list2[i].c2 + '</td><td >' + response.list2[i].c1 + '</td></tr>'; }
+            else if (response.list2[i].c1 > 0 && response.list2[i].c2 == 0 && response.list2[i].c3 > 0) { html += '<tr><td >' + response.list2[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c3 + '</a></td><td >' + response.list2[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=' + response.list2[i].id + '&dept=false&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list2[i].c1 + '</td></tr>'; }
+          }
+        }
+        $('#tbody2').html(html);
+        tb2 = $('#table2').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+
+  $('#dfg2').click(function () {
+    mydata = { sd2: sd2, ed2: ed2 };
+    tb2 = $('#table2').DataTable()
+    tb2.destroy();
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data2'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi2').html("Department");
+        for (var i = 0; i < response.list3.length; i++) {
+          if (response.list3[i].count == 0) {
+            html += '<tr><td >' + response.list3[i].loc + '</td><td >' + response.list3[i].count + '</td><td >' + response.list3[i].c3 + '</td><td >' + response.list3[i].c2 + '</td><td >' + response.list3[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list3[i].c1 > 0 && response.list3[i].c2 > 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 > 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a> </td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 == 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td >' + response.list3[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</a></td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 > 0 && response.list3[i].c3 == 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td >' + response.list3[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 > 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c2 + '</a></td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 == 0 && response.list3[i].c2 == 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td >' + response.list3[i].c2 + '</td><td >' + response.list3[i].c1 + '</td></tr>'; }
+            else if (response.list3[i].c1 > 0 && response.list3[i].c2 == 0 && response.list3[i].c3 > 0) { html += '<tr><td >' + response.list3[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c3 + '</a></td><td >' + response.list3[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=' + response.list3[i].loc + '&desig=false&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list3[i].c1 + '</td></tr>'; }
+          }
+        }
+        $('#tbody2').html(html);
+        tb2 = $('#table2').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+
+
+
+  $('#fgh2').click(function () {
+    tb2 = $('#table2').DataTable()
+    tb2.destroy();
+    mydata = { sd2: sd2, ed2: ed2 };
+    $.ajax({
+      method: "GET",
+      url: "{%url 'get_data2'%}",
+      data: mydata,
+      success: function (response) {
+        var html = "";
+        $('#poi2').html("Designation");
+        for (var i = 0; i < response.list4.length; i++) {
+          if (response.list4[i].count == 0) {
+            html += '<tr><td >' + response.list4[i].loc + '</td><td >' + response.list4[i].count + '</td><td >' + response.list4[i].c3 + '</td><td >' + response.list4[i].c2 + '</td><td >' + response.list4[i].c1 + '</td></tr>';
+          }
+          else {
+            if (response.list4[i].c1 > 0 && response.list4[i].c2 > 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 > 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a> </td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 == 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td >' + response.list4[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</a></td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 > 0 && response.list4[i].c3 == 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td >' + response.list4[i].c3 + '</td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 > 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td ><a href="/new_page2?railway=false&status=2&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c2 + '</a></td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 == 0 && response.list4[i].c2 == 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td >' + response.list4[i].c2 + '</td><td >' + response.list4[i].c1 + '</td></tr>'; }
+            else if (response.list4[i].c1 > 0 && response.list4[i].c2 == 0 && response.list4[i].c3 > 0) { html += '<tr><td >' + response.list4[i].loc + '</td><td ><a href="/new_page2?railway=false&status=0&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].count + '</a></td><td ><a href="/new_page2?railway=false&status=1&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c3 + '</a></td><td >' + response.list4[i].c2 + '</td><td ><a href="/new_page2?railway=false&status=3&div=false&dept=false&desig=' + response.list4[i].loc + '&sd=' + sd2 + '&ed=' + ed2 + '" target="_blank" rel="noopener noreferrer">' + response.list4[i].c1 + '</td></tr>'; }
+
+          }
+        }
+        $('#tbody2').html(html);
+        tb2 = $('#table2').DataTable({
+          pageLength: 5,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 50]]
+        })
+      }
+    })
+  })
+  var header = document.getElementById("chan");
+  var btns = header.getElementsByClassName("trial");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function () {
+      var current = document.getElementsByClassName("acti");
+      if (current.length > 0) {
+        current[0].className = current[0].className.replace(" acti", "");
+      }
+      this.className += " acti";
+    });
+  }
+  const mchart = {
+    id: 'mchart',
+
+    afterEvent(chart, args) {
+      const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = chart;
+
+      canvas.addEventListener('mousemove', (event) => {
+        const x = args.event.x;
+        const y = args.event.y;
+
+        if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+          canvas.style.cursor = 'pointer';
+        }
+        else if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+          canvas.style.cursor = 'pointer';
+        }
+        else {
+          canvas.style.cursor = 'default';
+        }
+      })
+    },
+
+    afterDraw(chart, args, pluginOptions) {
+      const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+
+      class CircleChevron {
+        draw(ctx, x1, pixel) {
+          const angle = Math.PI / 180;
+
+          ctx.beginPath();
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = 'rgb(255,255,255)';
+          ctx.fillStyle = 'rgba(255,255,255,0)';
+          ctx.arc(x1, height / 2 + top, 15, angle * 0, angle * 360, false);
+          ctx.stroke();
+          ctx.fill();
+          ctx.closePath();
+
+          ctx.beginPath();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = '	#FF0000';
+          ctx.moveTo(x1 + pixel, height / 2 + top - 7.5);
+          ctx.lineTo(x1 - pixel, height / 2 + top);
+          ctx.lineTo(x1 + pixel, height / 2 + top + 7.5);
+          ctx.stroke();
+          ctx.closePath();
+        }
+      }
+
+      let drawCircleLeft = new CircleChevron();
+      drawCircleLeft.draw(ctx, left, 5);
+
+      let drawCircleRight = new CircleChevron();
+      drawCircleRight.draw(ctx, right, -5);
+    }
+  };
+
+
+  const ctx7 = document.getElementById('myChart7').getContext('2d');
+  let zonalwiselst = {{ zonalwiselst| safe}}
+  let zonalwisedata = {{ zonalwisedata| safe}}
+  const myChart7 = new Chart(ctx7, {
+    type: 'bar',
+    data: {
+      labels: zonalwiselst,
+      labelAngle: 90,
+      datasets: [{
+        data: zonalwisedata,
+        backgroundColor: color => {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        },
+      }]
+    },
+    options: {
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+
+      scales: {
+        x: {
+          min: 0,
+          max: 6,
+          title: {
+            display: false,
+            text: 'RB/ZONE'
+          },
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          min: 0,
+          max: 100,
+          title: {
+            display: false,
+            text: '% Compliances'
+          },
+          ticks: {
+            stepSize: 20,
+          }
+        }
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins: [mchart]
+  });
+
+  const ctx71 = document.getElementById('myChart71').getContext('2d');
+  let zonalwiselstrb = {{ zonalwiselstrb| safe}}
+  let zonalwisedatarb = {{ zonalwisedatarb| safe}}
+  const myChart71 = new Chart(ctx71, {
+    type: 'bar',
+    data: {
+      labels: zonalwiselstrb,
+      labelAngle: 90,
+      datasets: [{
+        data: zonalwisedatarb,
+        backgroundColor: color => {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        },
+      }]
+    },
+    options: {
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+
+      scales: {
+        x: {
+          min: 0,
+          max: 6,
+          title: {
+            display: false,
+            text: ''
+          },
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          min: 0,
+          max: 100,
+          title: {
+            display: false,
+            text: '% Compliances'
+          },
+          ticks: {
+            stepSize: 20,
+          }
+        }
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins: [mchart]
+  });
+
+
+  const ctx72 = document.getElementById('myChart72').getContext('2d');
+  let zonalwiselstzone = {{ zonalwiselstzone| safe}}
+  let zonalwisedatazone = {{ zonalwisedatazone| safe}}
+  const myChart72 = new Chart(ctx72, {
+    type: 'bar',
+    data: {
+      labels: zonalwiselstzone,
+      labelAngle: 90,
+      datasets: [{
+        data: zonalwisedatazone,
+        backgroundColor: color => {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        },
+      }]
+    },
+    options: {
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+
+      scales: {
+        x: {
+          min: 0,
+          max: 6,
+          title: {
+            display: false,
+            text: 'ZONE'
+          },
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          min: 0,
+          max: 100,
+          title: {
+            display: false,
+            text: '% Compliances'
+          },
+          ticks: {
+            stepSize: 20,
+          }
+        }
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins: [mchart]
+  });
+
+  const ctx8 = document.getElementById('myChart8').getContext('2d');
+  let pulst = {{ pulst| safe}}
+  let pudata = {{ pudata| safe}}
+  const myChart8 = new Chart(ctx8, {
+    type: 'bar',
+    data: {
+      labels: pulst,
+      datasets: [{
+        data: pudata,
+        backgroundColor: color => {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        },
+      }]
+    },
+    options: {
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+      scales: {
+        x: {
+          display: true,
+          min: 0,
+          max: 6,
+          title: {
+            display: false,
+            text: 'PU/CTI/PSU'
+          }
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          min: 0,
+          max: 100,
+          title: {
+            display: false,
+            text: '% Compliances'
+          },
+          ticks: {
+            stepSize: 20,
+          }
+        }
+
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins: [mchart]
+  });
+
+  const ctx81 = document.getElementById('myChart81').getContext('2d');
+  let pulstpu = {{ pulstpu| safe}}
+  let pudatapu = {{ pudatapu| safe}}
+  const myChart81 = new Chart(ctx81, {
+    type: 'bar',
+    data: {
+      labels: pulstpu,
+      datasets: [{
+        data: pudatapu,
+        backgroundColor: color => {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        },
+      }]
+    },
+    options: {
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+      scales: {
+        x: {
+          display: true,
+          min: 0,
+          max: 6,
+          title: {
+            display: false,
+            text: 'PU'
+          }
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          min: 0,
+          max: 100,
+          title: {
+            display: false,
+            text: '% Compliances'
+          },
+          ticks: {
+            stepSize: 20,
+          }
+        }
+
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins: [mchart]
+  });
+
+  const ctx83 = document.getElementById('myChart83').getContext('2d');
+  let pulstpsu = {{ pulstpsu| safe}}
+  let pudatapsu = {{ pudatapsu| safe}}
+  const myChart83 = new Chart(ctx83, {
+    type: 'bar',
+    data: {
+      labels: pulstpsu,
+      datasets: [{
+        data: pudatapsu,
+        backgroundColor: color => {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        },
+      }]
+    },
+    options: {
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+      scales: {
+        x: {
+          display: true,
+          min: 0,
+          max: 6,
+          title: {
+            display: false,
+            text: 'PSU'
+          }
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          min: 0,
+          max: 100,
+          title: {
+            display: false,
+            text: '% Compliances'
+          },
+          ticks: {
+            stepSize: 20,
+          }
+        }
+
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins: [mchart]
+  });
+
+  const ctx82 = document.getElementById('myChart82').getContext('2d');
+  let pulstcti = {{ pulstcti| safe}}
+  let pudatacti = {{ pudatacti| safe}}
+  const myChart82 = new Chart(ctx82, {
+    type: 'bar',
+    data: {
+      labels: pulstcti,
+      datasets: [{
+        data: pudatacti,
+        backgroundColor: color => {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        },
+      }]
+    },
+    options: {
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+      scales: {
+        x: {
+          display: true,
+          min: 0,
+          max: 6,
+          title: {
+            display: false,
+            text: 'CTI'
+          }
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          min: 0,
+          max: 100,
+          title: {
+            display: false,
+            text: '% Compliances'
+          },
+          ticks: {
+            stepSize: 20,
+          }
+        }
+
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins: [mchart]
+  });
+
+  const ctx3 = document.getElementById('myChart9').getContext('2d');
+  let drmwiselst = {{ drmwiselst | safe}}
+  let drmwisedata = {{ drmwisedata | safe}}
+  const myChart9 = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+      labels: drmwiselst,
+      datasets: [{
+        data: drmwisedata ,
+        backgroundColor: color => {
+                        var r = Math.floor(Math.random() * 255);
+                        var g = Math.floor(Math.random() * 255);
+                        var b = Math.floor(Math.random() * 255);
+                        return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+                    },
+      }]
+    },
+    options: {
+      layout:{
+        padding:{
+          right:16.5
+        }
+      },
+      plugins:{
+        legend: {
+          display: false
+        },
+      },
+      scales: {
+        x: {
+          display: true,
+          min:0,
+          max:9,
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          suggestedMin: 0,
+          suggestedMax: 100,
+          ticks: {
+            stepSize: 20,
+          }
+        }
+
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins:[mchart]
+  });
+  
+  const ctx4 = document.getElementById('myChart10').getContext('2d');
+  let phodwiselst = {{ phodwiselst | safe}}
+  let phodwisedata = {{ phodwisedata | safe}}
+  const myChart10 = new Chart(ctx4, {
+    type: 'bar',
+    data: {
+      labels: phodwiselst,
+      datasets: [{
+        data: phodwisedata,
+        backgroundColor: color => {
+                        var r = Math.floor(Math.random() * 255);
+                        var g = Math.floor(Math.random() * 255);
+                        var b = Math.floor(Math.random() * 255);
+                        return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+                    },
+      }]
+    },
+    options: {
+      layout:{
+        padding:{
+          right:16.5
+        }
+      },
+      plugins:{
+        legend: {
+          display: false
+        },
+      },
+      scales: {
+        x: {
+          display: true,
+          min:0,
+          max:5,
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          suggestedMin: 0,
+          suggestedMax: 100,
+          ticks: {
+            stepSize: 20,
+          }
+        }
+
+      },
+      title: {
+        display: false,
+      }
+    },
+    plugins:[mchart]
+  });
+
+
+
+  function moveScroll() {
+    const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = myChart7;
+
+    canvas.addEventListener('click', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      console.log('x', x)
+      console.log('y', y)
+
+      if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart7.options.scales.x.min = myChart7.options.scales.x.min - 7;
+        myChart7.options.scales.x.max = myChart7.options.scales.x.max - 7;
+
+        if (myChart7.options.scales.x.max <= 0) {
+          myChart7.options.scales.x.min = 0;
+          myChart7.options.scales.x.max = 6;
+        };
+      }
+
+      if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart7.options.scales.x.min = myChart7.options.scales.x.min + 7;
+        myChart7.options.scales.x.max = myChart7.options.scales.x.max + 7;
+
+        if (myChart7.options.scales.x.max >= myChart7.data.datasets[0].data.length) {
+          myChart7.options.scales.x.min = myChart7.data.datasets[0].data.length - 7;
+          myChart7.options.scales.x.max = myChart7.data.datasets[0].data.length;
+        };
+      }
+      myChart7.update();
+    })
+  };
+
+  function moveScroll72() {
+    const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = myChart72;
+
+    canvas.addEventListener('click', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      console.log('x', x)
+      console.log('y', y)
+
+      if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart72.options.scales.x.min = myChart72.options.scales.x.min - 7;
+        myChart72.options.scales.x.max = myChart72.options.scales.x.max - 7;
+
+        if (myChart72.options.scales.x.max <= 0) {
+          myChart72.options.scales.x.min = 0;
+          myChart72.options.scales.x.max = 6;
+        };
+      }
+
+      if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart72.options.scales.x.min = myChart72.options.scales.x.min + 7;
+        myChart72.options.scales.x.max = myChart72.options.scales.x.max + 7;
+
+        if (myChart72.options.scales.x.max >= myChart72.data.datasets[0].data.length) {
+          myChart72.options.scales.x.min = myChart72.data.datasets[0].data.length - 7;
+          myChart72.options.scales.x.max = myChart72.data.datasets[0].data.length;
+        };
+      }
+      myChart72.update();
+    })
+  };
+
+  function moveScroll1() {
+    const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = myChart8;
+
+    canvas.addEventListener('click', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      console.log('x', x)
+      console.log('y', y)
+
+      if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart8.options.scales.x.min = myChart8.options.scales.x.min - 7;
+        myChart8.options.scales.x.max = myChart8.options.scales.x.max - 7;
+
+        if (myChart8.options.scales.x.max <= 0) {
+          myChart8.options.scales.x.min = 0;
+          myChart8.options.scales.x.max = 6;
+        };
+      }
+
+      if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart8.options.scales.x.min = myChart8.options.scales.x.min + 7;
+        myChart8.options.scales.x.max = myChart8.options.scales.x.max + 7;
+
+        if (myChart8.options.scales.x.max >= myChart8.data.datasets[0].data.length) {
+          myChart8.options.scales.x.min = myChart8.data.datasets[0].data.length - 7;
+          myChart8.options.scales.x.max = myChart8.data.datasets[0].data.length;
+        };
+      }
+      myChart8.update();
+    })
+  };
+
+  function moveScroll81() {
+    const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = myChart81;
+
+    canvas.addEventListener('click', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      console.log('x', x)
+      console.log('y', y)
+
+      if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart81.options.scales.x.min = myChart81.options.scales.x.min - 7;
+        myChart81.options.scales.x.max = myChart81.options.scales.x.max - 7;
+
+        if (myChart81.options.scales.x.max <= 0) {
+          myChart81.options.scales.x.min = 0;
+          myChart81.options.scales.x.max = 6;
+        };
+      }
+
+      if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart81.options.scales.x.min = myChart81.options.scales.x.min + 7;
+        myChart81.options.scales.x.max = myChart81.options.scales.x.max + 7;
+
+        if (myChart81.options.scales.x.max >= myChart81.data.datasets[0].data.length) {
+          myChart81.options.scales.x.min = myChart81.data.datasets[0].data.length - 7;
+          myChart81.options.scales.x.max = myChart81.data.datasets[0].data.length;
+        };
+      }
+      myChart81.update();
+    })
+  };
+
+  function moveScroll82() {
+    const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = myChart82;
+
+    canvas.addEventListener('click', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      console.log('x', x)
+      console.log('y', y)
+
+      if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart82.options.scales.x.min = myChart82.options.scales.x.min - 7;
+        myChart82.options.scales.x.max = myChart82.options.scales.x.max - 7;
+
+        if (myChart82.options.scales.x.max <= 0) {
+          myChart82.options.scales.x.min = 0;
+          myChart82.options.scales.x.max = 6;
+        };
+      }
+
+      if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart82.options.scales.x.min = myChart82.options.scales.x.min + 7;
+        myChart82.options.scales.x.max = myChart82.options.scales.x.max + 7;
+
+        if (myChart82.options.scales.x.max >= myChart82.data.datasets[0].data.length) {
+          myChart82.options.scales.x.min = myChart82.data.datasets[0].data.length - 7;
+          myChart82.options.scales.x.max = myChart82.data.datasets[0].data.length;
+        };
+      }
+      myChart82.update();
+    })
+  };
+  function moveScroll83() {
+    const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = myChart83;
+
+    canvas.addEventListener('click', (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      console.log('x', x)
+      console.log('y', y)
+
+      if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart83.options.scales.x.min = myChart83.options.scales.x.min - 7;
+        myChart83.options.scales.x.max = myChart83.options.scales.x.max - 7;
+
+        if (myChart83.options.scales.x.max <= 0) {
+          myChart83.options.scales.x.min = 0;
+          myChart83.options.scales.x.max = 6;
+        };
+      }
+
+      if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+
+        myChart83.options.scales.x.min = myChart83.options.scales.x.min + 7;
+        myChart83.options.scales.x.max = myChart83.options.scales.x.max + 7;
+
+        if (myChart83.options.scales.x.max >= myChart83.data.datasets[0].data.length) {
+          myChart83.options.scales.x.min = myChart83.data.datasets[0].data.length - 7;
+          myChart83.options.scales.x.max = myChart83.data.datasets[0].data.length;
+        };
+      }
+      myChart83.update();
+    })
+  };
+
+  function moveScroll2(){
+    const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChart9;
+
+    canvas.addEventListener('click',(event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      console.log('x',x)
+      console.log('y',y)
+
+      if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+        myChart9.options.scales.x.min = myChart9.options.scales.x.min - 10;
+        myChart9.options.scales.x.max = myChart9.options.scales.x.max - 10;
+
+        if (myChart9.options.scales.x.max <= 0){
+          myChart9.options.scales.x.min = 0;
+          myChart9.options.scales.x.max = 9;
+        };
+      }
+
+      if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+        myChart9.options.scales.x.min = myChart9.options.scales.x.min + 10;
+        myChart9.options.scales.x.max = myChart9.options.scales.x.max + 10;
+
+        if (myChart9.options.scales.x.max >= myChart9.data.datasets[0].data.length){
+          myChart9.options.scales.x.min = myChart9.data.datasets[0].data.length - 10;
+          myChart9.options.scales.x.max = myChart9.data.datasets[0].data.length;
+        };
+      }
+      myChart9.update();
+    })
+  };
+
+  function moveScroll3(){
+    const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChart10;
+
+    canvas.addEventListener('click',(event) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      console.log('x',x)
+      console.log('y',y)
+
+      if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+        myChart10.options.scales.x.min = myChart10.options.scales.x.min - 6;
+        myChart10.options.scales.x.max = myChart10.options.scales.x.max - 6;
+
+        if (myChart10.options.scales.x.max <= 0){
+          myChart10.options.scales.x.min = 0;
+          myChart10.options.scales.x.max = 5;
+        };
+      }
+
+      if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+        myChart10.options.scales.x.min = myChart10.options.scales.x.min + 6;
+        myChart10.options.scales.x.max = myChart10.options.scales.x.max + 6;
+
+        if (myChart10.options.scales.x.max >= myChart10.data.datasets[0].data.length){
+          myChart10.options.scales.x.min = myChart10.data.datasets[0].data.length - 6;
+          myChart10.options.scales.x.max = myChart10.data.datasets[0].data.length;
+        };
+      }
+      myChart10.update();
+    })
+  };
+
+  myChart7.ctx.onclick = moveScroll();
+  myChart72.ctx.onclick = moveScroll72();
+
+  myChart8.ctx.onclick = moveScroll1();
+  myChart81.ctx.onclick = moveScroll81();
+  myChart82.ctx.onclick = moveScroll82();
+  myChart83.ctx.onclick = moveScroll83();
+  
+  myChart9.ctx.onclick = moveScroll2();
+
+  myChart10.ctx.onclick = moveScroll3();
+
+
+
+
+  function readmore() {
+    var dots = document.getElementById("dots");
+    var moreText = document.getElementById("more");
+    var btnText = document.getElementById("myBtn");
+
+    if (dots.style.display === "none") {
+      dots.style.display = "inline";
+      btnText.innerHTML = "Read more";
+      moreText.style.display = "none";
+    } else {
+      dots.style.display = "none";
+      btnText.innerHTML = "Read less";
+      moreText.style.display = "inline";
+    }
+  }
+  
+
+</script>
+{% endblock %}

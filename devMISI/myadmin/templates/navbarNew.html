@@ -1,0 +1,164 @@
+{% load static %}
+
+<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
+<link rel="stylesheet" type="text/css" href="{% static '/css/all.min.css' %}" />
+
+<style>
+
+.navbar{
+    width: 100%;
+}
+    .submenu-scroll{
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .navbar-nav li:hover > ul.dropdown-menu {
+        display: block;
+    }
+    .dropdown-submenu {
+        position:relative;
+    }
+    
+    /* rotate caret on hover */
+    .dropdown-menu > li > a:hover:after {
+        text-decoration: underline;
+        transform: rotate(-90deg);
+    } 
+    .dropdown-submenu>.dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+    
+    .dropdown-submenu:hover>.dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-submenu>a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #ccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+    
+    .dropdown-submenu:hover>a:after {
+        border-left-color: #fff;
+    }
+    
+    .dropdown-submenu.pull-left {
+        float: none;
+    }
+    
+    .dropdown-submenu.pull-left>.dropdown-menu {
+        left: -100%;
+        margin-left: 10px;
+        -webkit-border-radius: 6px 0 6px 6px;
+        -moz-border-radius: 6px 0 6px 6px;
+        border-radius: 6px 0 6px 6px;
+    }
+
+    li:hover > ul {
+        display:block;
+    }
+     .mainme {
+        font-size:16px;
+        color:#ffffff;
+    }
+    .mainme:hover {
+        font-size:16px;
+        color:#ffffff;
+    }
+
+    .home_btn{
+        background-color : #343a40;
+        color : #ffffff;
+        border-color : #343a40;
+
+    }
+    .home_btn:hover {
+        background-color: #ffffff;
+        color: #343a40;
+        border-color : #ffffff;
+}
+    </style>
+<div class="page-header navbar-dark bg-dark">
+    
+
+    <div class='row'>
+    <div class='col-md-2'></div>
+    
+    <div class='col-md-7'><center><font color="white"><h3 style="margin:0 auto;">Management Information System</h3></font></center></div>
+   
+<nav class="navbar navbar-expand-lg navbar-dark ">
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul style="margin-left:4%;" class="navbar-nav mr-auto ">
+        <li class="nav-item">
+
+            <a class="nav-link" href="{% url 'create_inspection_form' %}" title="Headquarter"
+                style="color: white;"><i class="fas fa-building my-icon-left"></i>Create inspection</a>
+
+        </li>
+    
+        <li class="nav-item">
+
+            <a class="nav-link" href="{% url 'compliance_form' %}" title="Headquarter"
+                style="color: white;"><i class="fas fa-building my-icon-left"></i>Compliance form</a>
+
+        </li>
+    
+        <li class="nav-item">
+
+            <a class="nav-link" href="{% url 'created_checklist' %}" title="Headquarter"
+                style="color: white;"><i class="fas fa-building my-icon-left"></i>Inspection checklist</a>
+
+        </li>
+    
+        <li class="nav-item">
+
+            <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+
+        </li>
+ 
+        <li class="nav-item">
+
+            <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+
+        </li>
+    
+        <li class="nav-item">
+
+            <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+
+        </li>
+  
+        <li class="nav-item">
+
+            <a class="nav-link" href="{% url 'signup' %}" title="Headquarter"
+                style="color: white;"><i class="fas fa-building my-icon-left"></i>SOURAV</a>
+
+        </li>
+</div>
+</nav>
+    
+ <!-- <div class='col-md-2'>
+        <font color="white" style="text-align: end;"><h6 style="text-align: right;margin:0 auto;">Hi {{request.session.usermaster.empname}}</h6></font>
+    </div> -->
+    
+</div>
+</div>
+
+  

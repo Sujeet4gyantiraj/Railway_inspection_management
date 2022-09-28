@@ -1,0 +1,824 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+
+<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <!-- <link rel="stylesheet" href="jquery.dropdown.css"> -->
+  <script src="jquery.dropdown.js"></script>
+  <!-- Include the plugin's CSS and JS: -->
+  
+  <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+  <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  
+  <link rel="stylesheet" type="text" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+  
+  <link href="{% static '/css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+  <script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+  
+      <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+      <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+  
+  
+  <link rel="stylesheet" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css' %}">
+  
+  <script src="{% static 'js/timepicker.js' %}"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+  
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+     <!-- Select2 CSS --> 
+  
+  <!-- jQuery --> <script src="{% static '/js/jquery.min4.js' %}"></script> 
+  
+  <!-- Select2 JS --> 
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <!-- Load icon library -->
+  <link rel="stylesheet" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css' %}">
+  <!-- multiple selesct marked officer -->
+  
+  <link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+  <script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+    <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+    <!-- Sheets for datepicker for target date -->
+    
+    <link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="{% static '/js/jquery-ui.js' %}"></script>
+<br>
+<style>
+
+
+
+  
+</style>
+
+<style>
+ 
+
+</style>
+
+<body>
+    <h2 style="font-family: 'Times New Roman', Times, serif;">
+        <center><b>Inspections Corrigendum Details Done by {{desig}}</b></center>
+      </h2>
+<br>
+
+
+<form method="POST"> 
+  {% csrf_token %}
+ 
+    <!-- <div class="row" style="margin-left: 15em;">
+      
+        <div class="col-md-2"  style="margin-left:2em ;">
+            <label for="Zone" >Rly/Org</label><span style="color:red;font-weight:bold">*</span>
+           
+            <select class="form-control" id="zone" name="zone" class="custom-select" multiple readonly>
+              {% for g in multi_loc %}
+              {% if g.type == 'HQ' %}
+                    <option value="{{g.item}}" selected>{{g.item}}</option> 
+              {% endif %}
+                
+              {% endfor %}
+            </select>
+                
+   
+        </div>
+  
+        <div class="col-md-2">
+            <label for="division">Division</label>
+            
+            
+            <select class="form-control" id="division" name="division" class="custom-select" style="max-width:100%;" multiple readonly>
+              {% for g in multi_loc %}
+              {% if g.type == 'DIV' %}
+                  <option value="{{g.item}}" selected>{{g.item}}</option> 
+              {% endif %}
+                 
+              {% endfor %}
+            </select>
+                    
+             
+            
+        </div>
+        <div class="col-md-2">
+        <label for="division">Department</label>
+        
+        <select class="form-control" id="department" name="department" class="custom-select" style="max-width:100%;" multiple readonly>
+          {% for g in multi_loc %}
+          {% if g.type == 'DPT' %}
+              <option value="{{g.item}}" selected>{{g.item}}</option> 
+          {% endif %}
+             
+          {% endfor %}
+        </select>
+                
+               
+        </div>
+    
+        <div  class="col-md-2" >
+          <label for="location" >Location</label>
+          <select name="location" id="location" class="form-control" multiple readonly>
+            {% for g in multi_loc %}
+            {% if g.type == 'LOC' %}
+                <option value="{{g.item}}" selected>{{g.item}}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div class="col-md-2 form-group" >
+          <label for="start" >Inspection Date<span style="color:red;font-weight:bold">*</span></label><br>
+          {% for date in ins_title %}
+            {% if date.start_date|date:'d/m/Y' == date.inspected_on|date:'d/m/Y' %}
+            <textarea type="text" autocomplete="off" name="daterange1"   class="form-control" style="margin-top:0em ;height: 100px; max-width: 100%;" id="txtDate2"  readonly>{{date.start_date|date:'d/m/Y'}}</textarea>
+            
+            {% else %}
+            <textarea type="text" autocomplete="off" name="daterange1"   class="form-control" style="margin-top:0em ;height: 100px; max-width: 100%;" id="txtDate2"  readonly>{{date.start_date|date:'d/m/Y'}} to  {{date.inspected_on|date:'d/m/Y'}}</textarea>
+            {% endif %}
+            {% endfor %}
+        </div>
+  
+    </div>  -->
+  </div>   
+  <br>
+  {% for i in ins_title %}
+  <div class="container">
+    <label for="start" >Title</label>
+    <textarea class="form-control" maxlength="200"   id="titleinsp"  name="titleinsp" readonly>{{i.inspection_title}}</textarea>
+   
+  </div> 
+  {% endfor %}
+  <br>
+
+
+          <div class="col-md-12"> 
+          <table id="table1" class="table table-striped table-bordered center" style="width:90%; margin-left: 5em;">
+
+            <thead >
+             
+                <tr style="margin-left: 5em;">
+                 
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5px;">Item.No.</th>
+                
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 500px;"> Inspection Para</th>
+                
+                
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Action By</th>
+                
+                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Remark</th>
+                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Status</th>
+                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Reverted on</th>
+                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Action</th>
+                
+                
+               </tr>
+          
+            </thead>
+            
+            
+            <tbody  id="addworkmech">
+            {% for j in item_details1 %}
+            
+            {% if j.type == 'H' %}
+            <tr>
+            <td><div style="text-align: center; width:5px; font-family: verdana;">{{j.des_id}}</div></td>
+            <td><div><b><p id='heading{{j.des_id}}' >{{j.item_title}}</p></b></div></td>
+            </tr>
+
+
+
+
+            {% elif j.type == 'SH' %}
+            <tr>
+                <td><p style="text-align: center; width:5px; font-family: verdana;" id='itemno{{j.des_id}}'>{{j.des_id}}</p></td>
+                <td ><p id='observation{{j.des_id}}'>{{j.observation}}</p></td>
+                
+                
+                <td>
+                    <!-- <p  value="{{j.mrkoffi.desig_longdesc}}" custom-offic="{{j.mrkoffi.marked_officers}}" id='markeofficer{{j.des_id}}' >{{j.mrkoffi.marked_officers}}</p> -->
+                
+                  <table width="100%" class="table">
+                    {% for z in j.mrkoffi %}
+                    <tr>
+                      <td style="line-height: 2.42857143;"><input id="officer{{z.marked_no}}" value="{{z.desig_longdesc}}"></td>
+                    </tr>
+                    
+                    {% endfor %}
+                  </table>
+                
+                  </td>
+                
+                  <td>
+                    <table width="100%">
+                    {% for z in j.mrkoffi %}
+                    <tr>
+                      <td style="line-height: 2.42857143;">{{z.revert}}</td>
+                    </tr>
+                    
+                    {% endfor %}
+                  </table>
+                </td>
+                  <td>
+                    <table width="100%" class="table">
+                    {% for z in j.mrkoffi %}
+                      {% if z.status_flag == 4 %}
+                        <tr>
+                          <td style="line-height: 2.42857143;">Reverted</td>
+                        </tr>
+                      {% else %}
+                        <tr>
+                          <td style="line-height: 2.42857143;">NA</td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}
+                  </table>
+                </td>
+
+                  <td>
+                    <table width="100%" class="table">
+                      {% for z in j.mrkoffi %}
+                        {% if not z.reverted_on %}
+                          <tr>
+                            <td style="line-height: 2.42857143;">NA</td>
+                          </tr>
+                          
+                          {% else %}
+                          <tr>
+                            <td style="line-height: 2.42857143;">{{z.reverted_on|date:'d/m/y'}}</td>
+                          </tr>
+
+                        {% endif %}
+                      
+                      {% endfor %}
+                    </table>
+                  </td>
+
+                  <td>
+                    <table width="100%" class="table">
+                        {% for z in j.mrkoffi %}
+                        <tr >
+                          <td style="line-height: 1.42857143;">
+                            <div style="text-align: center;"><button type="button" onclick="hidetable(this);" class="btn btn-info" id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold;"><i class="fas fa-info"></i></span></button>
+                            </div>
+                        </td>
+                        </tr>
+                        
+                        {% endfor %}
+                      </table>
+                  </td>
+                
+              </tr>
+                
+            {% else %}
+            <tr>
+              <td><div style="text-align: center; width:5px; font-family:verdana;"></div></td>
+              <td>{{j.des_id}}<p id='subheading{{j.des_id}}' autocomplete1 = "off"  style="margin-left: 80px;" >{{j.item_subtitle}}</p></td>
+                
+            </tr>
+            {% endif  %}  
+          {% endfor %}
+          
+        </tbody>
+            
+        </table>
+    </div>
+
+</form>
+<br>
+<br>
+
+
+     
+
+
+<br>
+<br>
+
+
+<input type="text" id="insp_number" value="{{insp_number}}" hidden>
+
+<div class="modal" tabindex="-1" id="actionModal" role="dialog" aria-labelledby="actionModalLabel"
+aria-hidden="true">
+<div class="modal-dialog-modal-xl" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="actionModalLabel"><b> Mark Officers</b></h4>
+      <button type="button" class="btn btn-secondary" id="close1" data-dismiss="modal">Close</button>
+      
+    </div>
+   
+    <div class="modal-body">
+      <form   action="" method="POST" >
+        {% csrf_token %}
+       <input type="text" value="" id="mark_officersss" hidden/>
+      
+  <div class="row">
+      <div class="col-md-3">
+          <label>Railway/Org.</label>
+          <select multiple class="form-control" id="rly_1" name="rly_1" class="custom-select" style="width: 100%;" data-placeholder="Select one or more Zone..." multiple >
+              {% for i in zone %}
+              <option >{{i.location_code}}</option>
+              {% endfor %}
+  
+          </select>
+      </div>
+      <div class="col-md-3">
+          <label>Division/Unit</label>
+          <select class="form-control" id="div_1" name="div_1" class="custom-select" style="width: 100%;" data-placeholder="Select one or more Div..." multiple onchange="getdivwisedata()">
+              {% for i in division %}
+              <option>{{i.location_code}}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <div class="col-md-3">
+          <label>Department</label>
+          <select multiple class="form-control" id="dept_1" name="dept_1" class="custom-select" style="width: 100%;" data-placeholder="Select one or more Department..." onchange="getdivdeptdata()">
+              {% for i in department %}
+              <option value="{{i.department_name}}">{{i.department_name}}</option>
+              {% endfor %}        
+          </select>
+      </div>
+      <div class="col-md-3">
+          <label>Designation</label>
+          <select multiple class="form-control" id="desig" name="desig" class="custom-select" style="width: 100%;" data-placeholder="Select one or more Designation..." onchange="getdesigdata();">
+              {% for i in alldesig %}
+              <option value="{{i.designation}}">{{i.designation}}</option>
+              {% endfor %}
+          </select>
+      </div>
+  </div><br>
+
+<br>
+<div class="row">
+  
+  
+  
+  <div class="col-md-1">
+    <label></label>
+    
+
+  </div>
+  <div class="col-md-3">
+   
+    
+    
+  </div>
+  </div>
+  <br>
+  <div class="row" id="showdiv1">
+    <div class="col-md-6">
+          <table id="text" class="table table-striped table-bordered ">
+            <thead>
+              <tr><th></th>
+                <th></th></tr>
+            </thead>
+            <tbody>
+            </tbody>  
+        </table>
+    </div>
+    <div class="col-md-6">
+          <table id="text1" class="table table-striped table-bordered ">
+            <thead>
+                <tr><th></th><th></th></tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+        </table>
+    </div>
+  </div>
+  <div class="row" id="showdiv2">
+    <div class="col-md-6">
+          <table id="textdesig" class="table table-striped table-bordered ">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>  
+          </table>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5" hidden>
+      <table id="textdesigselect" class="table table-striped table-bordered ">
+        <thead>
+          <tr>
+            <th hidden></th>
+            <th>Selected Employee/Designation</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>  
+      </table>
+    </div>
+  </div>
+  <br>
+
+  <input type="hidden" value="0" id="s1" name="s1">
+  </form>
+  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" onclick="save_marked_officers();">Save changes</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<br>
+<br>
+</body>
+
+<script>
+function hidetable(e){
+    alert(e.id)
+    $('#text').show(); $('#text1').hide(); $('#table2').hide(); $('#table3').hide(); $('#table4').hide(); $('#table5').hide();
+    $('#mark_officersss').val(e.id);
+    
+}
+
+function setCopyValue(){
+  
+
+  $('#rly_1').val('All');
+  
+  $('#rly_1').select2().trigger('change');
+
+  
+  
+}
+
+$('#div_officers').click(function() {
+    var table = $('#text1').DataTable();
+    table.destroy();
+    $('#text1').hide();
+     var rly_1=$('#rly_1').val();
+            // alert(rly_1);
+     var div_1=$('#div_1').val();
+            // alert(div_1);
+      data={
+          'rly_1':rly_1,
+          'div_1':div_1,
+          
+      }
+          
+      if(this.checked){
+            $.ajax({
+                type: "GET",
+                url: "{% url 'division_wise' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                  mydata=response.divwise;
+                   let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>Division Officers</th></tr></thead>`;
+                    
+                   
+                    for (let i = 0; i < mydata.length; i++) {
+                        row += "<tr>";  
+                          row+=  `<td><input type="radio" id="${mydata[i]['empno']}" class="messageCheckbox" value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']}" name="chk" ></td>`;
+                        row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']}" ></td>`;
+                        
+                        row += `</tr>`;
+                    }
+                    
+                    $('#text1 thead').remove();
+                    $('#text1 tr').remove();
+                    $('#text1').append(head);
+                    $('#text1 tbody').append(row);
+                    $('#text1').show();
+                    $('#text1').DataTable();
+                      
+       
+                },
+           
+            });
+
+            }
+    });   
+    $('#allgm').click(function() {
+      var table = $('#table2').DataTable();
+      table.destroy();
+      $('#table2').hide();
+      var rly_1=$('#rly_1').val();
+            // alert(rly_1);
+      var div_1=$('#div_1').val();
+      // alert(div_1);
+      data={
+          'rly_1':rly_1,
+          'div_1':div_1,
+          
+      }
+          
+       if(this.checked){
+          $.ajax({
+                type: "GET",
+                url: "{% url 'gm_list_officers' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                    mydata=response.allgm;
+                  
+                    for (let i = 0; i < mydata.length; i++){ 
+                    
+                      if (document.getElementById(mydata[i]['empno']).type=='checkbox'){
+                    
+                        document.getElementById(mydata[i]['empno']).checked=true;
+
+                      }
+                  }  
+               
+                }, 
+            });
+
+        }
+      });   
+
+      $('#alldrm').click(function() {
+          
+          var table = $('#table3').DataTable();
+          table.destroy();
+          $('#table3').hide();
+        
+          var rly_1=$('#rly_1').val();
+        
+          var div_1=$('#div_1').val();
+      
+            data={
+                'rly_1':rly_1,
+                'div_1':div_1,
+                
+            }
+                
+         if(this.checked){
+              $.ajax({
+                  type: "GET",
+                  url: "{% url 'drm_officers' %}",
+                  data: data, //--> send id of checked checkbox on other page
+                  success: function(response) {
+                   
+                    mydata=response.alldrm;
+                    for (let i = 0; i < mydata.length; i++){ 
+              
+                      if (document.getElementById(mydata[i]['empno']).type=='checkbox'){
+                    
+                        document.getElementById(mydata[i]['empno']).checked=true;
+  
+                      }
+                 
+           
+                    }  
+                       
+                     
+                            
+                  },
+    
+              });
+  
+              }
+        });   
+
+        $('#allphod').click(function() {
+       
+       var table = $('#table4').DataTable();
+       table.destroy();
+       $('#table4').hide();
+     
+       var rly_1=$('#rly_1').val();
+       
+       var dept_1=$('#dept_1').val();
+       
+       data={
+           'rly_1':rly_1,
+           'dept_1':dept_1,
+           
+       }
+           
+        if(this.checked){
+             $.ajax({
+                 type: "GET",
+                 url: "{% url 'phod_officers' %}",
+                 data: data, //--> send id of checked checkbox on other page
+                 success: function(response) {
+                  
+                   mydata=response.allphod;
+                   for (let i = 0; i < mydata.length; i++){ 
+             
+                     if (document.getElementById(mydata[i]['empno']).type=='checkbox'){
+                   
+                       document.getElementById(mydata[i]['empno']).checked=true;
+ 
+                     }
+ 
+                   }  
+         
+                 },
+                 
+                
+             });
+ 
+           }
+     }); 
+ 
+
+$('#myCheck').click(function(){
+    
+      var table = $('#text').DataTable();
+      table.destroy();
+      $('#text').hide();
+      
+      var rly_1=$('#rly_1').val();
+          
+      data={
+          'rly_1':rly_1,
+          
+        }
+          
+        if(this.checked){
+            $.ajax({
+                type: "GET",
+                url: "{% url 'headqwise' %}",
+                data: data,
+                success: function(response) {
+                 
+                  mydata=response.hqwise;
+                  let row = "";
+                  let head = `<thead><tr><th></th>
+                    <th>Zonal Officers</th></tr></thead>`;
+                    
+                   
+                      for (let i = 0; i < mydata.length; i++) {
+                          row += "<tr>";  
+                          row+=  `<td><input type="radio" id="${mydata[i]['empno']}" class="messageCheckbox" value="${mydata[i]['empno']},${mydata[i]['desig_longdesc']}" name="chk"  ></td>`;
+                          row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']},${mydata[i]['desig_longdesc']}" ></td>`;
+                          
+                          row += `</tr>`;
+                      }
+                    
+                    $('#text thead').remove();
+                    $('#text tr').remove();
+                    $('#text').append(head);
+                    $('#text tbody').append(row);
+                    $('#text').show();
+                    $('#text').DataTable();       
+                   
+                },
+                
+               
+            });
+
+        }
+    })
+
+
+    $('#rly_1').change(function() {
+    
+    var rly_1=$('#rly_1').val();
+    
+    data={
+        'rly_1':rly_1,
+        }
+  
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'division_by_rly1' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+        division=response.division;
+        $('#div_1').empty();
+        $('#div_1').append(`<option value="">All</option>`);
+          for (let i = 0; i < division.length; i++) {
+              $('#div_1').append(`<option value="${division[i]}">${division[i]}</option>`);
+          }
+                    
+      }
+      
+    })
+          
+  })  
+
+  //$("#zone").select2();
+          
+          // Read selected option
+$('#rly').click(function(){
+var username = $('#rly option:selected').text();
+var userid = $('#rly').val();
+        
+           
+            
+});
+
+$("#rly_1").select2();
+  
+  // Read selected option
+$('#rly_1').click(function(){
+var username = $('#rly_1 option:selected').text();
+var userid = $('#rly_1').val();
+    
+        
+});
+
+$("#div_1").select2();
+  
+// Read selected option
+
+$('#div_1').click(function(){
+var username = $('#div_1 option:selected').text();
+var userid = $('#div_1').val();
+
+});
+
+//$("#division").select2();
+  
+$('#division').click(function(){
+var username = $('#div option:selected').text();
+var userid = $('#div').val();
+});
+
+//$("#department").select2();
+  
+$('#department').click(function(){
+var username = $('#department option:selected').text();
+var userid = $('#department').val();
+});
+
+$("#desig").select2();
+  
+$('#desig').click(function(){
+var username = $('#desig option:selected').text();
+var userid = $('#desig').val();
+});
+
+$("#dept_1").select2();
+  
+$('#dept_1').click(function(){
+var username = $('#desig option:selected').text();
+var userid = $('#desig').val();
+});
+
+
+function save_marked_officers(){
+
+//   var emp_no = ""
+//   var emp_no1 = ""
+
+//   $('.messageCheckbox:checkbox:checked').each(function(i){
+//     //val[i] = $(this).val();
+//     let oneOffic= $(this).val();
+    
+    
+//     let id = oneOffic.split(',')[0]
+//     let desig = oneOffic.split(',')[1]
+//     if(emp_no!="")emp_no+=',';
+//     emp_no +=id
+//     if(emp_no1!="")emp_no1+=',';
+//     emp_no1 +=desig
+
+//   });
+
+    // let id  = $('.messageCheckbox:checkbox:checked').val()
+    // alert(id)
+    let rdobtn = $('input[name="chk"]:checked').val();
+    let empid = rdobtn.split(',')[0]
+    let desig = rdobtn.split(',')[1]
+
+
+    let offid = $('#mark_officersss').val()
+    //alert(offid)
+    $('#officer'+ String(offid)).val(desig)
+
+    var myInput = document.getElementById("officer"+ String(offid));
+        myInput.setAttribute('custom-offic', empid);
+
+
+        $.ajax({
+            type : 'GET',
+            url : "{% url 'saveCorrigendumOff' %}",
+            dataType : 'json',
+            data : {empid, offid},
+
+            success : function(response){
+                
+                $('#close_id').click()      
+            }
+            
+        })
+
+    
+}
+</script>
+{% endblock %}  

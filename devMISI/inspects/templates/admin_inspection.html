@@ -1,0 +1,536 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+<!-- <script type="text/javascript"  src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script> 
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">  -->
+
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="{% static 'js/timepicker.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+
+<br>
+<style>
+    
+        input[type=text],
+        select {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: block;
+                color: rgb(38, 38, 38);
+                border-radius: 4px;
+                box-sizing: border-box;
+        }
+
+        input[type=submit] {
+                width: 20%;
+                text-align: center;
+                background-color: #4CAF50;
+                color: rgb(15, 12, 12);
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+                background-color: #45a049;
+                text-align: center;
+        }
+
+        input[type=button] {
+                width: 10%;
+                text-align: center;
+                background-color: #4CAF50;
+                color: white;
+                padding: 6px 6px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+        }
+
+        input[type=button]:hover {
+                background-color: #45a049;
+                text-align: center;
+        }
+  #viewbtn {
+    margin-left: 1200px;
+    margin-right: 10px;
+  }
+  
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+         
+</style>
+
+  <h3 align="center" ><u><b>Inspection</b></u></h3><br>
+
+<!-- </div> -->
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <label>Railway</label><span style="color:red;font-weight:bold">*</span>
+            <select class="form-control" id="rly" name="rly" class="custom-select" style="max-width:100%;">
+
+            <option value="All" selected>All</option>
+            {% for i in rly %}
+            <option>{{i.location_code}}</option>
+            {% endfor %}
+
+        </select>
+        </div>
+
+        <div class="col">
+            <label>Division</label><span style="color:red;font-weight:bold">*</span>
+            <select class="form-control" id="div" name="div" class="custom-select" style="max-width:100%;">
+
+            <option value="All" selected>All</option>
+            {% for i in div %}
+            <option>{{i.location_code}}</option>
+            {% endfor %}
+
+        </select>
+        </div>
+
+        <div class="col">
+            <label>Department</label><span style="color:red;font-weight:bold">*</span>
+            <select class="form-control" id="department" name="department" class="custom-select" style="max-width:100%;">
+
+            <option value="All" selected>All</option>
+            {% for i in dept %}
+            <option >{{i.department_name}}</option>
+            {% endfor %}
+
+        </select>
+            
+        </div>
+        <div class="col">
+            <label>Location</label><span style="color:red;font-weight:bold">*</span>
+            <input type="text" id="location" name="location" class="form-control" autocomplete="off">
+        <label>Date</label>
+            <input type="text" class="form-control" value="{{t}}" readonly>
+        </div>
+       
+    </div>
+</div>
+
+<form action="{% url 'admin_inspection_form' %}" method="POST"> 
+  {% csrf_token %}
+  <br><br>
+     <br><br><div class="container">
+          <div class="col-md-12"> 
+          <table id="table1" class="table table-striped table-bordered center" style="width:90%; margin-left: 2em;">
+
+            <thead >
+        
+                <tr>
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10px;">S.No.</th>
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 900px;">Inspection Observation</th>
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 50px;">Upload Document/Image</th> -->
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 300px;">Marked To:</th>
+               </tr>
+          
+            </thead>
+            
+            {%if part1 != ' None' %}
+            <tbody  id="addworkmech">
+            {% for j in part1 %}
+           
+          <tr>
+            <td aria-readonly="true" readonly style="text-align: center; width: 10px; font-family:verdana;">{{forloop.counter}}</td>
+             <!-- <td ><textarea readonly aria-readonly="true" style="width:100%; height:100%; font-family:verdana; ">{{ j }}</textarea></td> -->
+             <td> 
+               
+               <div class="autocomplete">
+                 <textarea class="form-control" maxlength="250" readonly  id="work1{{forloop.counter}}"  name="work1{{forloop.counter}}"  style="font-family:verdana;width:900px;" >{{ j.activity }} </textarea>
+                 <!-- <input aria-readonly="true" readonly style="font-family:verdana;white-space:nowrap;;" type="text" id="work1{{forloop.counter}}"  name = "work1{{forloop.counter}}" class = "form-control" autocomplete = "off" style="width:900px;"  value="{{ j.activity }}" > -->
+                
+               </div>    
+             </td>
+           </tr>
+          {%endfor%}
+          {% endif %}
+        </tbody>
+            
+      </table>
+      </div>
+      
+         
+      <div>
+      <button style="margin-left: 3em;" type="button" name="addmech" id="addmech" class="btn btn-primary btn-md">Add</button>
+      <button  class="btn btn-primary btn-md" id="deletemech" >Delete</button> </form>
+      <button  class="btn btn-primary btn-md" id="office"  data-toggle="modal" data-target="#exampleModal1" >Officers</button> </form>
+     
+    </div>
+    
+  </form>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel"><b> Mark Officers</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form   action="" method="POST" >
+              {% csrf_token %}
+              <div class="container">
+                
+        
+                  <div class="col-md-12" id="emptbl">
+                   
+        
+                    <div id="btn" style="text-align: center;">
+        
+                      <div class="col-8" style="margin-right:14em;">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Railway</label>
+                <select class="form-control" id="rly_1" name="rly_1" class="custom-select" style="max-width:100%;">
+
+                    <option value="All" selected>All</option>
+                    {% for i in rly %}
+                    <option >{{i.location_code}}</option>
+                    {% endfor %}
+        
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Division</label>
+                <select class="form-control" id="div_1" name="div_1" class="custom-select" style="max-width:100%;">
+
+                    <option value="All" selected>All</option>
+                    {% for i in div %}
+                    <option>{{i.location_code}}</option>
+                    {% endfor %}
+        
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Department</label>
+                <select class="form-control" id="dept_1" name="dept_1" class="custom-select" style="max-width:100%;">
+
+                    <option value="All" selected>All</option>
+                    {% for i in dept %}
+                    <option>{{i.department_name}}</option>
+                    {% endfor %}
+        
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Designation</label>
+                <select class="form-control" id="desig" name="desig" class="custom-select" style="max-width:100%;">
+
+                    <option value="All" selected>All</option>
+                   
+        
+                </select>
+            </div>
+        </div><br><br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="checkbox"  id="myCheck" onclick="myFunction()">
+                                <label for="myCheck"> HeadQuarter</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="checkbox"  id="div_officers" onclick="officer_bydiv()" >
+                                <label> Division</label>
+                               
+                            </div>
+                            <div class="col-md-3">
+                                <input type="checkbox">
+                                <label>Select All</label>
+                               
+                            </div>
+                            
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="checkbox">
+                                <label>All GM</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="checkbox">
+                                <label>All DRM</label>
+                               
+                            </div>
+                            <div class="col-md-3">
+                                <input type="checkbox">
+                                <label>All PHOD</label>
+                               
+                            </div>
+                            <div class="col-md-3">
+                                <input type="checkbox">
+                                <label>All Board Members</label>
+                               
+                            </div>
+                        </div>
+                        <br>
+                            <table id="text" style="display:none" class="table table-bordered table-striped" >
+                           <thead class="thead-dark" >
+                               <tr>
+                                <th></th>
+                                   <th>Officers</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               {% for i in listw %}
+                               <tr>
+                                   <td><input type="checkbox"></td>
+                                   <td>
+                                        {{i.empname}}
+                                   </td>
+                               </tr>
+                               {% endfor %}
+                           </tbody>
+                        </table>
+                        <table id="text1" style="display:none" class="table table-bordered table-striped" >
+                            <thead class="thead-dark" >
+                                <tr>
+                                    <th>Officers</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in listw %}
+                                <tr>
+                                    <td>
+                                         {{i.empname}}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                         </table>
+                        <input type="hidden" value="0" id="s1" name="s1">
+        
+            
+          </div></div>
+          </div></div>
+        </form>
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div></div>
+      </div>
+    </div>
+      
+    <script>
+        function officer_bydiv()  {
+            var checkBox = document.getElementById("div_officers");
+          var text1 = document.getElementById("text1");
+          if (checkBox.checked == true){
+            text1.style.display = "inline";
+          } else {
+             text1.style.display = "none";
+          }
+
+        }
+        function myFunction() {
+          var checkBox = document.getElementById("myCheck");
+          var text = document.getElementById("text");
+          if (checkBox.checked == true){
+            text.style.display = "inline";
+          } else {
+             text.style.display = "none";
+          }
+        }
+        $(document).ready( function () {
+            $('#text').DataTable();
+
+         
+           
+            
+        } );
+        </script>
+        
+      <script>
+        $(document).ready(function(){
+
+       
+                         
+                         $("#add-emprow1").click(function (e) {
+                          
+                           var table = document.getElementById("addnomoffc");
+                           e.preventDefault();
+                           var row = table.insertRow();
+        
+                         
+                            var rowCount = $('#addnomoffc tr').length;
+                            j1=rowCount;
+        
+                          //  j1 = j1 + 1;
+                           var work1 = 'work1' + String(j1);
+                          
+                 
+                           var cell1 = row.insertCell(0);
+                           var cell2 = row.insertCell(1);
+                         
+        
+                          cell1.innerHTML =
+                          '<td style="width:5px;""><div style="text-align: center; width:5px font-family:verdana;">'+(j1)+'</div></td>';
+                       
+                        cell2.innerHTML =
+                          '<td><select id="empl0" name="empl0" style=" padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px;box-sizing: border-ox;" autocomplete="off" type="text" class="form-control" placeholder="ENTER EMP NO" maxlength="15"><option disabled hidden selected value="">--Select--</option> <option  value="ABC">ABC</option> <option  value="XYZ">XYZ</option></select></div></td>'; 
+                     
+                        //   cell3.innerHTML =
+                        //   '<td><div class="autocomplete1"><textarea maxlength="250" id=' + work1 + ' name=' + work1 +
+                        //   ' autocomplete1 = "off"  class="form-control" required /></textarea></div></td>'; 
+                      
+                         });
+         
+                         
+                     });
+        
+        
+                     $('#delete_row0').click(function (e) {
+                             e.preventDefault();
+                                  var rowCount = $('#addnomoffc tr').length;
+          
+                                  j1=rowCount;                    
+                             if (j1 > 0) {
+         
+                              document.getElementById("addnomoffc").deleteRow(-1);
+                              j1--;
+                           
+                             }
+         
+                           }); 
+        
+         
+          </script>
+          <script>
+            $(document).ready(function(){
+
+                
+
+                    $('#office').click(function (e) {
+                        
+                       e.preventDefault();
+                            var rly = $('#rly').val();
+                            var r=rly
+                            var div = $('#div').val();
+                            var s=div
+                            var department = $('#department').val();
+                            var t=department
+                         document.getElementById('rly_1').value=r;
+                         document.getElementById('dept_1').value=t;
+                         document.getElementById('div_1').value=s;
+    
+                      }); 
+                  
+                             
+                             $("#addmech").click(function (e) {
+                              
+                               var table = document.getElementById("addworkmech");
+                               e.preventDefault();
+                               var row = table.insertRow();
+            
+                             
+                                var rowCount = $('#addworkmech tr').length;
+                                j1=rowCount;
+            
+                              //  j1 = j1 + 1;
+                               var work1 = 'work1' + String(j1);
+                              
+                     
+                               var cell1 = row.insertCell(0);
+                               var cell2 = row.insertCell(1);
+                              //  var cell3 = row.insertCell(2);
+                               var cell4 = row.insertCell(2);
+            
+                              cell1.innerHTML =
+                              '<td style="width:5px;""><div style="text-align: center; width:5px font-family:verdana;">'+(j1)+'</div></td>';
+                           
+                            cell2.innerHTML =
+                              '<td><div class="autocomplete1"><textarea maxlength="250" id=' + work1 + ' name=' + work1 +
+                              ' autocomplete1 = "off"  class="form-control" required /></textarea></div></td>'; 
+                         
+                            //   cell3.innerHTML =
+                            //   '<td><div class="autocomplete1"><textarea maxlength="250" id=' + work1 + ' name=' + work1 +
+                            //   ' autocomplete1 = "off"  class="form-control" required /></textarea></div></td>'; 
+                            
+                             });
+             
+                             
+                         });
+            
+            
+                         $('#deletemech').click(function (e) {
+                                 e.preventDefault();
+                                      var rowCount = $('#addworkmech tr').length;
+              
+                                      j1=rowCount;                    
+                                 if (j1 > 0) {
+             
+                                  document.getElementById("addworkmech").deleteRow(-1);
+                                  j1--;
+                               
+                                 }
+    
+                               }); 
+ 
+             
+              </script>
+             
+
+   
+   
+{% endblock %}  

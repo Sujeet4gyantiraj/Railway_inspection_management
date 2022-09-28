@@ -1,0 +1,273 @@
+{% extends 'base3.html' %}
+
+{% block content %}
+
+<head>
+    <title>Institute Master</title>
+    <script type="text/javascript">
+        if (self === top) {
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        }
+        else {
+            top.location = self.location;
+        }
+    </script>
+
+
+
+    <style>
+        .my-heading {
+            font-family: Georgia;
+            margin-top: 1rem;
+            font-weight: 500;
+            font-size: 2.5rem;
+            text-align: center;
+            Color: black;
+            font-weight: bold;
+        }
+
+        .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+        /* .modern th{
+            background-color: rgb(197, 197, 197);
+        }
+         */
+    </style>
+    <script>
+        $(document).ready(function () {
+            setDataTablePlugin();
+        });
+
+        function setDataTablePlugin() {
+            $('#instituteTable').DataTable({
+                // 'scrollX': true,
+                "scrollY": "65vh",
+                "scrollCollapse": true,
+
+                "pagingType": "full_numbers"
+
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <br>
+    <form method="POST" url="{'requests'}">
+    <div class="container-fluid">
+        <div class="my-heading">
+            <h3><b>  Details</b></h3>
+        </div>
+        <div style="display:flex; margin-left: 100px; flex-direction: row; justify-content: center; align-items: center;" >
+
+            <label for="status" style="margin-left: 1em;" >Status : </label>
+            <div style="width:10em;">
+                    <select id="status" name="status"  class="custom-select" onclick="getdet()" >
+                        <!-- <option value="" selected>--Select--</option> -->
+                        {% if status == 'Pending' or status == None %}
+                        <option value="Pending" selected>Pending</option>
+                        <option value="Accepted" >Accepted</option>
+                        <option value="Rejected">Rejected</option>
+    
+                        {% elif  status == 'Accepted' %}
+                        <option value="Accepted" selected>Accepted</option>
+                        <option value="Pending" >Pending</option>
+                        <option value="Rejected">Rejected</option>
+    
+                        {% elif status == 'Rejected' %}
+                        <option value="Rejected" selected>Rejected</option>
+                        <option value="Pending" >Pending</option>
+                        <option value="Accepted" >Accepted</option>
+    
+                        {% endif %}
+    
+                    
+                    </select>
+            
+                </div>
+                <button type ="submit" style="margin-left: 1em;" onclick="fetch_Details()" id='submit' class="btn btn-primary">Submit</button>
+                </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align: center;">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% else %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        
+
+           
+        
+        {% csrf_token %}
+
+     
+    
+        <br><br>
+        <input type="text" id="req_id2" name="req_id2" value={{status}} hidden>
+
+      
+        <br>
+        <div class="modern" style="margin-top :2%;margin-left: 10%; margin-right: 10%;">
+            <table class="table table-striped table-bordered table-sm" width="700" id="instituteTable">
+                <thead style="background-color: #343a40;white-space: nowrap;font-size: 1rem; color:white;text-align: center;">
+                    <th>S.No</th>
+                    <!-- <th>Request ID</th> -->
+                    <th >Name</th>
+                    <th >Employee No.</th>
+                    <th >Requested On</th>
+                 
+                    <th >Status</th>
+                    {% if r %}
+                    <th>Action</th>
+                    {% endif %}
+                </thead>
+                <tbody>
+                    {% for g in result %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ g.myuser_id__first_name }}</td>
+                        <td>{{g.empno}}</td>
+                        
+                        <!-- <td>{{g.old_value}}</td>
+                        <td>{{g.new_value}}</td> -->
+                        <!-- <td>{{g.requested_by}}</td> -->
+                        <td>{{g.requestDate}}</td>
+                       
+                        <td >{{g.status}}</td>
+                        {% if r %}
+                            <td>
+                                    {% csrf_token %}
+                                    <input type="submit" name="action_1" id="Accept" class="btn btn-success btn-sm float-center" value="Accept" onclick="show_detail(this.id)" >
+                                    <input type="submit" name="action_1" id="Reject" class="btn btn-danger btn-sm float-center" value="Reject" onclick="show_detail(this.id)">
+                                  
+                                    <input type="text" id="req_id" name="req_id" value={{g.id}} hidden>
+                                </form> 
+                            </td>
+                            {% endif %}
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</body>
+    <script>
+        function fetch_Details()
+        {
+        
+        var start_date=$('input#start').val();
+        console.log(start_date,"%%%%%%%%%%")
+         
+        var end_date=$('input#txtDate2').val();
+        console.log(end_date,"%%%%%%%%%%")
+        $('#datefrom').val(start_date);   
+        $('#dateto').val(end_date);
+        var status=$( "#status option:selected" ).text();
+        if(status=='Accepted'){
+            // alert("accepted");
+       
+            
+        }
+            
+        console.log(status,"%%%%%%%%%%")
+        
+        }
+    </script>
+    <script>
+        function show_detail(el)
+        {
+            var _id = el;
+            
+            if(el =="Accept")
+            {
+                alert("Changes Saved");
+                
+                // $('#req_id').val(req_id);
+            }
+                
+            else{
+            
+                alert("Changes Rejected");
+           
+            //  $('#req_id').val(req_id);
+
+            }
+        }
+    </script>
+
+    {% endblock content %}

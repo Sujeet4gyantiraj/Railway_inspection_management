@@ -1,0 +1,1296 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+<!-- <script type="text/javascript"  src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script> 
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">  -->
+
+<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<link rel="stylesheet" href="jquery.dropdown.css">
+<script src="jquery.dropdown.js"></script>
+<!-- Include the plugin's CSS and JS: -->
+
+<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="{% static 'js/timepicker.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <!-- Select2 CSS --> 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" /> 
+
+<!-- jQuery --> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+
+<!-- Select2 JS --> 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<!-- Load icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- multiple selesct marked officer -->
+
+<link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+
+
+
+<style>
+  * {
+  box-sizing: border-box;
+}
+.MultiCheckBox {
+            border:1px solid #e2e2e2;
+            padding: 5px;
+            border-radius:4px;
+            cursor:pointer;
+        }
+
+        .MultiCheckBox .k-icon{ 
+            font-size: 15px;
+            float: right;
+            font-weight: bolder;
+            margin-top: -7px;
+            height: 10px;
+            width: 14px;
+            color:#787878;
+        } 
+
+        .MultiCheckBoxDetail {
+            display:none;
+            position:absolute;
+            border:1px solid #e2e2e2;
+            overflow-y:hidden;
+        }
+
+        .MultiCheckBoxDetailBody {
+            overflow-y:scroll;
+        }
+
+            .MultiCheckBoxDetail .cont  {
+                clear:both;
+                overflow: hidden;
+                padding: 2px;
+            }
+
+            .MultiCheckBoxDetail .cont:hover  {
+                background-color:#cfcfcf;
+            }
+
+            .MultiCheckBoxDetailBody > div > div {
+                float:left;
+            }
+
+        
+
+        .MultiCheckBoxDetailHeader {
+            overflow:hidden;
+            position:relative;
+            height: 28px;
+            background-color:#3d3d3d;
+        }
+
+            .MultiCheckBoxDetailHeader>input {
+                position: absolute;
+                top: 4px;
+                left: 3px;
+            }
+
+            .MultiCheckBoxDetailHeader>div {
+                position: absolute;
+                top: 5px;
+                left: 24px;
+                color:#fff;
+            }
+                    input[type=text],
+        select {
+                width: 100%;
+                /* padding: 12px 20px;
+                margin: 10px 0; */
+                display: block;
+                color: rgb(38, 38, 38);
+                border-radius: 4px;
+                box-sizing: border-box;
+        }
+
+        input[type=submit] {
+                width: 20%;
+                text-align: center;
+                background-color: #4CAF50;
+                color: rgb(15, 12, 12);
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+                background-color: #45a049;
+                text-align: center;
+        }
+
+        input[type=button] {
+                width: 10%;
+                text-align: center;
+                background-color: #4CAF50;
+                color: white;
+                padding: 6px 6px;
+                margin: 2px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+        }
+
+        input[type=button]:hover {
+                background-color: #45a049;
+                text-align: center;
+        }
+  #viewbtn {
+    margin-left: 1200px;
+    margin-right: 10px;
+  }
+  
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Style the search field */
+form.example input[type=text] {
+  padding: 8px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 60%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+  float: left;
+  width: 15%;
+  padding: 8px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+         
+</style>
+
+  <input style="margin-left: 180vh;" type="button" value="Back" onclick="history.back()">
+
+  
+
+  <h2 align="center" ><b >Inspection Report </b></h2>
+
+  
+<br>
+<!-- </div> -->
+
+
+
+<form action="{% url 'create_inspection_form' %}" method="POST"> 
+  {% csrf_token %}
+ 
+  
+    <div class="row" style="margin-left: 30em;">
+     
+      <div  id="row1"  class="form-inline">
+        <div class="col-md-2" >
+            <label for="Zone" style="margin-right:2%">Rly/Org<span style="color:red;font-weight:bold">*</span></label>
+            <select class="form-control" id="zone" name="zone" class="custom-select" 
+           required><span style="color:red;font-weight:bold" >*</span>
+                <option value="All" selected>All</option>
+                {% for z in Zone %}
+                <option value="{{z}}">{{z}}</option>
+                {% endfor %}
+    
+            </select>
+        </div>
+    
+       
+       
+    <div class="col-md-2">
+        <label for="division" >Division<span style="color:red;font-weight:bold">*</span></label>
+        <select class="form-control" id="division" name="division" class="custom-select" style="max-width:100%;"
+                 required><span style="color:red;font-weight:bold">*</span>
+    
+                <option value="All" selected>All</option>
+                {% for d in division %}
+                <option value="{{d}}">{{d}}</option>
+                {% endfor %}
+    
+            </select>
+        
+    </div>
+    <div class="col-md-2">
+      <label for="division" >Department<span style="color:red;font-weight:bold">*</span></label>
+      <select class="form-control" id="department" name="department" class="custom-select" style="max-width:100%;"
+               required>
+    
+              <option value="All" selected>All</option>
+              {% for d in department %}
+              <option value="{{d.department_name}}">{{d.department_name}}</option>
+              {% endfor %}
+    
+          </select>
+      
+    </div>
+    
+      <div  class="col-md-2" >
+          <label for="location">Location</label>
+          <input  id="location" required class="form-control" style="width: 90px; height: 30px" type="text" />
+          
+      </div>
+    
+        <div class="col-md-3" >
+          <label for="start" >Inspection Date<span style="color:red;font-weight:bold">*</span></label>
+
+          <input type="date" required class="form-control" style="height:3.5vh;"  id="txtDate2" value= "28-02-2022" min="2021-09-01" max="new Date()" onkeydown='event.preventDefault()' requied>
+         
+      </div>
+  
+    </div>
+ 
+  </div> 
+      <br>
+          <div class="col-md-12"> 
+          <table id="table1" class="table table-striped table-bordered center" style="width:90%; margin-left: 5em;">
+
+            <thead >
+              <h4><b style="margin-left: 2em;"><center>Add New Inspection Report</center></b></h4><br>
+                <tr style="margin-left: 5em;">
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10px;">S.No.</th> -->
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10px;">Item.No.</th>
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 200px;">Title</th> -->
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 500px;"> Observation</th>
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 50px;">Upload Document/Image</th> -->
+                 <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 150px;">Marked To</th>
+                  <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 30px;">Target Date</th>
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 300px;">Compliance</th> -->
+                 <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 300px;">Compliance Received On</th> --> 
+               </tr>
+          
+            </thead>
+            
+            {%if part1 != ' None' %}
+            <tbody  id="addworkmech">
+            {% for j in part1 %}
+           
+          <tr>
+            <td aria-readonly="true" readonly style="text-align: center; width: 10px; font-family:verdana;">{{forloop.counter}}</td>
+
+             <td> 
+               
+               <div class="autocomplete">
+                 <textarea class="form-control" maxlength="500"   id="work1{{forloop.counter}}"  name="work1{{forloop.counter}}"  style="font-family:verdana;width:900px;" >{{ j.activity }} </textarea>
+                
+               </div>    
+             </td>
+           </tr>
+          {%endfor%}
+          {% endif %}
+        </tbody>
+            
+      </table>
+      </div>
+      
+         
+      <div>
+      <button style="margin-left: 6em;" type="button" name="addmech" id="addmech" class="btn btn-primary btn-md">Add</button>
+      <button  class="btn btn-primary btn-md" id="deletemech" >Delete</button> 
+      <!-- <button  class="btn btn-primary btn-md" id="deletemech" data-toggle="modal" data-target="#exampleModal1"  >Target Date</button>  -->
+     
+    </div>
+    <button type="button" id="draft" name="draft" value="Save as draft" onclick="Savedraft_data(this)" class="btn btn-success btn-md "
+    style=" margin-left: 710px;">Save as Draft</button>  
+    <button type="button" id="submit" name="submit" value="Submit"  class="btn btn-success btn-md " onclick="Action_cc(this);">Submit</button> 
+</form>
+    
+   
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog-modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title"><b> Mark Officers</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+         
+          <div class="modal-body">
+            <form   action="" method="POST" >
+              {% csrf_token %}
+              <div class="container">
+                
+        
+                  <div class="col-md-12" id="emptbl">
+                   
+        
+                    <div id="btn" style="text-align: center;">
+        
+                      <div class="col-8" style="margin-right:14em;">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Railway</label>
+                <select class="form-control" id="rly_1" name="rly_1" class="custom-select" style="max-width:100%;">
+
+                    <option value="All" selected>All</option>
+                    {% for i in Zone %}
+                    <option >{{i}}</option>
+                    {% endfor %}
+        
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Division</label>
+                <select class="form-control" id="div_1" name="div_1" class="custom-select" style="max-width:100%;">
+
+                    <option value="All" selected>All</option>
+                    {% for i in div %}
+                    <option>{{i.location_code}}</option>
+                    {% endfor %}
+        
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Department</label>
+                <select class="form-control" id="dept_1" name="dept_1" class="custom-select" style="max-width:100%;">
+
+                    <option value="All" selected>All</option>
+                    {% for i in department %}
+                    <option>{{i.department_name}}</option>
+                    {% endfor %}
+        
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Designation</label>
+                <select class="form-control" id="desig" name="desig" class="custom-select" style="max-width:100%;">
+
+                    <option value="All" selected>All</option>
+                   
+        
+                </select>
+            </div>
+        </div><br><br>
+        <div class="row">
+          <div class="col-md-3">
+              <input type="checkbox"  id="myCheck">
+              <label for="myCheck">All Zonal Officers</label>
+          </div>
+          <div class="col-md-3">
+              <input type="checkbox"  id="div_officers">
+              <label>All Division Officers</label>
+             
+          </div>
+          <div class="col-md-3">
+            <input type="checkbox" name="chk" onclick="selects();">
+            <label >Mark All Officers</label>
+        </div>
+        <div class="col-md-3">
+            <input type="checkbox"  onclick="deSelect();">
+            <label>Unmark</label>
+           
+        </div>
+          
+      </div>
+      <br>
+      <div class="row">
+          <div class="col-md-3">
+              <input type="checkbox"  id="allgm" >
+              <label>All GM</label>
+          </div>
+          <div class="col-md-3">
+              <input type="checkbox"  id="alldrm">
+              <label>All DRM</label>
+             
+          </div>
+          <div class="col-md-3">
+              <input type="checkbox"  id="allphod">
+              <label>All PHOD</label>
+             
+          </div>
+          <div class="col-md-3">
+              <input type="checkbox"  id="allboard">
+              <label>All Board Members</label>
+             
+          </div>
+      </div>
+      <br><br>
+        <div class="row">
+          <div class="col-md-6">
+          <table id="text" class="table table-striped table-bordered ">
+            <thead>
+                <tr><th></th><th></th></tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+        </table>
+</div>
+<div class="col-md-6">
+      <table id="text1" class="table table-striped table-bordered ">
+        <thead>
+            <tr><th></th><th></th></tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
+  </div></div><br>
+<div class="row">
+<div class="col-md-6">
+  <table id="table2" class="table table-striped table-bordered ">
+    <thead>
+        <tr><th></th><th></th></tr>
+    </thead>
+    <tbody>
+       
+    </tbody>
+</table>
+</div>
+<div class="col-md-6">
+<table id="table3" class="table table-striped table-bordered ">
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+
+</tbody>
+</table>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+<table id="table4" class="table table-striped table-bordered ">
+<thead>
+    <tr><th></th><th></th></tr>
+</thead>
+<tbody>
+   
+</tbody>
+</table>
+</div>
+<div class="col-md-6">
+<table id="table5" class="table table-striped table-bordered ">
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+
+</tbody>
+</table>
+</div>
+</div> <input type="hidden" value="0" id="s1" name="s1">
+        
+            
+          </div></div>
+          </div></div>
+        </form>
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+     
+
+   
+            
+    
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b> Target Date</b></h4>
+          
+        </div>
+       
+          <div class="modal-body">
+            
+              
+        
+        <body>
+          
+          <div><label for="start" >Target Date</label><br><input type="date"  class="col-md-4" required class="form-control" style="height: 2em;margin-top:0.7em;" id="target_date" value= "28-02-2022" min="2021-09-01" max="new Date()" onkeydown='event.preventDefault()' requied></div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <button type="submit" class="btn btn-primary" onclick="Action_cc();">Submit</button>
+        </div>
+            
+          </body>
+          </div>
+         
+          </div>
+
+      </div>
+    </div>
+  </div>
+   
+      
+  <script>
+    $(function(){
+     var dtToday = new Date();
+ 
+     var month = dtToday.getMonth() + 1;
+     var day = dtToday.getDate();
+     var year = dtToday.getFullYear();
+ 
+     if(month < 10)
+         month = '0' + month.toString();
+     if(day < 10)
+         day = '0' + day.toString();
+ 
+     var maxDate = year + '-' + month + '-' + day;    
+     $('#txtDate2').attr('max', maxDate);
+ });
+
+</script>
+   
+      
+      
+     
+              
+          <script>
+            $(document).ready(function(){
+                             
+                             $("#addmech").click(function (e) {
+                              
+                               var table = document.getElementById("addworkmech");
+                               e.preventDefault();
+                               var row = table.insertRow();
+            
+                             
+                                var rowCount = $('#addworkmech tr').length;
+                                j1=rowCount;
+                                i1=rowCount;
+            
+                              //  j1 = j1 + 1;
+                              //  var work1 = 'work1' + String(j1);
+                              
+                     
+                              //  var cell1 = row.insertCell(0);
+                               var cell2 = row.insertCell(0);
+                               var cell3 = row.insertCell(1);
+                               var cell4 = row.insertCell(2);
+                               var cell5 = row.insertCell(3);
+                              //  var cell6 = row.insertCell(4);
+                              //  var cell7 = row.insertCell(5);
+            
+                              // cell1.innerHTML =
+                              // '<td style="width:5px;""><div style="text-align: center; width:5px font-family:verdana;">'+(j1)+'</div></td>';
+                              var work1='work1'+i1
+                              var work2='work2'+j1
+                              var work3='work3'+j1
+                            cell2.innerHTML =
+                              '<td><div class="autocomplete1"><div style="text-align: center; width:5px font-family:verdana;" id='+work1+
+                                '>'+(i1)+'</div></td>';
+                         
+                              
+                              cell3.innerHTML =
+                              '<td><div class="autocomplete1"><textarea maxlength="250" id='+work3+
+                              ' autocomplete1 = "off"  class="form-control" required /></textarea></div></td>'; 
+                              cell4.innerHTML =
+                              '<td><div class="autocomplete1"> <button  class="btn btn-primary btn-md" id="office"  data-toggle="modal" data-target="#exampleModal" style="margin-left:1vh;">Officers</button>  </div></td>'; 
+                              cell5.innerHTML =
+                              '<td><div class="autocomplete1"><input type="date"   required class="form-control" style="height: 2em;margin-top:0.7em;" id="target_date" value= "28-02-2022" min="2021-09-01" max="new Date()" requied> </div></td>'; 
+                              // cell3.innerHTML =
+                              // '<td><div class="autocomplete1"><label for="myfile">Upload a file:</label><input type="file" id="myfile" name="myfile"></div></td>'; 
+                              
+                             });
+             
+                             
+                         });
+            
+            
+                         $('#deletemech').click(function (e) {
+                                 e.preventDefault();
+                                      var rowCount = $('#addworkmech tr').length;
+              
+                                      j1=rowCount;                    
+                                 if (j1 > 0) {
+             
+                                  document.getElementById("addworkmech").deleteRow(-1);
+                                  j1--;
+                               
+                                 }
+             
+                               }); 
+            
+             
+              </script>
+              <script>
+                $('#zone').change(function() {
+            var rly=$('#zone').val();
+            
+            data={
+                'rly':rly,
+                
+            }
+          
+            $.ajax({
+              type : 'GET',
+              url : "{% url 'getdiv_rly' %}",
+              dataType : 'json',
+              data : data,
+        
+              success : function(response){
+                division=response.division;
+                            $('#division').empty();
+                            $('#division').append(`<option value="">All</option>`);
+                            for (let i = 0; i < division.length; i++) {
+                            $('#division').append(`<option value="${division[i]}">
+                                               ${division[i]}
+                                          </option>`);
+                                        }
+              }
+                 })
+                 })
+              </script>
+<script>
+    
+
+    function Savedraft_data()
+      { var zone=$("#zone").val();
+        var division=$("#division").val();
+       
+        var location=$("#location").val();
+        var department=$('#department').val();
+        var inspection_date=$('input#txtDate2').val();
+
+        var part_array1= [];
+    var _table1 = document.getElementById('table1');
+    var norows1 = _table1.tBodies[0].rows.length;
+    //  alert("no_rows in add activity table"+norows)
+    for(var i=1;i<norows1+1;i++)
+    {
+      var val = document.getElementById(`work1${i}`)
+     
+      var works1=document.getElementById('work1'+i).innerHTML;
+    
+      part_array1.push(works1);
+
+    }
+    //alert(part_array1)
+    // var part_array2= [];
+    // var _table2 = document.getElementById('table1');
+    // var norows2 = _table2.tBodies[0].rows.length;
+    // for(var i=1;i<norows2+1;i++)
+    // {
+    //   var val = document.getElementById(`work2${i}`)
+    //   var works2= document.getElementById('work2'+i).value;
+     
+    //   part_array2.push(works2);
+      
+    // }
+
+    var part_array3= [];
+    
+    for(var i=1;i<norows1+1;i++)
+    {
+      var val = document.getElementById(`work1${i}`)
+     
+      var works3=document.getElementById('work3'+i).value;
+    
+      part_array3.push(works3);
+
+    }
+    var final_partinspected1=JSON.stringify(part_array1)
+    // var final_partinspected2=JSON.stringify(part_array2)
+    var final_partinspected3=JSON.stringify(part_array3)
+    console.log(final_partinspected1)
+    // console.log(final_partinspected2)
+    console.log(final_partinspected3)
+    // alert(final_partinspected1);
+    // alert(final_partinspected2);
+
+        var data = {
+          zone,division,location,department,inspection_date,final_partinspected1,final_partinspected3
+            }
+            $.ajax({
+                      type: 'GET',
+                        url: "{% url 'save_draft_data' %}",
+                        dataType: 'json',
+                        data: data,
+                        success: function (response) {
+                         
+                        if (data.status == 1) {
+                        
+             
+                          alert("Record Saved as Draft.");
+                          window.location.reload();}
+       
+            }
+          
+      });
+      
+    
+    
+    }
+    function save_marked_officers()
+      { var marked= $('#get_designation').val();
+        alert(marked);
+        var selectednumbers = [];
+        $('#get_designation :selected').each(function(i, selected) {
+            selectednumbers[i] = $(selected).val();
+        });
+
+        var data = {
+       marked,
+            }
+            $.ajax({
+                      type: 'GET',
+                        url: "{% url 'nominate_officer' %}",
+                        dataType: 'json',
+                        data: {
+                          'selectednumbers':JSON.stringify(selectednumbers)
+
+                                },
+                        success: function (response) {
+        
+       
+            },
+          
+      });
+      
+    
+    
+    }
+      
+    </script>
+    <script>
+    
+    function Action_cc() { 
+        var zone=$("#zone").val();
+        var division=$("#division").val();
+        var marked= $('#get_designation').val();
+        var location=$("#location").val();
+        var department=$('#department').val();
+        var inspection_date=$('input#txtDate2').val();
+        var target_date=$('input#target_date').val();
+        var part_array1= [];
+    var _table1 = document.getElementById('table1');
+    var norows1 = _table1.tBodies[0].rows.length;
+    //  alert("no_rows in add activity table"+norows)
+    for(var i=1;i<norows1+1;i++)
+    {
+      var val = document.getElementById(`work1${i}`)
+     
+      var works1=document.getElementById('work1'+i).innerHTML;
+    
+      part_array1.push(works1);
+
+    }
+    //alert(part_array1)
+    // var part_array2= [];
+    // var _table2 = document.getElementById('table1');
+    // var norows2 = _table2.tBodies[0].rows.length;
+    // for(var i=1;i<norows2+1;i++)
+    // {
+    //   var val = document.getElementById(`work2${i}`)
+    //   var works2= document.getElementById('work2'+i).value;
+     
+    //   part_array2.push(works2);
+      
+    // }
+
+    var part_array3= [];
+    
+    for(var i=1;i<norows1+1;i++)
+    {
+      var val = document.getElementById(`work1${i}`)
+     
+      var works3=document.getElementById('work3'+i).value;
+    
+      part_array3.push(works3);
+
+    }
+    var final_partinspected1=JSON.stringify(part_array1)
+    // var final_partinspected2=JSON.stringify(part_array2)
+    var final_partinspected3=JSON.stringify(part_array3)
+    console.log(final_partinspected1)
+    // console.log(final_partinspected2)
+    console.log(final_partinspected3)
+    // alert(final_partinspected1);
+    // alert(final_partinspected2);
+
+        var data = {
+          zone,division,location,department,inspection_date,marked,target_date,final_partinspected1,final_partinspected3
+            }
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'create_inspection_details' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+        
+                alert("Inspection Record saved ");
+                if (data.status == 1) {
+                        
+             
+                        alert("Record Saved as Draft.");
+                        window.location.reload();}
+            }
+        });
+      }
+      </script>
+   <script>
+    function selects(){  
+        var ele=document.getElementsByName('chk');  
+        for(var i=0; i<ele.length; i++){  
+            if(ele[i].type=='checkbox')  
+                ele[i].checked=true;  
+        }  
+    }  
+    function deSelect(){  
+        var ele=document.getElementsByName('chk');  
+        for(var i=0; i<ele.length; i++){  
+            if(ele[i].type=='checkbox')  
+                ele[i].checked=false;  
+              
+        }  
+    }       
+   
+   
+  
+    </script>
+    
+        <script>
+           $("#zone").select2();
+          
+                  // Read selected option
+                  $('#rly').click(function(){
+                    var username = $('#rly option:selected').text();
+                    var userid = $('#rly').val();
+                
+                   
+                
+        
+                  });
+          $("#rly_1").select2();
+          
+          // Read selected option
+          $('#rly_1').click(function(){
+            var username = $('#rly_1 option:selected').text();
+            var userid = $('#rly_1').val();
+        
+           
+        
+
+          });
+          $("#div_1").select2();
+          
+          // Read selected option
+          $('#div_1').click(function(){
+            var username = $('#div_1 option:selected').text();
+            var userid = $('#div_1').val();
+        
+           
+        
+
+          });
+          $("#division").select2();
+          
+          $('#division').click(function(){
+            var username = $('#div option:selected').text();
+            var userid = $('#div').val();
+        });
+
+          $("#department").select2();
+          
+          $('#department').click(function(){
+            var username = $('#department option:selected').text();
+            var userid = $('#department').val();
+        });
+
+        $("#desig").select2();
+          
+          $('#desig').click(function(){
+            var username = $('#desig option:selected').text();
+            var userid = $('#desig').val();
+        });
+        $("#dept_1").select2();
+          
+          $('#dept_1').click(function(){
+            var username = $('#desig option:selected').text();
+            var userid = $('#desig').val();
+        });
+        </script>
+        
+      <script>
+        $(document).ready(function(){
+
+          $('#div_officers').click(function() {
+            var table = $('#text1').DataTable();
+    table.destroy();
+    $('#text1').hide();
+     var rly_1=$('#rly_1').val();
+            // alert(rly_1);
+            var div_1=$('#div_1').val();
+            // alert(div_1);
+            data={
+                'rly_1':rly_1,
+                'div_1':div_1,
+                
+            }
+          
+       if(this.checked){
+            $.ajax({
+                type: "GET",
+                url: "{% url 'division_wise' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                  mydata=response.divwise;
+                   let row = "";
+                    let head = `<thead><tr><th><input type="checkbox" name="chk" onclick="selects();"></th>
+                    <th>Officers</th></tr></thead>`;
+                    
+                   
+                    for (let i = 0; i < mydata.length; i++) {
+                        row += "<tr>";  
+                        row+=  `<td><input type="checkbox"  ></td>`;
+                        row += `<td><input type="text" id="" name="comp_remarks" readonly style="height:7%;background-Color:lightblue;" value="${mydata[i]['empname']}" ></td>`;
+                        
+                        row += `</tr>`;
+                    }
+                    
+                    $('#text1 thead').remove();
+                    $('#text1 tr').remove();
+                    $('#text1').append(head);
+                    $('#text1 tbody').append(row);
+                    $('#text1').show();
+                    $('#text1').DataTable();
+                      
+                           
+                            
+                   
+                          
+                },
+                
+               
+            });
+
+            }
+      });   
+
+      $('#allgm').click(function() {
+            var table = $('#table2').DataTable();
+    table.destroy();
+    $('#table2').hide();
+     var rly_1=$('#rly_1').val();
+            // alert(rly_1);
+            var div_1=$('#div_1').val();
+            // alert(div_1);
+            data={
+                'rly_1':rly_1,
+                'div_1':div_1,
+                
+            }
+          
+       if(this.checked){
+            $.ajax({
+                type: "GET",
+                url: "{% url 'gm_list_officers' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                  mydata=response.allgm;
+                   let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>GM</th></tr></thead>`;
+                    
+                   
+                    for (let i = 0; i < mydata.length; i++) {
+                        row += "<tr>";  
+                        row+=  `<td><input type="checkbox" name="chk" ></td>`;
+                        row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']} , ${mydata[i]['desig_longdesc']}" ></td>`;
+                        
+                        row += `</tr>`;
+                    }
+                    
+                    $('#table2 thead').remove();
+                    $('#table2 tr').remove();
+                    $('#table2').append(head);
+                    $('#table2 tbody').append(row);
+                    $('#table2').show();
+                    $('#table2').DataTable();
+                    
+                      
+                           
+                            
+                   
+                          
+                },
+                
+               
+            });
+
+            }
+      });   
+
+      
+      $('#alldrm').click(function() {
+        alert('hhiiii');
+            var table = $('#table3').DataTable();
+    table.destroy();
+    $('#table3').hide();
+   
+    var rly_1=$('#rly_1').val();
+      alert(rly_1);
+    var div_1=$('#div_1').val();
+    alert(div_1);
+      data={
+          'rly_1':rly_1,
+          'div_1':div_1,
+          
+      }
+          
+       if(this.checked){
+            $.ajax({
+                type: "GET",
+                url: "{% url 'drm_officers' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                  mydata=response.alldrm;
+                   let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>DRM Officers</th></tr></thead>`;
+                    
+                   
+                    for (let i = 0; i < mydata.length; i++) {
+                        row += "<tr>";  
+                        row+=  `<td><input type="checkbox" name="chk" ></td>`;
+                        row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']} ,  ${mydata[i]['desig_longdesc']}"></td>`;
+                        
+                        row += `</tr>`;
+                    }
+                    
+                    $('#table3 thead').remove();
+                    $('#table3 tr').remove();
+                    $('#table3').append(head);
+                    $('#table3 tbody').append(row);
+                    $('#table3').show();
+                    $('#table3').DataTable();
+                    
+                      
+                           
+                            
+                   
+                          
+                },
+                
+               
+            });
+
+            }
+      });   
+
+ 
+      $('#allphod').click(function() {
+        alert('!!!!!!!!!!!!!!!!!!!!!');
+            var table = $('#table4').DataTable();
+    table.destroy();
+    $('#table4').hide();
+   
+    var rly_1=$('#rly_1').val();
+      alert(rly_1);
+    var dept_1=$('#dept_1').val();
+    alert(dept_1);
+      data={
+          'rly_1':rly_1,
+          'dept_1':dept_1,
+          
+      }
+          
+       if(this.checked){
+            $.ajax({
+                type: "GET",
+                url: "{% url 'phod_officers' %}",
+                data: data, //--> send id of checked checkbox on other page
+                success: function(response) {
+                 
+                  mydata=response.allphod;
+                   let row = "";
+                    let head = `<thead><tr><th></th>
+                    <th>PHOD Officers</th></tr></thead>`;
+                    
+                   
+                    for (let i = 0; i < mydata.length; i++) {
+                        row += "<tr>";  
+                        row+=  `<td><input type="checkbox" name="chk" ></td>`;
+                        row += `<td><input type="text" id="" name="comp_remarks" readonly style="background-Color:lightblue;" value="${mydata[i]['empname']} ,  ${mydata[i]['desig_longdesc']}"></td>`;
+                        
+                        row += `</tr>`;
+                    }
+                    
+                    $('#table4 thead').remove();
+                    $('#table4 tr').remove();
+                    $('#table4').append(head);
+                    $('#table4 tbody').append(row);
+                    $('#table4').show();
+                    $('#table4').DataTable();
+                    
+                      
+                           
+                            
+                   
+                          
+                },
+                
+               
+            });
+
+            }
+      });   
+
+          $('#myCheck').click(function() {
+     //-->this will alert id of checked checkbox.
+     var table = $('#text').DataTable();
+    table.destroy();
+    $('#text').hide();
+
+     var rly_1=$('#rly_1').val();
+            // alert(rly_1);
+            data={
+                'rly_1':rly_1,
+                
+            }
+          
+       if(this.checked){
+            $.ajax({
+                type: "GET",
+                url: "{% url 'headqwise' %}",
+                data: data,
+                success: function(response) {
+                 
+                  mydata=response.hqwise;
+                   let row = "";
+                    let head = `<thead><tr><th><input type="checkbox" name="chk" onclick="selects();"></th>
+                    <th>Officers</th></tr></thead>`;
+                    
+                   
+                    for (let i = 0; i < mydata.length; i++) {
+                        row += "<tr>";  
+                        row+=  `<td><input type="checkbox"  ></td>`;
+                        row += `<td><input type="text" id="" name="comp_remarks" readonly style="height:7%;background-Color:lightblue;" value="${mydata[i]['empname']}" ></td>`;
+                        
+                        row += `</tr>`;
+                    }
+                    
+                    $('#text thead').remove();
+                    $('#text tr').remove();
+                    $('#text').append(head);
+                    $('#text tbody').append(row);
+                    $('#text').show();
+                    $('#text').DataTable();
+                      
+                           
+                            
+                   
+                },
+                
+               
+            });
+
+            }
+      });   
+         
+                 $('#rly_1').change(function() {
+                  var rly_1=$('#rly_1').val();
+                  
+                  data={
+                      'rly_1':rly_1,
+                      
+                  }
+                
+                  $.ajax({
+                    type : 'GET',
+                    url : "{% url 'division_by_rly1' %}",
+                    dataType : 'json',
+                    data : data,
+              
+                    success : function(response){
+                      division=response.division;
+                                  $('#div_1').empty();
+                                  $('#div_1').append(`<option value="">All</option>`);
+                                  for (let i = 0; i < division.length; i++) {
+                                  $('#div_1').append(`<option value="${division[i]}">
+                                                     ${division[i]}
+                                                </option>`);
+                                              }
+                    }
+                       })
+                      })  
+                    });
+   </script>
+{% endblock %}  
